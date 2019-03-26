@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/color_212121</color>
+    <color name="colorPrimaryDark">@color/color_111111</color>
+    <color name="colorAccent">@color/color_000000</color>
+
+    <color name="color_000000">#000000</color>
+    <color name="color_111111">#111111</color>
+    <color name="color_212121">#212121</color>
+    <color name="color_424242">#424242</color>
+
+    <color name="color_background_navigation">@color/color_212121</color>
+    <color name="color_navigation">@color/color_424242</color>
+</resources>
