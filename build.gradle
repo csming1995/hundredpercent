@@ -40,6 +40,7 @@ ext {
     materialVersion = '1.0.0'
 
     lifecycleVersion = '2.0.0'
+    roomVersion = '1.1.1'
 
     dagger = "2.16"
 

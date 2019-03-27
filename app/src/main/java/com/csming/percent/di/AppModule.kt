@@ -4,6 +4,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.csming.percent.PercentApplication
+import com.csming.percent.data.AppDatabase
 import dagger.Module
 import dagger.Provides
 
@@ -23,4 +24,9 @@ class AppModule {
     fun providesClipboardManager(context: Context): ClipboardManager =
         context.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE)
             as ClipboardManager
+
+    @Provides
+    fun providerAppDatabase(context: Context): AppDatabase {
+        return AppDatabase.getDefault(context.applicationContext)
+    }
 }

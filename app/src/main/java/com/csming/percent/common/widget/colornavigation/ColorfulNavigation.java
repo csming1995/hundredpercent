@@ -154,8 +154,8 @@ public class ColorfulNavigation extends LinearLayout {
                 mValueAnimatorListener = new ValueAnimatorListener();
                 mValueAnimator.addUpdateListener(mValueAnimatorListener);
             }
-            mValueAnimator.setFloatValues(mRectF.left, targetLeft, targetLeft + (isRight? 20: - 20), targetLeft);
-            mValueAnimator.setDuration(380);
+            mValueAnimator.setFloatValues(mRectF.left, targetLeft/*, targetLeft + (isRight? 20: - 20), targetLeft*/);
+            mValueAnimator.setDuration(300);
             mValueAnimator.cancel();
             mValueAnimator.start();
         }
