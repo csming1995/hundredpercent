@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_plans"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Test"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

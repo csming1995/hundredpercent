@@ -8,6 +8,9 @@
     <color name="color_111111">#111111</color>
     <color name="color_212121">#212121</color>
     <color name="color_424242">#424242</color>
+    <color name="color_ffffff">#ffffff</color>
+
+    <color name="color_F4511E">#F4511E</color>
 
     <color name="color_background_navigation">@color/color_212121</color>
     <color name="color_navigation">@color/color_424242</color>

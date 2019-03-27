@@ -86,6 +86,8 @@ public class ColorfulNavigation extends LinearLayout {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
 
+        setMeasuredDimension(mWidth, mHeight);
+
         mItemWidth = mWidth / mItems.size();
         mRectF.left = mItemWidth * mIndex;
         mRectF.top = 0;
