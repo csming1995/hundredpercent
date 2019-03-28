@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextClock;
 
 import com.csming.percent.R;
 
@@ -75,7 +76,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    private static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
         HeaderViewHolder(@NonNull View itemView) {
             super(itemView);

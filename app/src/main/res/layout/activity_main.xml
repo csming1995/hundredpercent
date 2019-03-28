@@ -10,15 +10,14 @@
         android:id="@+id/viewpager_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    </androidx.viewpager.widget.ViewPager>
+        android:layout_weight="1"/>
 
     <com.csming.percent.common.widget.colornavigation.ColorfulNavigation
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="center|bottom"
-        android:background="@color/color_212121">
-    </com.csming.percent.common.widget.colornavigation.ColorfulNavigation>
+        android:background="@drawable/ll_shadow_shape"
+        android:elevation="15dp"/>
 
 </LinearLayout>

@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:layout_marginBottom="16dp"
     android:layout_marginStart="56dp"
     android:layout_marginEnd="56dp"
+    android:layout_marginBottom="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    app:cardCornerRadius="16dp"
-    app:cardBackgroundColor="@color/color_F4511E">
+    app:cardBackgroundColor="@color/color_F4511E"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
