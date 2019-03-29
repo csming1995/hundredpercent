@@ -42,7 +42,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (viewType == ITEM_TYPE_HEADER) {
-            View view = layoutInflater.inflate(R.layout.item_list_header, parent, false);
+            View view = layoutInflater.inflate(R.layout.item_list_plan_header, parent, false);
             return new HeaderViewHolder(view);
         } else {
             View view = layoutInflater.inflate(R.layout.item_list_plan, parent, false);

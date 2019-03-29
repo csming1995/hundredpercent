@@ -91,18 +91,6 @@ public class RecordGroupListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             plans = new ArrayList<>(3);
             plans.add("TODO");
             plans.add("Test");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
-            plans.add("啊啊啊啊");
 
             mAdapterRecord.setData(plans);
         }

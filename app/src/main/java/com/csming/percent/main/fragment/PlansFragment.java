@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.csming.percent.R;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
+import com.csming.percent.plan.AddPlanActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,14 +32,17 @@ import dagger.android.support.DaggerFragment;
  */
 public class PlansFragment extends DaggerFragment {
 
+    private FrameLayout mFlRoot;
+    private RecyclerView mRvPlans;
+    private LinearLayoutManager mLinearLayoutManager;
+    private PlanListAdapter mAdapterPlans;
+
+    private FloatingActionButton mFabAddPlan;
+
     @Inject
     ViewModelProvider.Factory factory;
 
     private MainViewModel mMainViewModel;
-
-    private RecyclerView mRvPlans;
-    private LinearLayoutManager mLinearLayoutManager;
-    private PlanListAdapter mAdapterPlans;
 
     private List<String> plans;
 
@@ -71,7 +78,10 @@ public class PlansFragment extends DaggerFragment {
     }
 
     private void initView(View view) {
+        mFlRoot = view.findViewById(R.id.fl_root);
         mRvPlans = view.findViewById(R.id.rv_plans);
+        mFabAddPlan = view.findViewById(R.id.fab_add_plan);
+
         mAdapterPlans = new PlanListAdapter();
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -81,20 +91,18 @@ public class PlansFragment extends DaggerFragment {
         plans = new ArrayList<>(3);
         plans.add("TODO");
         plans.add("Test");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
+        plans.add("读书");
+        plans.add("好累啊");
 
         mAdapterPlans.setData(plans);
+
+        mFabAddPlan.setOnClickListener(v -> {
+//            ActivityOptionsCompat options =
+//                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+//                            mFlRoot, getString(R.string.transition_add_add_plan));
+            startActivity(AddPlanActivity.getIntent(getActivity()));
+            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
 
     }
 

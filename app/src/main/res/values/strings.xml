@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Hundred percent</string>
+
+    <string name="transition_add_add_plan">transition_add_add_plan</string>
 </resources>

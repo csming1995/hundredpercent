@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="48dp"
-    android:layout_marginEnd="48dp"
+    android:layout_marginStart="36dp"
+    android:layout_marginEnd="36dp"
     android:layout_marginBottom="8dp"
     android:orientation="vertical"
     android:padding="8dp">
@@ -22,12 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_records"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -36,17 +37,17 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="@color/color_F4511E"
-        app:cardCornerRadius="8dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        app:cardCornerRadius="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
             android:layout_marginBottom="8dp"
             android:text="啊啊啊啊"
             android:textColor="@color/color_ffffff" />
