@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".plan.AddPlanActivity">
 
@@ -84,7 +85,7 @@
                 <com.csming.percent.common.widget.AutofitRecyclerView
                     android:id="@+id/rv_color_select_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
