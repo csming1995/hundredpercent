@@ -6,14 +6,19 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.csming.percent.R;
+import com.csming.percent.common.widget.AutofitRecyclerView;
+import com.csming.percent.plan.adapter.ColorSelectAdapter;
+import com.csming.percent.plan.vo.ColorEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -25,7 +30,13 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         return new Intent(context, AddPlanActivity.class);
     }
 
-    private CardView mCvPanel;
+    private AutofitRecyclerView mRvColorSelectList;
+    private ColorSelectAdapter mColorSelectAdapter;
+    private List<ColorEntity> colorEntities;
+
+    private int mColorIndex = 0;
+
+    private LinearLayout mLlRoot;
     private FloatingActionButton mFabAdd;
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
@@ -56,14 +67,14 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     }
 
     private void initAnimator() {
-        int heightCardPanel = mCvPanel.getMeasuredHeight();
-        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mCvPanel, "translationY", heightCardPanel, -50, 0);
+        int heightCardPanel = mLlRoot.getMeasuredHeight();
+        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
         mObjectAnimatorCardPanelEnter.setDuration(500);
 
         mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
         mObjectAnimatorFabEnter.setDuration(600);
 
-        mObjectAnimatorCardPannelExit = ObjectAnimator.ofFloat(mCvPanel, "translationY", 0, heightCardPanel + heightCardPanel + mCvPanel.getTop());
+        mObjectAnimatorCardPannelExit = ObjectAnimator.ofFloat(mLlRoot, "translationY", 0, heightCardPanel + heightCardPanel + mLlRoot.getTop());
         mObjectAnimatorCardPannelExit.setDuration(200);
 
         mObjectAnimatorFabExit = ObjectAnimator.ofFloat(mFabAdd, "translationY", 0, heightCardPanel);
@@ -79,14 +90,32 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
-        mCvPanel = findViewById(R.id.cv_panel);
+        mLlRoot = findViewById(R.id.ll_root);
         mFabAdd = findViewById(R.id.fab_add);
 
-        mCvPanel.post(() -> {
+        mRvColorSelectList = findViewById(R.id.rv_color_select_list);
+        mRvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
+
+        mLlRoot.post(() -> {
             initAnimator();
 
             mObjectAnimatorCardPanelEnter.start();
             mObjectAnimatorFabEnter.start();
+        });
+
+
+        colorEntities = new ArrayList<>();
+        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+            ColorEntity colorEntity = new ColorEntity();
+            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
+            colorEntities.add(colorEntity);
+        }
+
+        mColorSelectAdapter = new ColorSelectAdapter(colorEntities);
+        mRvColorSelectList.setAdapter(mColorSelectAdapter);
+        mColorSelectAdapter.setOnItemClickListener((view, position) -> {
+            mColorIndex = position;
+            mColorSelectAdapter.setSelectIndex(position);
         });
     }
 }

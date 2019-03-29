@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Hundred percent</string>
 
+    <string name="title_add_plan">添加计划</string>
+    <string name="add_plan_title">标题</string>
+    <string name="add_plan_description">简介(Nice To Have)</string>
+
     <string name="transition_add_add_plan">transition_add_add_plan</string>
 </resources>
