@@ -5,6 +5,8 @@ import com.csming.percent.main.MainActivity
 import com.csming.percent.main.MainModule
 import com.csming.percent.plan.AddPlanActivity
 import com.csming.percent.plan.PlanModule
+import com.csming.percent.record.AddRecordActivity
+import com.csming.percent.record.RecordModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,4 +20,8 @@ abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = [PlanModule::class])
     internal abstract fun addPlanActivity(): AddPlanActivity
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = [RecordModule::class])
+    internal abstract fun addRecordActivity(): AddRecordActivity
 }

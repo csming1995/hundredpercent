@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import com.csming.percent.R;
 import com.csming.percent.main.adapter.RecordGroupListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
+import com.csming.percent.plan.AddPlanActivity;
+import com.csming.percent.record.AddRecordActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +30,16 @@ import dagger.android.support.DaggerFragment;
  */
 public class RecordFragment extends DaggerFragment {
 
+    private RecyclerView mRvPlans;
+    private LinearLayoutManager mLinearLayoutManager;
+    private RecordGroupListAdapter mAdapterRecordGroup;
+
+    private FloatingActionButton mFabAddRecord;
+
     @Inject
     ViewModelProvider.Factory factory;
 
     private MainViewModel mainViewModel;
-
-    private RecyclerView mRvPlans;
-    private LinearLayoutManager mLinearLayoutManager;
-    private RecordGroupListAdapter mAdapterRecordGroup;
 
     private List<String> plans;
 
@@ -67,6 +72,8 @@ public class RecordFragment extends DaggerFragment {
 
     private void initView(View view) {
         mRvPlans = view.findViewById(R.id.rv_records);
+        mFabAddRecord = view.findViewById(R.id.fab_add_record);
+
         mAdapterRecordGroup = new RecordGroupListAdapter();
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -79,17 +86,14 @@ public class RecordFragment extends DaggerFragment {
         plans.add("啊啊啊啊");
         plans.add("啊啊啊啊");
         plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
 
         mAdapterRecordGroup.setData(plans);
+
+        mFabAddRecord.setOnClickListener(view1 -> {
+            startActivity(AddRecordActivity.getIntent(getActivity()));
+            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.csming.percent.plan;
+package com.csming.percent.record;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -19,10 +19,10 @@ import dagger.android.support.DaggerAppCompatActivity;
 /**
  * @author Created by csming on 2019/3/29.
  */
-public class AddPlanActivity extends DaggerAppCompatActivity {
+public class AddRecordActivity extends DaggerAppCompatActivity {
 
     public static Intent getIntent(Context context) {
-        return new Intent(context, AddPlanActivity.class);
+        return new Intent(context, AddRecordActivity.class);
     }
 
     private CardView mCvPanel;
