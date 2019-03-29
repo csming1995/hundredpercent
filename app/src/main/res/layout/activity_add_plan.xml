@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -11,15 +12,16 @@
     <LinearLayout
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|center"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="36dp"
+            android:clickable="true"
+            android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/color_111111"
             app:cardCornerRadius="8dp"
@@ -30,21 +32,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/title_add_plan"
-                android:textColor="@color/color_ffffff" />
+                android:textColor="@color/color_ffffff"
+                android:textSize="16dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_panel"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp">
 
@@ -68,8 +73,8 @@
                     android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusedByDefault="false"
                     android:layout_marginTop="8dp"
+                    android:focusedByDefault="false"
                     android:gravity="start|top"
                     android:hint="@string/add_plan_description"
                     android:lines="2"
@@ -82,7 +87,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
-                    android:layout_marginTop="16dp" />
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

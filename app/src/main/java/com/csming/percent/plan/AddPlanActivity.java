@@ -6,8 +6,10 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.common.widget.AutofitRecyclerView;
@@ -36,6 +38,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
     private int mColorIndex = 0;
 
+    private LinearLayout mLlBackground;
     private LinearLayout mLlRoot;
     private FloatingActionButton mFabAdd;
 
@@ -90,6 +93,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mLlBackground = findViewById(R.id.ll_background);
         mLlRoot = findViewById(R.id.ll_root);
         mFabAdd = findViewById(R.id.fab_add);
 
@@ -116,6 +120,14 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         mColorSelectAdapter.setOnItemClickListener((view, position) -> {
             mColorIndex = position;
             mColorSelectAdapter.setSelectIndex(position);
+        });
+
+        mLlBackground.setOnClickListener(view -> {
+            onBackPressed();
+        });
+
+        mFabAdd.setOnClickListener(v -> {
+            Toast.makeText(this, "Add Plan", Toast.LENGTH_SHORT).show();
         });
     }
 }

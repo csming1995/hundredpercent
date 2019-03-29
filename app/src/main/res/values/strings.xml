@@ -5,5 +5,9 @@
     <string name="add_plan_title">标题</string>
     <string name="add_plan_description">简介(Nice To Have)</string>
 
+    <string name="title_add_record">添加事项</string>
+    <string name="add_record_title">标题</string>
+    <string name="add_record_description">描述(Nice To Have)</string>
+
     <string name="transition_add_add_plan">transition_add_add_plan</string>
 </resources>
