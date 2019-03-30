@@ -10,7 +10,7 @@ interface RecordRepository {
 
     fun addRecord(record: Record)
 
-    fun getRecords(): LiveData<List<Record>>
+    fun getRecords(planId: Int): LiveData<List<Record>>
 
     fun getOrder(planId: Int): Int
 }

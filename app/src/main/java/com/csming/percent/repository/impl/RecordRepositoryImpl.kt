@@ -19,8 +19,8 @@ class RecordRepositoryImpl @Inject constructor(
         planDao.updatePlan(record.planId, record.order + 1)
     }
 
-    override fun getRecords(): LiveData<List<Record>> {
-        return recordDao.loadRecords()
+    override fun getRecords(planId: Int): LiveData<List<Record>> {
+        return recordDao.loadRecords(planId)
     }
 
     override fun getOrder(planId: Int): Int {

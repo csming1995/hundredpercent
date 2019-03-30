@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.csming.percent.R;
+import com.csming.percent.data.vo.Record;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> records;
+    private List<Record> records;
 
     public RecordListAdapter() {
         super();
     }
 
-    public void setData(List<String> plans) {
+    public void setData(List<Record> records) {
         if (this.records == null) {
             this.records = new ArrayList<>();
         }
         this.records.clear();
-        this.records.addAll(plans);
+        this.records.addAll(records);
         notifyDataSetChanged();
     }
 
@@ -38,12 +40,15 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.item_list_record, parent, false);
-        return new RecordGroupNormalViewHolder(view);
+        return new RecordNormalViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
+        Record record = records.get(position);
+        if (record != null) {
+            ((RecordNormalViewHolder)holder).setTitle(record.getTitle());
+        }
     }
 
     @Override
@@ -51,10 +56,17 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return this.records == null ? 0 : this.records.size();
     }
 
-    private static class RecordGroupNormalViewHolder extends RecyclerView.ViewHolder {
+    private static class RecordNormalViewHolder extends RecyclerView.ViewHolder {
 
-        RecordGroupNormalViewHolder(@NonNull View itemView) {
+        private TextView mTvTitle;
+
+        private RecordNormalViewHolder(@NonNull View itemView) {
             super(itemView);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
+        }
+
+        public void setTitle(String title) {
+            mTvTitle.setText(title);
         }
     }
 }

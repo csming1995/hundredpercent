@@ -1,6 +1,9 @@
 package com.csming.percent.record.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.csming.percent.data.vo.Record
+import com.csming.percent.repository.RecordRepository
 import javax.inject.Inject
 
 /**
@@ -8,6 +11,7 @@ import javax.inject.Inject
  */
 
 class RecordsViewModel @Inject constructor(
+        private val recordRepository: RecordRepository
 ) : ViewModel() {
 
     private var mPlanId: Int = 0
@@ -27,6 +31,10 @@ class RecordsViewModel @Inject constructor(
 
     fun getPlanTitle(): String {
         return this.mPlanTitle
+    }
+
+    fun getRecords(): LiveData<List<Record>> {
+        return recordRepository.getRecords(mPlanId)
     }
 
 }

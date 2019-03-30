@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.data.vo.Record;
 import com.csming.percent.main.adapter.RecordListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,7 +62,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
-    private List<String> plans;
+//    private List<Record> records;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -159,24 +161,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRvRecords.setLayoutManager(mLinearLayoutManager);
         mRvRecords.setAdapter(mAdapterRecord);
 
-        plans = new ArrayList<>(3);
-        plans.add("TODO");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-        plans.add("Test");
-
-        mAdapterRecord.setData(plans);
     }
 
     /**
@@ -186,6 +170,10 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRecordsViewModel = ViewModelProviders.of(this, factory).get(RecordsViewModel.class);
         mRecordsViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
         mRecordsViewModel.setPlanTitle(getIntent().getStringExtra(EXTRA_TAG_PLAN_TITLE));
+
+        mRecordsViewModel.getRecords().observe(this, records -> {
+            mAdapterRecord.setData(records);
+        });
 
         mCvTitle.setCardBackgroundColor(getIntent().getIntExtra(EXTRA_TAG_PLAN_COLOR, getResources().getColor(R.color.color_111111)));
         mTvTitle.setText(mRecordsViewModel.getPlanTitle());
