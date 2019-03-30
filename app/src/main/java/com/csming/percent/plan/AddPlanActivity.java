@@ -6,20 +6,29 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.csming.percent.R;
+import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.AutofitRecyclerView;
+import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.adapter.ColorSelectAdapter;
+import com.csming.percent.plan.viewmodel.PlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -31,21 +40,27 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         return new Intent(context, AddPlanActivity.class);
     }
 
-    private LinearLayout mLlBackground;
     private LinearLayout mLlRoot;
     private FloatingActionButton mFabAdd;
-
-    private int mColorIndex = 0;
+    private EditText mEtTitle;
+    private EditText mEtDescription;
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
+    private SlideTouchEventListener mSlideTouchEventListener;
+
+    @Inject
+    ViewModelProvider.Factory factory;
+
+    private PlanViewModel mPlanViewModel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plan);
 
+        initViewModel();
         initView();
         initColorPanel();
     }
@@ -61,19 +76,30 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         finish();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mSlideTouchEventListener != null) {
+            mSlideTouchEventListener.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
+
+
     private void initAnimator() {
         int heightCardPanel = mLlRoot.getMeasuredHeight();
         mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
-        mObjectAnimatorCardPanelEnter.setDuration(500);
+        mObjectAnimatorCardPanelEnter.setDuration(300);
 
         mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
-        mObjectAnimatorFabEnter.setDuration(600);
+        mObjectAnimatorFabEnter.setDuration(400);
     }
 
     private void initView() {
-        mLlBackground = findViewById(R.id.ll_background);
         mLlRoot = findViewById(R.id.ll_root);
         mFabAdd = findViewById(R.id.fab_add);
+
+        mEtTitle = findViewById(R.id.et_title);
+        mEtDescription = findViewById(R.id.et_description);
 
         mLlRoot.post(() -> {
             initAnimator();
@@ -82,13 +108,44 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             mObjectAnimatorFabEnter.start();
         });
 
-        mLlBackground.setOnClickListener(view -> {
-            onBackPressed();
+        mFabAdd.setOnClickListener(v -> {
+            int result = mPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            switch (result) {
+                case PlanViewModel.STATE_POST_SUCCESS: {
+                    Toast.makeText(this, R.string.post_result_success, Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                    break;
+                }
+                case PlanViewModel.STATE_POST_TITLE_NULL: {
+                    Toast.makeText(this, R.string.post_result_title_null, Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case PlanViewModel.STATE_POST_PLAN_EXIST: {
+                    Toast.makeText(this, R.string.post_result_plan_exist, Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
-        mFabAdd.setOnClickListener(v -> {
-            Toast.makeText(this, "Add Plan", Toast.LENGTH_SHORT).show();
-        });
+        mSlideTouchEventListener = new SlideTouchEventListener() {
+            @Override
+            public void onTouchUp() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onTouchDown() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onTouchLeft() {
+            }
+
+            @Override
+            public void onTouchRight() {
+            }
+        };
+        mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
     }
 
     /**
@@ -102,6 +159,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         rvColorSelectList = findViewById(R.id.rv_color_select_list);
         rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
 
+        // 颜色数据
         mColorEntities = new ArrayList<>();
         for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
             ColorEntity colorEntity = new ColorEntity();
@@ -110,8 +168,13 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         }
         colorSelectAdapter = new ColorSelectAdapter(mColorEntities);
         rvColorSelectList.setAdapter(colorSelectAdapter);
-        colorSelectAdapter.setOnItemClickListener((view, position) -> {
-            mColorIndex = position;
+        colorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
+            int color = getResources().getColor(colorEntity.getColorValue());
+            mPlanViewModel.setColor(color);
         });
+    }
+
+    private void initViewModel() {
+        mPlanViewModel = ViewModelProviders.of(this, factory).get(PlanViewModel.class);
     }
 }

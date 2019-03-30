@@ -7,12 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.csming.percent.R;
+import com.csming.percent.SlideTouchEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.Nullable;
@@ -27,16 +29,16 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         return new Intent(context, AddRecordActivity.class);
     }
 
-    private LinearLayout mLlBackground;
     private LinearLayout mLlRoot;
     private FloatingActionButton mFabAdd;
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
+    private SlideTouchEventListener mSlideTouchEventListener;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
 
@@ -54,6 +56,14 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         finish();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mSlideTouchEventListener != null) {
+            mSlideTouchEventListener.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
+
     private void initAnimator() {
 
         // 获取 主面板高度
@@ -67,7 +77,6 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
-        mLlBackground = findViewById(R.id.ll_background);
         mLlRoot = findViewById(R.id.ll_root);
         mFabAdd = findViewById(R.id.fab_add);
 
@@ -78,12 +87,29 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mObjectAnimatorFabEnter.start();
         });
 
-        mLlBackground.setOnClickListener(view -> {
-            onBackPressed();
-        });
-
         mFabAdd.setOnClickListener(v -> {
             Toast.makeText(this, "Add Record", Toast.LENGTH_SHORT).show();
         });
+
+        mSlideTouchEventListener = new SlideTouchEventListener() {
+            @Override
+            public void onTouchUp() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onTouchDown() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onTouchLeft() {
+            }
+
+            @Override
+            public void onTouchRight() {
+            }
+        };
+        mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
     }
 }

@@ -8,9 +8,7 @@ import androidx.room.PrimaryKey;
 /**
  * @author Created by csming on 2019/3/27.
  */
-@Entity(tableName = "records", foreignKeys = @ForeignKey(entity = Plan.class,
-        parentColumns = "id",
-        childColumns = "plan_id"))
+@Entity(tableName = "records")
 public class Record {
 
     @PrimaryKey(autoGenerate = true)
@@ -27,5 +25,45 @@ public class Record {
     private long order; // 排列顺序
 
     @ColumnInfo(name = "plan_id")
-    private long planId; // 排列顺序
+    private long planId; // 所属计划的id
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getOrder() {
+        return order;
+    }
+
+    public void setOrder(long order) {
+        this.order = order;
+    }
+
+    public long getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(long planId) {
+        this.planId = planId;
+    }
 }

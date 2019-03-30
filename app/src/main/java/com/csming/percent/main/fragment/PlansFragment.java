@@ -93,6 +93,14 @@ public class PlansFragment extends DaggerFragment {
         plans.add("Test");
         plans.add("读书");
         plans.add("好累啊");
+        plans.add("读书");
+        plans.add("好累啊");
+        plans.add("读书");
+        plans.add("好累啊");
+        plans.add("读书");
+        plans.add("好累啊");
+        plans.add("读书");
+        plans.add("好累啊");
 
         mAdapterPlans.setData(plans);
 

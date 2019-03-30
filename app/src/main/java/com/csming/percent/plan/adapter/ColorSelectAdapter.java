@@ -26,14 +26,18 @@ public class ColorSelectAdapter extends RecyclerView.Adapter implements View.OnC
     private OnItemClickListener mOnItemClickListener = null;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, int position, ColorEntity colorEntity);
     }
 
     public ColorSelectAdapter(List<ColorEntity> datas) {
         setData(datas);
     }
 
-    public void setData(List<ColorEntity> datas) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    private void setData(List<ColorEntity> datas) {
         if (mDatas == null) {
             mDatas = new ArrayList<>();
         }
@@ -43,22 +47,20 @@ public class ColorSelectAdapter extends RecyclerView.Adapter implements View.OnC
         }
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
-    }
-
-    private void setSelectIndex(int index) {
+    public void setSelectIndex(int index) {
+        if (selectIndex == index) return;
         int preIndex = selectIndex;
         selectIndex = index;
-        notifyItemChanged(preIndex);
         notifyItemChanged(selectIndex);
+        notifyItemChanged(preIndex);
     }
 
     @Override
     public void onClick(View v) {
-        setSelectIndex((Integer) v.getTag());
+        int index = (int) v.getTag();
+        setSelectIndex(index);
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(v, (int) v.getTag());
+            mOnItemClickListener.onItemClick(v, index, mDatas.get(index));
         }
     }
 

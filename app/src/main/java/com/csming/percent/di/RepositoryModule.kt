@@ -1,5 +1,8 @@
 package com.csming.percent.di
 
+import com.csming.percent.repository.PlanRepository
+import com.csming.percent.repository.impl.PlanRepositoryImpl
+import dagger.Binds
 import dagger.Module
 
 /**
@@ -8,8 +11,8 @@ import dagger.Module
 @Module
 internal abstract class RepositoryModule {
 
-//    @Binds
-//    internal abstract fun bindBookRepository(repository: BookRepositoryImpl): BookRepository
+    @Binds
+    internal abstract fun bindPlanRepository(repository: PlanRepositoryImpl): PlanRepository
 //
 //    @Binds
 //    internal abstract fun bindRegisterRepository(repository: RegisterRepositoryImpl): RegisterRepository
