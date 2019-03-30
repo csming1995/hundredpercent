@@ -28,5 +28,8 @@ class RecordRepositoryImpl @Inject constructor(
         return plan.count
     }
 
+    override fun delete(record: Record) {
+        recordDao.deleteByRecordId(record.id)
+    }
 
 }

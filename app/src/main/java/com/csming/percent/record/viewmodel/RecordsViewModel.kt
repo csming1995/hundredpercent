@@ -37,4 +37,8 @@ class RecordsViewModel @Inject constructor(
         return recordRepository.getRecords(mPlanId)
     }
 
+    fun delete(record: Record) {
+        recordRepository.delete(record)
+    }
+
 }

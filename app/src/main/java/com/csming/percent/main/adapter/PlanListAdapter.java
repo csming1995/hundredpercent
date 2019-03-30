@@ -34,13 +34,22 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private OnItemClickListener mOnItemClickListener = null;
+    private OnItemLongClickListener mOnItemLongClickListener = null;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position, Plan plan);
     }
 
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position, Plan plan);
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        mOnItemLongClickListener = onItemLongClickListener;
     }
 
     public void setData(List<Plan> plans) {
@@ -76,6 +85,12 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(view, position - 1, plan);
                     }
+                });
+                ((PlanNormalViewHolder)holder).setOnLongClickListener(view -> {
+                    if (mOnItemLongClickListener != null) {
+                        mOnItemLongClickListener.onItemLongClick(view, position - 1, plan);
+                    }
+                    return true;
                 });
             }
         }
@@ -116,6 +131,10 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void setOnClickListener(View.OnClickListener onClickListener) {
             itemView.setOnClickListener(onClickListener);
+        }
+
+        private void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+            itemView.setOnLongClickListener(onLongClickListener);
         }
 
     }

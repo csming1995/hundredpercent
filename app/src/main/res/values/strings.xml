@@ -31,4 +31,6 @@
     <string name="str_loading">正在加载...请耐心等待</string>
     <string name="str_btn_click">再次刷新</string>
     <string name="str_there_has_nothing">这里什么都没有</string>
+
+    <string name="popup_delete">删除</string>
 </resources>

@@ -20,4 +20,7 @@ public interface RecordDao {
 
     @Query("SELECT count(id) FROM records")
     int getCount();
+
+    @Query("DELETE FROM records WHERE id = :recordId")
+    void deleteByRecordId(int recordId);
 }

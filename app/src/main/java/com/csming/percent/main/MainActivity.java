@@ -1,6 +1,12 @@
 package com.csming.percent.main;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
 
 import com.csming.percent.R;
 import com.csming.percent.common.ApplicationConfig;
@@ -14,11 +20,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
+import androidx.core.widget.PopupWindowCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.DaggerAppCompatActivity;
+import timber.log.Timber;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
@@ -28,6 +36,9 @@ public class MainActivity extends DaggerAppCompatActivity {
     private PlanListAdapter mAdapterPlans;
 
     private FloatingActionButton mFabAddPlan;
+
+    private PopupWindow mPopupWindowDelete;
+    private FrameLayout mFlPopupDelete;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -73,6 +84,26 @@ public class MainActivity extends DaggerAppCompatActivity {
 //                            mFlRoot, getString(R.string.transition_add_add_plan));
             startActivity(AddPlanActivity.getIntent(this));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_delete, null);
+        mFlPopupDelete = contentView.findViewById(R.id.fl_delete);
+        mPopupWindowDelete = new PopupWindow(contentView);
+        mPopupWindowDelete.setContentView(contentView);
+        mPopupWindowDelete.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindowDelete.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindowDelete.setOutsideTouchable(true);
+        mAdapterPlans.setOnItemLongClickListener((view, position, record) -> {
+            int offsetX = Math.abs(view.getWidth()) / 2;
+            int offsetY = -view.getHeight();
+            PopupWindowCompat.showAsDropDown(mPopupWindowDelete, view, offsetX, offsetY, Gravity.START);
+            mFlPopupDelete.setOnClickListener(v -> {
+//                mRecordsViewModel.delete(record);
+                mPopupWindowDelete.dismiss();
+            });
+        });
+        mFlPopupDelete.setOnClickListener(view -> {
+            Timber.d("Deleteaaaa");
         });
 
     }

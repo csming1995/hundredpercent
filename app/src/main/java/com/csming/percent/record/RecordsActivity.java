@@ -4,8 +4,15 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +32,14 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.PopupWindowCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.DaggerAppCompatActivity;
+import timber.log.Timber;
 
 /**
  * @author Created by csming on 2019/3/29.
@@ -54,6 +63,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
     private FloatingActionButton mFabAdd;
+
+    private PopupWindow mPopupWindowDelete;
+    private FrameLayout mFlPopupDelete;
 
     private RecyclerView mRvRecords;
     private LinearLayoutManager mLinearLayoutManager;
@@ -93,6 +105,10 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (mPopupWindowDelete != null && mPopupWindowDelete.isShowing()) {
+            mPopupWindowDelete.dismiss();
+            return;
+        }
         finish();
     }
 
@@ -165,6 +181,25 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRvRecords.setLayoutManager(mLinearLayoutManager);
         mRvRecords.setAdapter(mAdapterRecord);
 
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_delete, null);
+        mFlPopupDelete = contentView.findViewById(R.id.fl_delete);
+        mPopupWindowDelete = new PopupWindow(contentView);
+        mPopupWindowDelete.setContentView(contentView);
+        mPopupWindowDelete.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindowDelete.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindowDelete.setOutsideTouchable(true);
+        mAdapterRecord.setOnItemLongClickListener((view, position, record) -> {
+            int offsetX = Math.abs(view.getWidth()) / 2;
+            int offsetY = -view.getHeight();
+            PopupWindowCompat.showAsDropDown(mPopupWindowDelete, view, offsetX, offsetY, Gravity.START);
+            mFlPopupDelete.setOnClickListener(v -> {
+                mRecordsViewModel.delete(record);
+                mPopupWindowDelete.dismiss();
+            });
+        });
+        mFlPopupDelete.setOnClickListener(view -> {
+            Timber.d("Deleteaaaa");
+        });
     }
 
     /**

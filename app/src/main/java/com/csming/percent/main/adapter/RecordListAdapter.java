@@ -22,6 +22,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Record> records;
 
+    private OnItemLongClickListener mOnLongClickListener;
+
     public RecordListAdapter() {
         super();
     }
@@ -33,6 +35,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.records.clear();
         this.records.addAll(records);
         notifyDataSetChanged();
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onLongClickListener) {
+        this.mOnLongClickListener = onLongClickListener;
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClick(View view, int position, Record record);
     }
 
     @NonNull
@@ -48,6 +58,12 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Record record = records.get(position);
         if (record != null) {
             ((RecordNormalViewHolder)holder).setTitle(record.getTitle());
+            ((RecordNormalViewHolder)holder).setOnLongClickListener(view -> {
+                if (mOnLongClickListener != null) {
+                    mOnLongClickListener.onItemLongClick(view, position, record);
+                }
+                return true;
+            });
         }
     }
 
@@ -65,8 +81,12 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             mTvTitle = itemView.findViewById(R.id.tv_title);
         }
 
-        public void setTitle(String title) {
+        private void setTitle(String title) {
             mTvTitle.setText(title);
+        }
+
+        private void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+            itemView.setOnLongClickListener(onLongClickListener);
         }
     }
 }
