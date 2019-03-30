@@ -11,6 +11,7 @@ import com.csming.percent.data.vo.Plan;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
+import com.csming.percent.record.RecordsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -89,6 +90,10 @@ public class PlansFragment extends DaggerFragment {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvPlans.setLayoutManager(mLinearLayoutManager);
         mRvPlans.setAdapter(mAdapterPlans);
+
+        mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
+            startActivity(RecordsActivity.getIntent(getActivity()));
+        });
 
         mFabAddPlan.setOnClickListener(v -> {
 //            ActivityOptionsCompat options =

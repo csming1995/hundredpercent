@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.csming.percent.R;
 import com.csming.percent.data.vo.Plan;
+import com.csming.percent.plan.adapter.ColorSelectAdapter;
+import com.csming.percent.plan.vo.ColorEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,16 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public PlanListAdapter() {
         super();
+    }
+
+    private OnItemClickListener mOnItemClickListener = null;
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, Plan plan);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 
     public void setData(List<Plan> plans) {
@@ -60,6 +72,11 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (plan != null) {
                 ((PlanNormalViewHolder)holder).setBackground(plan.getColor());
                 ((PlanNormalViewHolder)holder).setTitle(plan.getTitle());
+                ((PlanNormalViewHolder)holder).setOnClickListener(view -> {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(view, position - 1, plan);
+                    }
+                });
             }
         }
     }
@@ -89,12 +106,16 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mTvTitle = itemView.findViewById(R.id.tv_title);
         }
 
-        public void setBackground(int color) {
+        private void setBackground(int color) {
             mCvItem.setCardBackgroundColor(color);
         }
 
-        public void setTitle(String title) {
+        private void setTitle(String title) {
             mTvTitle.setText(title);
+        }
+
+        private void setOnClickListener(View.OnClickListener onClickListener) {
+            itemView.setOnClickListener(onClickListener);
         }
 
     }
