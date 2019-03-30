@@ -7,10 +7,17 @@
     android:orientation="vertical"
     tools:context=".main.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_plans"
+    <com.csming.percent.common.widget.statuslayout.StatusLayout
+        android:id="@+id/status_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_plans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.csming.percent.common.widget.statuslayout.StatusLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_plan"

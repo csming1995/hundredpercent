@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.csming.percent.R;
 import com.csming.percent.common.ApplicationConfig;
+import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
@@ -21,6 +22,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    private StatusLayout mStatusLayout;
     private RecyclerView mRvPlans;
     private LinearLayoutManager mLinearLayoutManager;
     private PlanListAdapter mAdapterPlans;
@@ -48,10 +50,13 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mStatusLayout = findViewById(R.id.status_layout);
         mRvPlans = findViewById(R.id.rv_plans);
         mFabAddPlan = findViewById(R.id.fab_add_plan);
 
         mAdapterPlans = new PlanListAdapter();
+
+        mStatusLayout.setEmptyMessageView(R.string.plans_empty, null, null);
 
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRvPlans.setLayoutManager(mLinearLayoutManager);
@@ -79,7 +84,12 @@ public class MainActivity extends DaggerAppCompatActivity {
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
 
         mMainViewModel.findAllPlans().observe(this, plans -> {
-            mAdapterPlans.setData(plans);
+            if (plans.size() > 0) {
+                mAdapterPlans.setData(plans);
+                mStatusLayout.showNormalView();
+            } else {
+                mStatusLayout.showEmptyMessageView();
+            }
         });
 
 

@@ -5,6 +5,8 @@
     <string name="first_plan_description">First TodoList</string>
 
     <string name="title_plan">计划</string>
+    <string name="plans_empty">计划为空, 规划一个新计划吧</string>
+
     <string name="title_add_plan">添加计划</string>
     <string name="add_plan_title">标题</string>
     <string name="add_plan_description">简介(Nice To Have)</string>
@@ -19,6 +21,14 @@
     <string name="post_record_result_title_null">简述不可为空</string>
 
     <string name="title_records">事项</string>
+    <string name="records_empty">事项为空, 为计划添加一个新事项</string>
 
     <string name="transition_add_add_plan">transition_add_add_plan</string>
+
+    <!--StatusLayout-->
+    <string name="str_empty">数据为空</string>
+    <string name="str_net_error">你已进入没有网络的异次元</string>
+    <string name="str_loading">正在加载...请耐心等待</string>
+    <string name="str_btn_click">再次刷新</string>
+    <string name="str_there_has_nothing">这里什么都没有</string>
 </resources>

@@ -56,14 +56,20 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_records"
+            <com.csming.percent.common.widget.statuslayout.StatusLayout
+                android:id="@+id/status_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp">
 
-            </androidx.recyclerview.widget.RecyclerView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_records"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+            </com.csming.percent.common.widget.statuslayout.StatusLayout>
+
 
         </androidx.cardview.widget.CardView>
 

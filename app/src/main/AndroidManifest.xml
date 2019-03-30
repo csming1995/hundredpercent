@@ -20,13 +20,15 @@
         </activity>
 
         <activity android:name=".plan.AddPlanActivity"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity android:name=".record.AddRecordActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".record.RecordsActivity"
             android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".record.AddRecordActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

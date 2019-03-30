@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.data.vo.Record;
 import com.csming.percent.main.adapter.RecordListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
@@ -48,6 +49,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         return intent;
     }
 
+    private StatusLayout mStatusLayout;
     private CardView mCvTitle;
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
@@ -115,11 +117,14 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mStatusLayout = findViewById(R.id.status_layout);
         mCvTitle = findViewById(R.id.cv_title);
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
         mFabAdd = findViewById(R.id.fab_add_record);
         mRvRecords = findViewById(R.id.rv_records);
+
+        mStatusLayout.setEmptyMessageView(R.string.records_empty, null, null);
 
         mLlRoot.post(() -> {
             initAnimator();
@@ -154,7 +159,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         };
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
 
-
         mAdapterRecord = new RecordListAdapter();
 
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -172,7 +176,12 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRecordsViewModel.setPlanTitle(getIntent().getStringExtra(EXTRA_TAG_PLAN_TITLE));
 
         mRecordsViewModel.getRecords().observe(this, records -> {
-            mAdapterRecord.setData(records);
+            if (records.size() > 0) {
+                mAdapterRecord.setData(records);
+                mStatusLayout.showNormalView();
+            } else {
+                mStatusLayout.showEmptyMessageView();
+            }
         });
 
         mCvTitle.setCardBackgroundColor(getIntent().getIntExtra(EXTRA_TAG_PLAN_COLOR, getResources().getColor(R.color.color_111111)));
