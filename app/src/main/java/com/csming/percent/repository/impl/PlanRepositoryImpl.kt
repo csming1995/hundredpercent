@@ -25,7 +25,7 @@ class PlanRepositoryImpl @Inject constructor(
         return planDao.findPlan(title)
     }
 
-    override fun getOrder(): Long {
+    override fun getOrder(): Int {
         return planDao.count
     }
 

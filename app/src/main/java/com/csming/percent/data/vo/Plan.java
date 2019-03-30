@@ -17,7 +17,7 @@ public class Plan {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private long id;
+    private int id;
 
     @ColumnInfo(name = "title")
     private String title; // 标题
@@ -29,7 +29,7 @@ public class Plan {
     private int color; // 计划的封面颜色
 
     @ColumnInfo(name = "order")
-    private long order = -1; // 排列顺序
+    private int order = -1; // 排列顺序
 
     @ColumnInfo(name = "count")
     private int count = 0; // 记录的条目数量
@@ -41,11 +41,11 @@ public class Plan {
         super();
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -65,11 +65,11 @@ public class Plan {
         this.description = description;
     }
 
-    public long getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(long order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 

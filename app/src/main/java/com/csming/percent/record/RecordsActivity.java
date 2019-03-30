@@ -38,7 +38,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private static final String EXTRA_TAG_PLAN_TITLE = "EXTRA_TAG_PLAN_TITLE";
     private static final String EXTRA_TAG_PLAN_COLOR = "EXTRA_TAG_PLAN_COLOR";
 
-    public static Intent getIntent(Context context, long planId, String planTitle, int color) {
+    public static Intent getIntent(Context context, int planId, String planTitle, int color) {
         Intent intent = new Intent(context, RecordsActivity.class);
         intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
         intent.putExtra(EXTRA_TAG_PLAN_TITLE, planTitle);
@@ -127,7 +127,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            startActivity(AddRecordActivity.getIntent(this));
+            startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
@@ -184,7 +184,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
      */
     private void initData() {
         mRecordsViewModel = ViewModelProviders.of(this, factory).get(RecordsViewModel.class);
-        mRecordsViewModel.setPlanId(getIntent().getLongExtra(EXTRA_TAG_PLAN_ID, 0));
+        mRecordsViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
         mRecordsViewModel.setPlanTitle(getIntent().getStringExtra(EXTRA_TAG_PLAN_TITLE));
 
         mCvTitle.setCardBackgroundColor(getIntent().getIntExtra(EXTRA_TAG_PLAN_COLOR, getResources().getColor(R.color.color_111111)));

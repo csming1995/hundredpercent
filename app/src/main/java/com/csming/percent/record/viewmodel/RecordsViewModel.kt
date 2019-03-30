@@ -10,14 +10,14 @@ import javax.inject.Inject
 class RecordsViewModel @Inject constructor(
 ) : ViewModel() {
 
-    private var mPlanId: Long = 0
+    private var mPlanId: Int = 0
     private var mPlanTitle: String = ""
 
-    fun setPlanId(planId: Long) {
+    fun setPlanId(planId: Int) {
         this.mPlanId = planId
     }
 
-    fun getPlanId(): Long {
+    fun getPlanId(): Int {
         return this.mPlanId
     }
 

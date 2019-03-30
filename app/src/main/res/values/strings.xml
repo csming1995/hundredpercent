@@ -5,13 +5,15 @@
     <string name="title_add_plan">添加计划</string>
     <string name="add_plan_title">标题</string>
     <string name="add_plan_description">简介(Nice To Have)</string>
-    <string name="post_result_success">计划发布成功</string>
-    <string name="post_result_title_null">为新计划取个好名字吧</string>
-    <string name="post_result_plan_exist">计划已存在</string>
+    <string name="post_plan_result_success">计划发布成功</string>
+    <string name="post_plan_result_title_null">为新计划取个好名字吧</string>
+    <string name="post_plan_result_plan_exist">计划已存在</string>
 
     <string name="title_add_record">添加事项</string>
     <string name="add_record_title">简述</string>
     <string name="add_record_description">详情(Nice To Have)</string>
+    <string name="post_record_result_success">事项添加成功</string>
+    <string name="post_record_result_title_null">简述不可为空</string>
 
     <string name="title_records">事项</string>
 

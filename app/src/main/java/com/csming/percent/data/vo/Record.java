@@ -13,7 +13,7 @@ public class Record {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    public long id;
+    public int id;
 
     @ColumnInfo(name = "title")
     private String title; // 标题
@@ -22,16 +22,16 @@ public class Record {
     private String description; // 条目的详情
 
     @ColumnInfo(name = "order")
-    private long order; // 排列顺序
+    private int order; // 排列顺序
 
     @ColumnInfo(name = "plan_id")
-    private long planId; // 所属计划的id
+    private int planId; // 所属计划的id
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -51,19 +51,19 @@ public class Record {
         this.description = description;
     }
 
-    public long getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(long order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 
-    public long getPlanId() {
+    public int getPlanId() {
         return planId;
     }
 
-    public void setPlanId(long planId) {
+    public void setPlanId(int planId) {
         this.planId = planId;
     }
 }

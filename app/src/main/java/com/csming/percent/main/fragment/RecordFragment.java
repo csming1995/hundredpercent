@@ -90,8 +90,8 @@ public class RecordFragment extends DaggerFragment {
         mAdapterRecordGroup.setData(plans);
 
         mFabAddRecord.setOnClickListener(view1 -> {
-            startActivity(AddRecordActivity.getIntent(getActivity()));
-            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+//            startActivity(AddRecordActivity.getIntent(getActivity()));
+//            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
     }

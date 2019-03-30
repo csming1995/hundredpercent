@@ -14,5 +14,5 @@ interface PlanRepository {
 
     fun findPlan(title: String): Plan?
 
-    fun getOrder(): Long
+    fun getOrder(): Int
 }

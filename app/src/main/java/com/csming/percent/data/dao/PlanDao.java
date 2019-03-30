@@ -21,6 +21,12 @@ public interface PlanDao {
     @Query("SELECT * FROM plans WHERE `title` = :title")
     Plan findPlan(String title);
 
+    @Query("SELECT * FROM plans WHERE `id` = :planId")
+    Plan findPlan(int planId);
+
     @Query("SELECT count(id) FROM plans")
-    long getCount();
+    int getCount();
+
+    @Query("UPDATE plans SET count = :count WHERE id = :planId")
+    void updatePlan(int planId, int count);
 }

@@ -1,13 +1,10 @@
 package com.csming.percent.plan;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -15,7 +12,6 @@ import android.widget.Toast;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.AutofitRecyclerView;
-import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.adapter.ColorSelectAdapter;
 import com.csming.percent.plan.viewmodel.PlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
@@ -112,16 +108,16 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             int result = mPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             switch (result) {
                 case PlanViewModel.STATE_POST_SUCCESS: {
-                    Toast.makeText(this, R.string.post_result_success, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
                     onBackPressed();
                     break;
                 }
                 case PlanViewModel.STATE_POST_TITLE_NULL: {
-                    Toast.makeText(this, R.string.post_result_title_null, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
                     break;
                 }
                 case PlanViewModel.STATE_POST_PLAN_EXIST: {
-                    Toast.makeText(this, R.string.post_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
                 }
             }
         });
