@@ -3,9 +3,11 @@ package com.csming.percent.main;
 import android.os.Bundle;
 
 import com.csming.percent.R;
+import com.csming.percent.common.ApplicationConfig;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
+import com.csming.percent.plan.vo.ColorEntity;
 import com.csming.percent.record.RecordsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -79,5 +81,15 @@ public class MainActivity extends DaggerAppCompatActivity {
         mMainViewModel.findAllPlans().observe(this, plans -> {
             mAdapterPlans.setData(plans);
         });
+
+
+        if (ApplicationConfig.getIsFirstIn(this)) {
+            mMainViewModel.initPlan(
+                    getResources().getString(R.string.first_plan_title),
+                    getResources().getString(R.string.first_plan_description),
+                    getResources().getColor(ColorEntity.COLOR_VALUES[0])
+            );
+            ApplicationConfig.setIsFirstIn(this);
+        }
     }
 }
