@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -32,20 +31,14 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         return new Intent(context, AddPlanActivity.class);
     }
 
-    private AutofitRecyclerView mRvColorSelectList;
-    private ColorSelectAdapter mColorSelectAdapter;
-    private List<ColorEntity> colorEntities;
-
-    private int mColorIndex = 0;
-
     private LinearLayout mLlBackground;
     private LinearLayout mLlRoot;
     private FloatingActionButton mFabAdd;
 
+    private int mColorIndex = 0;
+
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
-    private ObjectAnimator mObjectAnimatorCardPannelExit;
-    private ObjectAnimator mObjectAnimatorFabExit;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +47,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_add_plan);
 
         initView();
+        initColorPanel();
     }
 
     @Override
@@ -64,9 +58,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        mObjectAnimatorCardPannelExit.start();
-        mObjectAnimatorFabExit.start();
+        finish();
     }
 
     private void initAnimator() {
@@ -76,29 +68,12 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
         mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
         mObjectAnimatorFabEnter.setDuration(600);
-
-        mObjectAnimatorCardPannelExit = ObjectAnimator.ofFloat(mLlRoot, "translationY", 0, heightCardPanel + heightCardPanel + mLlRoot.getTop());
-        mObjectAnimatorCardPannelExit.setDuration(200);
-
-        mObjectAnimatorFabExit = ObjectAnimator.ofFloat(mFabAdd, "translationY", 0, heightCardPanel);
-        mObjectAnimatorFabExit.setDuration(200);
-
-        mObjectAnimatorCardPannelExit.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                finish();
-            }
-        });
     }
 
     private void initView() {
         mLlBackground = findViewById(R.id.ll_background);
         mLlRoot = findViewById(R.id.ll_root);
         mFabAdd = findViewById(R.id.fab_add);
-
-        mRvColorSelectList = findViewById(R.id.rv_color_select_list);
-        mRvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
 
         mLlRoot.post(() -> {
             initAnimator();
@@ -107,27 +82,36 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             mObjectAnimatorFabEnter.start();
         });
 
-
-        colorEntities = new ArrayList<>();
-        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
-            ColorEntity colorEntity = new ColorEntity();
-            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
-            colorEntities.add(colorEntity);
-        }
-
-        mColorSelectAdapter = new ColorSelectAdapter(colorEntities);
-        mRvColorSelectList.setAdapter(mColorSelectAdapter);
-        mColorSelectAdapter.setOnItemClickListener((view, position) -> {
-            mColorIndex = position;
-            mColorSelectAdapter.setSelectIndex(position);
-        });
-
         mLlBackground.setOnClickListener(view -> {
             onBackPressed();
         });
 
         mFabAdd.setOnClickListener(v -> {
             Toast.makeText(this, "Add Plan", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    /**
+     * 初始化颜料盘
+     */
+    private void initColorPanel() {
+        AutofitRecyclerView rvColorSelectList;
+        ColorSelectAdapter colorSelectAdapter;
+        List<ColorEntity> mColorEntities;
+
+        rvColorSelectList = findViewById(R.id.rv_color_select_list);
+        rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
+
+        mColorEntities = new ArrayList<>();
+        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+            ColorEntity colorEntity = new ColorEntity();
+            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
+            mColorEntities.add(colorEntity);
+        }
+        colorSelectAdapter = new ColorSelectAdapter(mColorEntities);
+        rvColorSelectList.setAdapter(colorSelectAdapter);
+        colorSelectAdapter.setOnItemClickListener((view, position) -> {
+            mColorIndex = position;
         });
     }
 }

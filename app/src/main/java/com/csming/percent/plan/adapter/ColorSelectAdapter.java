@@ -43,17 +43,20 @@ public class ColorSelectAdapter extends RecyclerView.Adapter implements View.OnC
         }
     }
 
-    public void setSelectIndex(int index) {
-        selectIndex = index;
-        notifyDataSetChanged();
-    }
-
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
+    private void setSelectIndex(int index) {
+        int preIndex = selectIndex;
+        selectIndex = index;
+        notifyItemChanged(preIndex);
+        notifyItemChanged(selectIndex);
+    }
+
     @Override
     public void onClick(View v) {
+        setSelectIndex((Integer) v.getTag());
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }

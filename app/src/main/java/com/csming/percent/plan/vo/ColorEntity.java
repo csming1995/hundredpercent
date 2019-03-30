@@ -23,7 +23,6 @@ public class ColorEntity {
             R.color.color_select_46, R.color.color_select_47, R.color.color_select_48, R.color.color_select_49,
             R.color.color_select_50, R.color.color_select_51, R.color.color_select_52, R.color.color_select_53,
             R.color.color_select_44};
-    public static final String[] COLOR_NAMES = {"Red", "Orange", "Yellow", "Green", "SkyBlue", "Blue", "Purple", "White", "Black"};
 
     private int colorValue;
 

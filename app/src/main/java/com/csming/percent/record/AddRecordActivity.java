@@ -16,7 +16,6 @@ import com.csming.percent.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -34,8 +33,6 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
-    private ObjectAnimator mObjectAnimatorCardPannelExit;
-    private ObjectAnimator mObjectAnimatorFabExit;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +51,7 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        mObjectAnimatorCardPannelExit.start();
-        mObjectAnimatorFabExit.start();
+        finish();
     }
 
     private void initAnimator() {
@@ -64,26 +59,11 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         // 获取 主面板高度
         int heightCardPanel = mLlRoot.getMeasuredHeight();
         // 获取屏幕信息
-        DisplayMetrics dm2 = getResources().getDisplayMetrics();
         mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
         mObjectAnimatorCardPanelEnter.setDuration(500);
 
         mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
         mObjectAnimatorFabEnter.setDuration(600);
-
-        mObjectAnimatorCardPannelExit = ObjectAnimator.ofFloat(mLlRoot, "translationY", 0,  + dm2.heightPixels);
-        mObjectAnimatorCardPannelExit.setDuration(200);
-
-        mObjectAnimatorFabExit = ObjectAnimator.ofFloat(mFabAdd, "translationY", 0, dm2.heightPixels);
-        mObjectAnimatorFabExit.setDuration(200);
-
-        mObjectAnimatorCardPannelExit.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                finish();
-            }
-        });
     }
 
     private void initView() {
