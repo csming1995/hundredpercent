@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.csming.percent.R;
+import com.csming.percent.data.vo.Plan;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
@@ -21,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,7 +46,7 @@ public class PlansFragment extends DaggerFragment {
 
     private MainViewModel mMainViewModel;
 
-    private List<String> plans;
+    private List<Plan> plans;
 
     public static Fragment getInstance() {
         return new PlansFragment();
@@ -88,22 +90,6 @@ public class PlansFragment extends DaggerFragment {
         mRvPlans.setLayoutManager(mLinearLayoutManager);
         mRvPlans.setAdapter(mAdapterPlans);
 
-        plans = new ArrayList<>(3);
-        plans.add("TODO");
-        plans.add("Test");
-        plans.add("读书");
-        plans.add("好累啊");
-        plans.add("读书");
-        plans.add("好累啊");
-        plans.add("读书");
-        plans.add("好累啊");
-        plans.add("读书");
-        plans.add("好累啊");
-        plans.add("读书");
-        plans.add("好累啊");
-
-        mAdapterPlans.setData(plans);
-
         mFabAddPlan.setOnClickListener(v -> {
 //            ActivityOptionsCompat options =
 //                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
@@ -119,5 +105,9 @@ public class PlansFragment extends DaggerFragment {
      */
     private void initData() {
         mMainViewModel = ViewModelProviders.of(getActivity(), factory).get(MainViewModel.class);
+
+        mMainViewModel.findAllPlans().observe(getActivity(), plans -> {
+            mAdapterPlans.setData(plans);
+        });
     }
 }

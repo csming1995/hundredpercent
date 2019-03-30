@@ -1,5 +1,6 @@
 package com.csming.percent.repository.impl
 
+import androidx.lifecycle.LiveData
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.vo.Plan
 import com.csming.percent.repository.PlanRepository
@@ -16,7 +17,7 @@ class PlanRepositoryImpl @Inject constructor(
         planDao.insert(plan)
     }
 
-    override fun getPlans(): List<Plan> {
+    override fun getPlans(): LiveData<List<Plan>> {
         return planDao.loadPlans()
     }
 

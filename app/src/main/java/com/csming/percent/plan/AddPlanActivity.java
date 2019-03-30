@@ -176,5 +176,6 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
     private void initViewModel() {
         mPlanViewModel = ViewModelProviders.of(this, factory).get(PlanViewModel.class);
+        mPlanViewModel.setColor(getResources().getColor(ColorEntity.COLOR_VALUES[0]));
     }
 }

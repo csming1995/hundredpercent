@@ -4,6 +4,7 @@ import com.csming.percent.data.vo.Plan;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -15,7 +16,7 @@ public interface PlanDao {
     void insert(Plan plan);
 
     @Query("SELECT * FROM plans")
-    List<Plan> loadPlans();
+    LiveData<List<Plan>> loadPlans();
 
     @Query("SELECT * FROM plans WHERE `title` = :title")
     Plan findPlan(String title);

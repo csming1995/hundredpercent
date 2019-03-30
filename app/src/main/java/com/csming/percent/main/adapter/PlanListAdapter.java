@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.csming.percent.R;
+import com.csming.percent.data.vo.Plan;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -22,13 +25,13 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int ITEM_TYPE_NORMAL = 1;
     private int ITEM_TYPE_HEADER = 2;
 
-    private List<String> plans;
+    private List<Plan> plans;
 
     public PlanListAdapter() {
         super();
     }
 
-    public void setData(List<String> plans) {
+    public void setData(List<Plan> plans) {
         if (this.plans == null) {
             this.plans = new ArrayList<>();
         }
@@ -52,7 +55,13 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-
+        if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
+            Plan plan = plans.get(position - 1);
+            if (plan != null) {
+                ((PlanNormalViewHolder)holder).setBackground(plan.getColor());
+                ((PlanNormalViewHolder)holder).setTitle(plan.getTitle());
+            }
+        }
     }
 
     @Override
@@ -71,9 +80,23 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static class PlanNormalViewHolder extends RecyclerView.ViewHolder {
 
+        private CardView mCvItem;
+        private TextView mTvTitle;
+
         PlanNormalViewHolder(@NonNull View itemView) {
             super(itemView);
+            mCvItem = itemView.findViewById(R.id.cv_item);
+            mTvTitle = itemView.findViewById(R.id.tv_title);
         }
+
+        public void setBackground(int color) {
+            mCvItem.setCardBackgroundColor(color);
+        }
+
+        public void setTitle(String title) {
+            mTvTitle.setText(title);
+        }
+
     }
 
     private static class HeaderViewHolder extends RecyclerView.ViewHolder {

@@ -33,7 +33,7 @@ class PlanViewModel @Inject constructor(
         val plan = Plan()
         plan.title = title
         plan.description = description
-        plan.color = mColor ?: ColorEntity.COLOR_VALUES[0]
+        plan.color = mColor!!
         val order = planRepository.getOrder()
         plan.order = order
         planRepository.addPlan(plan)

@@ -1,5 +1,6 @@
 package com.csming.percent.repository
 
+import androidx.lifecycle.LiveData
 import com.csming.percent.data.vo.Plan
 
 /**
@@ -9,7 +10,7 @@ interface PlanRepository {
 
     fun addPlan(plan: Plan)
 
-    fun getPlans(): List<Plan>
+    fun getPlans(): LiveData<List<Plan>>
 
     fun findPlan(title: String): Plan?
 
