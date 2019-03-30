@@ -6,13 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.main.adapter.RecordListAdapter;
+import com.csming.percent.main.viewmodel.MainViewModel;
+import com.csming.percent.record.viewmodel.RecordsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -20,17 +34,38 @@ import dagger.android.support.DaggerAppCompatActivity;
  */
 public class RecordsActivity extends DaggerAppCompatActivity {
 
-    public static Intent getIntent(Context context) {
-        return new Intent(context, RecordsActivity.class);
+    private static final String EXTRA_TAG_PLAN_ID = "EXTRA_TAG_PLAN_ID";
+    private static final String EXTRA_TAG_PLAN_TITLE = "EXTRA_TAG_PLAN_TITLE";
+    private static final String EXTRA_TAG_PLAN_COLOR = "EXTRA_TAG_PLAN_COLOR";
+
+    public static Intent getIntent(Context context, long planId, String planTitle, int color) {
+        Intent intent = new Intent(context, RecordsActivity.class);
+        intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
+        intent.putExtra(EXTRA_TAG_PLAN_TITLE, planTitle);
+        intent.putExtra(EXTRA_TAG_PLAN_COLOR, color);
+        return intent;
     }
 
+    private CardView mCvTitle;
     private LinearLayout mLlRoot;
+    private TextView mTvTitle;
     private FloatingActionButton mFabAdd;
+
+    private RecyclerView mRvRecords;
+    private LinearLayoutManager mLinearLayoutManager;
+    private RecordListAdapter mAdapterRecord;
+
+    private SlideTouchEventListener mSlideTouchEventListener;
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
-    private SlideTouchEventListener mSlideTouchEventListener;
+    private List<String> plans;
+
+    @Inject
+    ViewModelProvider.Factory factory;
+
+    private RecordsViewModel mRecordsViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +73,12 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_records);
 
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
     }
 
     @Override
@@ -72,8 +113,11 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mCvTitle = findViewById(R.id.cv_title);
         mLlRoot = findViewById(R.id.ll_root);
+        mTvTitle = findViewById(R.id.tv_title);
         mFabAdd = findViewById(R.id.fab_add_record);
+        mRvRecords = findViewById(R.id.rv_records);
 
         mLlRoot.post(() -> {
             initAnimator();
@@ -83,7 +127,8 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            Toast.makeText(this, "Add Record", Toast.LENGTH_SHORT).show();
+            startActivity(AddRecordActivity.getIntent(this));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
@@ -106,5 +151,43 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             }
         };
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
+
+
+        mAdapterRecord = new RecordListAdapter();
+
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRvRecords.setLayoutManager(mLinearLayoutManager);
+        mRvRecords.setAdapter(mAdapterRecord);
+
+        plans = new ArrayList<>(3);
+        plans.add("TODO");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+        plans.add("Test");
+
+        mAdapterRecord.setData(plans);
+    }
+
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        mRecordsViewModel = ViewModelProviders.of(this, factory).get(RecordsViewModel.class);
+        mRecordsViewModel.setPlanId(getIntent().getLongExtra(EXTRA_TAG_PLAN_ID, 0));
+        mRecordsViewModel.setPlanTitle(getIntent().getStringExtra(EXTRA_TAG_PLAN_TITLE));
+
+        mCvTitle.setCardBackgroundColor(getIntent().getIntExtra(EXTRA_TAG_PLAN_COLOR, getResources().getColor(R.color.color_111111)));
+        mTvTitle.setText(mRecordsViewModel.getPlanTitle());
     }
 }

@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="48dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="48dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
@@ -77,8 +77,8 @@
                     android:focusedByDefault="false"
                     android:gravity="start|top"
                     android:hint="@string/add_record_description"
-                    android:lines="2"
-                    android:maxLength="35"
+                    android:minLines="3"
+                    android:maxLength="200"
                     android:textSize="16dp" />
 
             </LinearLayout>

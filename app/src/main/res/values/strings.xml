@@ -10,8 +10,10 @@
     <string name="post_result_plan_exist">计划已存在</string>
 
     <string name="title_add_record">添加事项</string>
-    <string name="add_record_title">一句话阐述你所想的</string>
-    <string name="add_record_description">描述(Nice To Have)</string>
+    <string name="add_record_title">简述</string>
+    <string name="add_record_description">详情(Nice To Have)</string>
+
+    <string name="title_records">事项</string>
 
     <string name="transition_add_add_plan">transition_add_add_plan</string>
 </resources>

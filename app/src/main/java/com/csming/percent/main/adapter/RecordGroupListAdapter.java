@@ -71,28 +71,8 @@ public class RecordGroupListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private static class RecordGroupNormalViewHolder extends RecyclerView.ViewHolder {
 
-        private RecyclerView mRvRecords;
-        private LinearLayoutManager mLinearLayoutManager;
-        private RecordListAdapter mAdapterRecord;
-
-        private List<String> plans;
-
-
         RecordGroupNormalViewHolder(@NonNull View itemView) {
             super(itemView);
-            mRvRecords = itemView.findViewById(R.id.rv_records);
-
-            mAdapterRecord = new RecordListAdapter();
-
-            mLinearLayoutManager = new LinearLayoutManager(itemView.getContext());
-            mRvRecords.setLayoutManager(mLinearLayoutManager);
-            mRvRecords.setAdapter(mAdapterRecord);
-
-            plans = new ArrayList<>(3);
-            plans.add("TODO");
-            plans.add("Test");
-
-            mAdapterRecord.setData(plans);
         }
     }
 
