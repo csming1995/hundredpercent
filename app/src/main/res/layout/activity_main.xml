@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".main.MainActivity">
 
@@ -15,7 +15,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_plans"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:overScrollMode="never"/>
 
     </com.csming.percent.common.widget.statuslayout.StatusLayout>
 
@@ -26,14 +27,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_add"
         app:backgroundTint="@color/color_000000"
-        app:rippleColor="@color/color_000000" />
-
-    <com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView
-        android:id="@+id/slide_item"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-    </com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView>
+        app:rippleColor="@color/color_000000"
+        app:srcCompat="@drawable/ic_add" />
 
 </FrameLayout>

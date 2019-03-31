@@ -1,6 +1,7 @@
 package com.csming.percent.main;
 
 import android.os.Bundle;
+
 import com.csming.percent.R;
 import com.csming.percent.common.ApplicationConfig;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
@@ -9,10 +10,12 @@ import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.plan.vo.ColorEntity;
 import com.csming.percent.record.RecordsActivity;
+import com.csming.percent.setting.SettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +24,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    private CardView mCvTitle;
     private StatusLayout mStatusLayout;
     private RecyclerView mRvPlans;
     private LinearLayoutManager mLinearLayoutManager;
@@ -49,6 +53,7 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mCvTitle = findViewById(R.id.cv_title);
         mStatusLayout = findViewById(R.id.status_layout);
         mRvPlans = findViewById(R.id.rv_plans);
         mFabAddPlan = findViewById(R.id.fab_add_plan);
@@ -63,6 +68,11 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
             startActivity(RecordsActivity.getIntent(this, plan.getId()));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
+        mAdapterPlans.setOnInfoClickListener(view -> {
+            startActivity(SettingActivity.getIntent(this));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 

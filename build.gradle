@@ -47,6 +47,8 @@ ext {
     timberVersion = "4.7.0"
 
     gsonVersion = "2.8.5"
+
+    circleVersion = "3.0.0"
 }
 
 task clean(type: Delete) {

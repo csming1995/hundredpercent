@@ -8,7 +8,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_records"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:overScrollMode="never"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_record"
@@ -17,7 +18,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add"
         app:backgroundTint="@color/color_000000"
         app:rippleColor="@color/color_000000"/>
 </FrameLayout>

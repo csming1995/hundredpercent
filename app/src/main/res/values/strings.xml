@@ -29,6 +29,14 @@
 
     <string name="transition_add_add_plan">transition_add_add_plan</string>
 
+    <!--Setting-->
+    <string name="title_setting">关于</string>
+
+    <string name="setting_about">关于作者</string>
+    <string name="setting_about_author">-陈烧面</string>
+    <string name="setting_about_gmail">yahaha.2019@gmail.com</string>
+    <string name="setting_about_content">欢迎邮件反馈, 和作者交个朋友吧~</string>
+
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>
     <string name="str_net_error">你已进入没有网络的异次元</string>

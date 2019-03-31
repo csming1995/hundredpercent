@@ -25,7 +25,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/color_111111"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
             <TextView
                 android:id="@+id/tv_title"
@@ -52,7 +52,7 @@
             android:clickable="true"
             android:focusable="true"
             app:cardCornerRadius="12dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,7 +89,8 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp" />
+                    android:layout_marginBottom="8dp"
+                    android:overScrollMode="never"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -103,7 +104,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_ok"
+        app:srcCompat="@drawable/ic_ok"
         app:backgroundTint="@color/color_000000"
         app:elevation="8dp"
         app:rippleColor="@color/color_000000" />

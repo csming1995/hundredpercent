@@ -27,7 +27,7 @@
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/color_111111"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -46,12 +46,12 @@
                     android:textColor="@color/color_ffffff"
                     android:textSize="16dp" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/ic_edit" />
+                    app:srcCompat="@drawable/ic_edit" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -88,7 +88,7 @@
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             app:cardCornerRadius="12dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp">
 
             <com.csming.percent.common.widget.statuslayout.StatusLayout
                 android:id="@+id/status_layout"
@@ -100,7 +100,9 @@
                 <com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView
                     android:id="@+id/rv_records"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView>
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never">
+                </com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView>
             </com.csming.percent.common.widget.statuslayout.StatusLayout>
 
 
@@ -115,7 +117,7 @@
         android:layout_gravity="bottom|center"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add"
         app:backgroundTint="@color/color_000000"
         app:elevation="8dp"
         app:rippleColor="@color/color_000000" />
