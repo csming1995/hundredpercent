@@ -16,7 +16,7 @@ class RecordRepositoryImpl @Inject constructor(
 ) : RecordRepository {
     override fun addRecord(record: Record) {
         recordDao.insert(record)
-        planDao.updatePlan(record.planId, record.order + 1)
+        planDao.updatePlanCount(record.planId, record.order + 1)
     }
 
     override fun getRecords(planId: Int): LiveData<List<Record>> {
@@ -30,6 +30,10 @@ class RecordRepositoryImpl @Inject constructor(
 
     override fun delete(record: Record) {
         recordDao.deleteByRecordId(record.id)
+    }
+
+    override fun updateRecordFinish(record: Record, finish: Boolean) {
+        recordDao.updateRecordFinish(record.id, finish)
     }
 
 }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.csming.percent.R;
 import com.csming.percent.data.vo.Record;
@@ -23,7 +24,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Record> records;
 
-    private OnItemDeleteClickListener mOnLongClickListener;
+    private OnItemDeleteClickListener mOnItemDeleteClickListener;
+    private OnFinishChangeListener mOnFinishChangeListener;
 
     public RecordListAdapter() {
         super();
@@ -39,11 +41,19 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void setOnItemDeleteClickListener(OnItemDeleteClickListener onLongClickListener) {
-        this.mOnLongClickListener = onLongClickListener;
+        this.mOnItemDeleteClickListener = onLongClickListener;
     }
 
     public interface OnItemDeleteClickListener {
         void onItemLongClick(View view, int position, Record record);
+    }
+
+    public void setOnFinishChangeListener(OnFinishChangeListener onFinishChangeListener) {
+        this.mOnFinishChangeListener = onFinishChangeListener;
+    }
+
+    public interface OnFinishChangeListener {
+        void onFinishChanged(View view, int position, Record record, boolean finish);
     }
 
     @NonNull
@@ -59,9 +69,15 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Record record = records.get(position);
         if (record != null) {
             ((RecordNormalViewHolder)holder).setTitle(record.getTitle());
+            ((RecordNormalViewHolder)holder).setFinish(record.isFinish());
             ((RecordNormalViewHolder)holder).setOnClickListener(view -> {
-                if (mOnLongClickListener != null) {
-                    mOnLongClickListener.onItemLongClick(view, position, record);
+                if (mOnItemDeleteClickListener != null) {
+                    mOnItemDeleteClickListener.onItemLongClick(view, position, record);
+                }
+            });
+            ((RecordNormalViewHolder)holder).setToggerOnClickListener(view -> {
+                if (mOnFinishChangeListener != null) {
+                    mOnFinishChangeListener.onFinishChanged(view, position, record, !record.isFinish());
                 }
             });
         }
@@ -75,11 +91,13 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static class RecordNormalViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTvTitle;
+        private ToggleButton mTbFinish;
         private FrameLayout mFlDelete;
 
         private RecordNormalViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvTitle = itemView.findViewById(R.id.tv_title);
+            mTbFinish = itemView.findViewById(R.id.tb_is_finished);
             mFlDelete = itemView.findViewById(R.id.fl_delete);
         }
 
@@ -89,6 +107,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         private void setOnClickListener(View.OnClickListener onClickListener) {
             mFlDelete.setOnClickListener(onClickListener);
+        }
+
+        private void setToggerOnClickListener(View.OnClickListener onClickListener) {
+            mTbFinish.setOnClickListener(onClickListener);
+        }
+
+        private void setFinish(boolean finish) {
+            mTbFinish.setChecked(finish);
         }
     }
 }

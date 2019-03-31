@@ -21,12 +21,24 @@ class PlanRepositoryImpl @Inject constructor(
         return planDao.loadPlans()
     }
 
+    override fun findPlan(planId: Int): Plan? {
+        return planDao.findPlan(planId)
+    }
+
     override fun findPlan(title: String): Plan? {
         return planDao.findPlan(title)
     }
 
     override fun getOrder(): Int {
         return planDao.count
+    }
+
+    override fun updatePlanCount(planId: Int, count: Int) {
+        planDao.updatePlanCount(planId, count)
+    }
+
+    override fun updatePlanFinished(planId: Int, finished: Int) {
+        planDao.updatePlanFinished(planId, finished)
     }
 
 }

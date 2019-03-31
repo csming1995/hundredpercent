@@ -183,6 +183,11 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             mRecordsViewModel.delete(record);
             mRvRecords.closeMenu();
         });
+
+        mAdapterRecord.setOnFinishChangeListener((view, position, record, finish) -> {
+            mRvRecords.closeMenu();
+            mRecordsViewModel.updateRecordFinish(record, finish);
+        });
     }
 
     /**

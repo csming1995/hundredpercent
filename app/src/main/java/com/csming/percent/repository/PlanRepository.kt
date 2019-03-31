@@ -12,7 +12,13 @@ interface PlanRepository {
 
     fun getPlans(): LiveData<List<Plan>>
 
+    fun findPlan(planId: Int): Plan?
+
     fun findPlan(title: String): Plan?
 
     fun getOrder(): Int
+
+    fun updatePlanCount(planId: Int, count: Int)
+
+    fun updatePlanFinished(planId: Int, finished: Int)
 }

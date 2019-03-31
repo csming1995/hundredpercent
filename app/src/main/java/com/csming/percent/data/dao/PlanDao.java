@@ -28,5 +28,8 @@ public interface PlanDao {
     int getCount();
 
     @Query("UPDATE plans SET count = :count WHERE id = :planId")
-    void updatePlan(int planId, int count);
+    void updatePlanCount(int planId, int count);
+
+    @Query("UPDATE plans SET finished = :finish WHERE id = :planId")
+    void updatePlanFinished(int planId, int finish);
 }

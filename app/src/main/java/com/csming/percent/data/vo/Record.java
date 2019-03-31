@@ -27,6 +27,9 @@ public class Record {
     @ColumnInfo(name = "plan_id")
     private int planId; // 所属计划的id
 
+    @ColumnInfo(name = "finish")
+    private boolean finish = false;// 是否已完成
+
     public int getId() {
         return id;
     }
@@ -65,5 +68,13 @@ public class Record {
 
     public void setPlanId(int planId) {
         this.planId = planId;
+    }
+
+    public boolean isFinish() {
+        return finish;
+    }
+
+    public void setFinish(boolean finish) {
+        this.finish = finish;
     }
 }

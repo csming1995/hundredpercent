@@ -15,4 +15,6 @@ interface RecordRepository {
     fun getOrder(planId: Int): Int
 
     fun delete(record: Record)
+
+    fun updateRecordFinish(record: Record, finish: Boolean)
 }
