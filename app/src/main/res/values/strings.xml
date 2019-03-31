@@ -8,7 +8,7 @@
     <string name="first_plan_description">First TodoList</string>
 
     <string name="title_plan">计划清单</string>
-    <string name="plans_empty">计划为空, 规划一个新计划吧</string>
+    <string name="plans_empty">暂无计划, 快添加一个新计划吧</string>
 
     <string name="title_add_plan">添加计划</string>
     <string name="title_edit_plan">编辑计划</string>
@@ -52,4 +52,7 @@
     <string name="str_there_has_nothing">这里什么都没有</string>
 
     <string name="delete">删除</string>
+    <string name="delete_dialog_message">确定删除该计划吗</string>
+    <string name="delete_sure">确定</string>
+    <string name="delete_cancel">取消</string>
 </resources>

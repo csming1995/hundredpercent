@@ -1,6 +1,5 @@
 package com.csming.percent.record.viewmodel
 
-import android.util.EventLogTags
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +22,6 @@ class RecordsViewModel @Inject constructor(
 
     private var plan: Plan? = null
     private var planLiveData = MutableLiveData<Plan>()
-
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
@@ -52,6 +50,10 @@ class RecordsViewModel @Inject constructor(
             planRepository.updatePlanFinished(mPlanId, plan!!.finished)
         }
         planLiveData.value = plan
+    }
+
+    fun deletePlan() {
+        planRepository.deletePlan(mPlanId)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {

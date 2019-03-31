@@ -12,6 +12,10 @@
     <color name="color_ffffff">#ffffff</color>
     <color name="color_00000000">#00000000</color>
 
+    <color name="color_D84315">#D84315</color>
+
+    <color name="color_danger">@color/color_D84315</color>
+
     <color name="color_F4511E">#F4511E</color>
 
     <color name="color_background_navigation">@color/color_212121</color>

@@ -1,6 +1,7 @@
 package com.csming.percent.record;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private StatusLayout mStatusLayout;
     private CardView mCvTitle;
+    private CardView mCvDelete;
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
     private TextView mTvProgress;
@@ -58,6 +60,8 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
+
+    private AlertDialog.Builder mDeleteDialogBuilder;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -119,6 +123,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private void initView() {
         mStatusLayout = findViewById(R.id.status_layout);
         mCvTitle = findViewById(R.id.cv_title);
+        mCvDelete = findViewById(R.id.cv_delete);
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
         mTvProgress = findViewById(R.id.tv_progress);
@@ -138,6 +143,10 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mCvTitle.setOnClickListener(view -> {
             startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
+        mCvDelete.setOnClickListener(view -> {
+            showDeleteDialog();
         });
 
         mFabAdd.setOnClickListener(v -> {
@@ -217,5 +226,23 @@ public class RecordsActivity extends DaggerAppCompatActivity {
                 mCvTitle.setCardBackgroundColor(plan.getColor());
             }
         });
+    }
+
+    private void showDeleteDialog() {
+        if (mDeleteDialogBuilder == null) {
+            mDeleteDialogBuilder = new AlertDialog.Builder(this);
+            mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
+                if (mRecordsViewModel != null) {
+                    mRecordsViewModel.deletePlan();
+                    onBackPressed();
+                }
+            });
+            mDeleteDialogBuilder.setNegativeButton(R.string.delete_sure, (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+            });
+            mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
+        }
+
+        mDeleteDialogBuilder.show();
     }
 }

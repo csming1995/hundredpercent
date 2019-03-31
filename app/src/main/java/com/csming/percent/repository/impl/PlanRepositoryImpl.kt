@@ -45,4 +45,8 @@ class PlanRepositoryImpl @Inject constructor(
         planDao.updatePlan(planId, title, description, color)
     }
 
+    override fun deletePlan(planId: Int) {
+        planDao.deleteByPlanId(planId)
+    }
+
 }

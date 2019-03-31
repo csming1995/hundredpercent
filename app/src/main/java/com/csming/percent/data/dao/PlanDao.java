@@ -35,4 +35,7 @@ public interface PlanDao {
 
     @Query("UPDATE plans SET title = :title, description = :description, color = :color WHERE id = :planId")
     void updatePlan(int planId, String title, String description, int color);
+
+    @Query("DELETE FROM plans WHERE id = :planId")
+    void deleteByPlanId(int planId);
 }
