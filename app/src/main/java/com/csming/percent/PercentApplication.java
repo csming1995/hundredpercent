@@ -1,6 +1,8 @@
 package com.csming.percent;
 
 import com.csming.percent.di.DaggerAppComponent;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
@@ -18,6 +20,13 @@ public class PercentApplication extends DaggerApplication {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
+
+        UMConfigure.init(
+                this,
+                BuildConfig.DEBUG ? getString(R.string.umeng_appkey_debug) : getString(R.string.umeng_appkey_release),
+                "Normal", UMConfigure.DEVICE_TYPE_PHONE, null);
+        MobclickAgent.setScenarioType(this, MobclickAgent.EScenarioType.E_UM_NORMAL);
+
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.csming.percent.record;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +12,7 @@ import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -85,7 +81,14 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AnalyticsUtil.onResume(this);
         initData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
     }
 
     @Override

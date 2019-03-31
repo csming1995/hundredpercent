@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.widget.AutofitRecyclerView;
-import com.csming.percent.data.vo.Plan;
 import com.csming.percent.plan.adapter.ColorSelectAdapter;
 import com.csming.percent.plan.viewmodel.AddPlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
@@ -25,10 +25,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.ColumnInfo;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -77,6 +75,18 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         initViewModel();
         initView();
         initColorPanel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AnalyticsUtil.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
     }
 
     @Override

@@ -3,24 +3,15 @@ package com.csming.percent.setting;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.AnalyticsUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +48,18 @@ public class SettingActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AnalyticsUtil.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
     }
 
     @Override
@@ -134,7 +137,7 @@ public class SettingActivity extends AppCompatActivity {
             emailIntent.setAction(Intent.ACTION_SEND);
             emailIntent.setType("message/rfc822");
             emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
-                    new String[] { getString(R.string.setting_about_email) });
+                    new String[]{getString(R.string.setting_about_email)});
             emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                     getString(R.string.setting_email_subject));
             // FOLLOWING STATEMENT CHECKS WHETHER THERE IS ANY APP THAT CAN HANDLE OUR EMAIL INTENT

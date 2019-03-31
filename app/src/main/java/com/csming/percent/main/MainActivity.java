@@ -5,6 +5,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.csming.percent.R;
+import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.ApplicationConfig;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.main.adapter.PlanListAdapter;
@@ -54,7 +55,14 @@ public class MainActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AnalyticsUtil.onResume(this);
         initData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
     }
 
     @Override

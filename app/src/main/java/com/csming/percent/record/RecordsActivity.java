@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
-import com.csming.percent.data.vo.Record;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
@@ -75,7 +75,14 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        AnalyticsUtil.onResume(this);
         initData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
     }
 
     @Override
