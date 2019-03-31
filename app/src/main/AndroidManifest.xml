@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.csming.percent">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".PercentApplication"
         android:allowBackup="false"
@@ -10,13 +15,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".main.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".plan.AddPlanActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".record.RecordsActivity"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".record.AddRecordActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <activity android:name=".setting.SettingActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="868808f6bc934bbee3139132634331f7a295f258" />
     </application>
 
 </manifest>

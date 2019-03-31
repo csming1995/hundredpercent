@@ -20,14 +20,15 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         
     }
 }
 
 ext {
     // App version
-    versionName = '0.1.0' // X.Y.Z; X = Major, Y = minor, Z = Patch level
-    versionCode = 01000 // XYZZM; M = Module (tv, mobile)
+    versionName = '1.0.0' // X.Y.Z; X = Major, Y = minor, Z = Patch level
+    versionCode = 10000 // XYZZM; M = Module (tv, mobile)
 
     // SDK and tools
     compileSdkVersion = 28
@@ -40,12 +41,15 @@ ext {
     materialVersion = '1.0.0'
 
     lifecycleVersion = '2.0.0'
+    roomVersion = '2.1.0-alpha06'
 
     dagger = "2.16"
 
     timberVersion = "4.7.0"
 
     gsonVersion = "2.8.5"
+
+    circleVersion = "3.0.0"
 }
 
 task clean(type: Delete) {

@@ -1,3 +1,58 @@
 <resources>
-    <string name="app_name">Hundred percent</string>
+    <string name="app_name">HunPercent</string>
+
+    <string name="umeng_appkey_debug">5ca0b23661f5644646000d08</string>
+    <string name="umeng_appkey_release">5ca0b75a2036573e06000225</string>
+
+    <string name="first_plan_title">Todo</string>
+    <string name="first_plan_description">First TodoList</string>
+
+    <string name="title_plan">计划清单</string>
+    <string name="plans_empty">暂无计划, 快添加一个新计划吧</string>
+
+    <string name="title_add_plan">添加计划</string>
+    <string name="title_edit_plan">编辑计划</string>
+    <string name="add_plan_title">标题</string>
+    <string name="add_plan_description">简介(Nice To Have)</string>
+    <string name="update_plan_result_success">计划更新成功</string>
+    <string name="post_plan_result_success">计划发布成功</string>
+    <string name="post_plan_result_title_null">为你的新计划取个好名字吧</string>
+    <string name="post_plan_result_plan_exist">计划已存在</string>
+
+    <string name="title_add_record">添加事项</string>
+    <string name="title_edit_record">编辑事项</string>
+    <string name="add_record_title">简述</string>
+    <string name="add_record_description">详情(Nice To Have)</string>
+    <string name="update_record_result_success">事项更新成功</string>
+    <string name="post_record_result_success">事项添加成功</string>
+    <string name="post_record_result_title_null">简述不可为空</string>
+
+    <string name="title_records">事项</string>
+    <string name="records_empty">暂无事项, 快添加一个新事项吧~</string>
+
+    <string name="transition_add_add_plan">transition_add_add_plan</string>
+
+    <!--Setting-->
+    <string name="title_setting">关于</string>
+
+    <string name="setting_about">关于作者</string>
+    <string name="setting_about_author">-陈烧面</string>
+    <string name="setting_about_email">yahaha.2019@gmail.com</string>
+    <string name="setting_about_content">发份邮件反馈问题, 和作者一起完善这个作品吧~</string>
+    <string name="setting_email_subject">"百分百"的意见反馈</string>
+
+    <string name="setting_update">检测更新</string>
+    <string name="setting_update_content">今天天气很好</string>
+
+    <!--StatusLayout-->
+    <string name="str_empty">数据为空</string>
+    <string name="str_net_error">你已进入没有网络的异次元</string>
+    <string name="str_loading">正在加载...请耐心等待</string>
+    <string name="str_btn_click">再次刷新</string>
+    <string name="str_there_has_nothing">这里什么都没有</string>
+
+    <string name="delete">删除</string>
+    <string name="delete_dialog_message">确定删除该计划吗</string>
+    <string name="delete_sure">确定</string>
+    <string name="delete_cancel">取消</string>
 </resources>

@@ -1,0 +1,239 @@
+package com.csming.percent.plan;
+
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.csming.percent.R;
+import com.csming.percent.SlideTouchEventListener;
+import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.widget.AutofitRecyclerView;
+import com.csming.percent.plan.adapter.ColorSelectAdapter;
+import com.csming.percent.plan.viewmodel.AddPlanViewModel;
+import com.csming.percent.plan.vo.ColorEntity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import dagger.android.support.DaggerAppCompatActivity;
+
+/**
+ * @author Created by csming on 2019/3/29.
+ */
+public class AddPlanActivity extends DaggerAppCompatActivity {
+
+    private static final String EXTRA_TAG_IS_EDIT = "EXTRA_TAG_IS_EDIT";
+    private static final String EXTRA_TAG_PLAN_ID = "EXTRA_TAG_PLAN_ID";
+
+    public static Intent getIntent(Context context) {
+        return new Intent(context, AddPlanActivity.class);
+    }
+
+    public static Intent getIntent(Context context, boolean isEdit, int planId) {
+        Intent intent = new Intent(context, AddPlanActivity.class);
+        intent.putExtra(EXTRA_TAG_IS_EDIT, isEdit);
+        intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
+        return intent;
+    }
+
+    private LinearLayout mLlRoot;
+    private FloatingActionButton mFabAdd;
+    private EditText mEtTitle;
+    private EditText mEtDescription;
+
+    private ObjectAnimator mObjectAnimatorCardPanelEnter;
+    private ObjectAnimator mObjectAnimatorFabEnter;
+
+    private SlideTouchEventListener mSlideTouchEventListener;
+
+    @Inject
+    ViewModelProvider.Factory factory;
+
+    private AddPlanViewModel mAddPlanViewModel;
+
+    private boolean isEdit;
+
+    private ColorSelectAdapter mColorSelectAdapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_plan);
+
+        initViewModel();
+        initView();
+        initColorPanel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AnalyticsUtil.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AnalyticsUtil.onPause(this);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mSlideTouchEventListener != null) {
+            mSlideTouchEventListener.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
+
+
+    private void initAnimator() {
+        int heightCardPanel = mLlRoot.getMeasuredHeight();
+        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
+        mObjectAnimatorCardPanelEnter.setDuration(300);
+
+        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
+        mObjectAnimatorFabEnter.setDuration(400);
+    }
+
+    private void initView() {
+        mLlRoot = findViewById(R.id.ll_root);
+        mFabAdd = findViewById(R.id.fab_add);
+
+        mEtTitle = findViewById(R.id.et_title);
+        mEtDescription = findViewById(R.id.et_description);
+
+        mLlRoot.post(() -> {
+            initAnimator();
+
+            mObjectAnimatorCardPanelEnter.start();
+            mObjectAnimatorFabEnter.start();
+        });
+
+        mFabAdd.setOnClickListener(v -> {
+            if (!isEdit) {
+                int result = mAddPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddPlanViewModel.STATE_POST_SUCCESS: {
+                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_POST_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_POST_PLAN_EXIST: {
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                int result = mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddPlanViewModel.STATE_UPDATE_SUCCESS: {
+                        Toast.makeText(this, R.string.update_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_UPDATE_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_UPDATE_PLAN_EXIST: {
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        mSlideTouchEventListener = new SlideTouchEventListener() {
+            @Override
+            public void onTouchUp() {
+            }
+
+            @Override
+            public void onTouchDown() {
+                onBackPressed();
+            }
+
+            @Override
+            public void onTouchLeft() {
+            }
+
+            @Override
+            public void onTouchRight() {
+            }
+        };
+        mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
+    }
+
+    /**
+     * 初始化颜料盘
+     */
+    private void initColorPanel() {
+        AutofitRecyclerView rvColorSelectList;
+        List<ColorEntity> mColorEntities;
+
+        rvColorSelectList = findViewById(R.id.rv_color_select_list);
+        rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
+
+        // 颜色数据
+        mColorEntities = new ArrayList<>();
+        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+            ColorEntity colorEntity = new ColorEntity();
+            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
+            mColorEntities.add(colorEntity);
+        }
+        mColorSelectAdapter = new ColorSelectAdapter(mColorEntities);
+        rvColorSelectList.setAdapter(mColorSelectAdapter);
+        mColorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
+            int color = getResources().getColor(colorEntity.getColorValue());
+            mAddPlanViewModel.setColor(color);
+        });
+    }
+
+    private void initViewModel() {
+        mAddPlanViewModel = ViewModelProviders.of(this, factory).get(AddPlanViewModel.class);
+        mAddPlanViewModel.setColor(getResources().getColor(ColorEntity.COLOR_VALUES[0]));
+
+        isEdit = getIntent().getBooleanExtra(EXTRA_TAG_IS_EDIT, false);
+        if (isEdit) {
+            mAddPlanViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
+            mAddPlanViewModel.getPlan().observe(this, plan -> {
+                mEtTitle.setText(plan.getTitle());
+                mEtDescription.setText(plan.getDescription());
+                mAddPlanViewModel.setColor(plan.getColor());
+                for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+                    if (getResources().getColor(ColorEntity.COLOR_VALUES[index]) == plan.getColor()) {
+                        mColorSelectAdapter.setSelectIndex(index);
+                        break;
+                    }
+                }
+            });
+        }
+        ((TextView)findViewById(R.id.tv_title)).setText(isEdit ? R.string.title_edit_plan: R.string.title_add_plan);
+
+    }
+}
