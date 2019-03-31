@@ -1,6 +1,8 @@
 package com.csming.percent.main;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.csming.percent.R;
 import com.csming.percent.common.ApplicationConfig;
@@ -15,7 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,13 +27,14 @@ import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
-    private CardView mCvTitle;
     private StatusLayout mStatusLayout;
     private RecyclerView mRvPlans;
     private LinearLayoutManager mLinearLayoutManager;
     private PlanListAdapter mAdapterPlans;
 
     private FloatingActionButton mFabAddPlan;
+
+    private Toolbar toolbar;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -43,6 +47,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initToolBar();
         initView();
     }
 
@@ -52,8 +57,39 @@ public class MainActivity extends DaggerAppCompatActivity {
         initData();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_info) {
+            startActivity(SettingActivity.getIntent(this));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 初始化ToolBar
+     */
+    private void initToolBar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setTitle(null);
+        }
+
+    }
+
     private void initView() {
-        mCvTitle = findViewById(R.id.cv_title);
         mStatusLayout = findViewById(R.id.status_layout);
         mRvPlans = findViewById(R.id.rv_plans);
         mFabAddPlan = findViewById(R.id.fab_add_plan);

@@ -4,7 +4,7 @@
     <string name="first_plan_title">Todo</string>
     <string name="first_plan_description">First TodoList</string>
 
-    <string name="title_plan">计划</string>
+    <string name="title_plan">计划清单</string>
     <string name="plans_empty">计划为空, 规划一个新计划吧</string>
 
     <string name="title_add_plan">添加计划</string>

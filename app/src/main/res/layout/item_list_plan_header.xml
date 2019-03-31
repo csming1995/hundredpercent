@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
@@ -28,18 +28,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/title_plan"
                 android:textColor="@color/color_ffffff"
                 android:textSize="16dp" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="12dp"
-                app:srcCompat="@drawable/ic_info" />
+            <!--<androidx.appcompat.widget.AppCompatImageView-->
+            <!--android:layout_width="16dp"-->
+            <!--android:layout_height="16dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--app:srcCompat="@drawable/ic_info" />-->
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
