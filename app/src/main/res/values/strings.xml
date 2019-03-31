@@ -34,8 +34,12 @@
 
     <string name="setting_about">关于作者</string>
     <string name="setting_about_author">-陈烧面</string>
-    <string name="setting_about_gmail">yahaha.2019@gmail.com</string>
-    <string name="setting_about_content">欢迎邮件反馈, 和作者交个朋友吧~</string>
+    <string name="setting_about_email">yahaha.2019@gmail.com</string>
+    <string name="setting_about_content">发邮件反馈问题, 和作者交个朋友, 一起完善这个作品吧~</string>
+    <string name="setting_email_subject">"百分百"的意见反馈</string>
+
+    <string name="setting_update">检测更新</string>
+    <string name="setting_update_content">今天天气很好</string>
 
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>

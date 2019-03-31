@@ -92,6 +92,7 @@
                             android:src="@drawable/avatar" />
 
                         <LinearLayout
+                            android:id="@+id/ll_goto_weibo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -111,12 +112,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
+                                android:layout_marginEnd="20dp"
                                 android:text="@string/setting_about_author"
-                                android:textColor="@color/color_111111"
+                                android:textColor="@color/color_424242"
                                 android:textSize="13dp" />
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/ll_goto_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -136,8 +139,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="8dp"
-                                android:text="@string/setting_about_gmail"
-                                android:textColor="@color/color_111111"
+                                android:layout_marginEnd="20dp"
+                                android:text="@string/setting_about_email"
+                                android:textColor="@color/color_424242"
                                 android:textSize="13dp" />
                         </LinearLayout>
 
@@ -152,10 +156,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
                                 android:layout_marginTop="8dp"
                                 android:layout_marginBottom="5dp"
                                 android:text="@string/setting_about_content"
-                                android:textColor="@color/color_111111"
+                                android:textColor="@color/color_424242"
                                 android:textSize="13dp" />
                         </LinearLayout>
 
@@ -183,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginBottom="4dp"
-                            android:text="检测更新"
+                            android:text="@string/setting_update"
                             android:textColor="@color/color_111111"
                             android:textSize="15dp" />
 
@@ -192,8 +197,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginBottom="5dp"
-                            android:text="今晚月色很美,新写了几个bug"
-                            android:textColor="@color/color_111111"
+                            android:text="@string/setting_update_content"
+                            android:textColor="@color/color_424242"
                             android:textSize="13dp" />
                     </LinearLayout>
 

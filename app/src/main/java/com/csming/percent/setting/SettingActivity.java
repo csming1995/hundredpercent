@@ -3,8 +3,13 @@ package com.csming.percent.setting;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,6 +19,8 @@ import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +36,9 @@ public class SettingActivity extends AppCompatActivity {
 
     private LinearLayout mLlRoot;
     private FloatingActionButton mFabClose;
+
+    private LinearLayout mLlGotoWeibo;
+    private LinearLayout mLlGotoEmail;
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
@@ -76,6 +86,9 @@ public class SettingActivity extends AppCompatActivity {
         mLlRoot = findViewById(R.id.ll_root);
         mFabClose = findViewById(R.id.fab_close);
 
+        mLlGotoWeibo = findViewById(R.id.ll_goto_weibo);
+        mLlGotoEmail = findViewById(R.id.ll_goto_email);
+
         mLlRoot.post(() -> {
             initAnimator();
 
@@ -106,5 +119,28 @@ public class SettingActivity extends AppCompatActivity {
             }
         };
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
+
+        mLlGotoWeibo.setOnClickListener(view -> {
+            Uri uri = Uri.parse("https://m.weibo.cn/u/1956533563?uid=1956533563");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+        mLlGotoEmail.setOnClickListener(view -> {
+//            Uri uri = Uri.parse(getString(R.string.setting_about_email));
+//            Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+//            startActivity(it);
+
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setAction(Intent.ACTION_SEND);
+            emailIntent.setType("message/rfc822");
+            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                    new String[] { getString(R.string.setting_about_email) });
+            emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                    getString(R.string.setting_email_subject));
+            // FOLLOWING STATEMENT CHECKS WHETHER THERE IS ANY APP THAT CAN HANDLE OUR EMAIL INTENT
+            startActivity(Intent.createChooser(emailIntent, "Send Email Using: "));
+        });
+
+
     }
 }

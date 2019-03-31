@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -136,8 +137,10 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private void setFinish(boolean finish) {
             if (finish) {
                 mTvTitle.setPaintFlags(mTvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                mTvTitle.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_424242));
             } else {
                 mTvTitle.setPaintFlags(mTvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                mTvTitle.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_424242));
             }
             mTbFinish.setChecked(finish);
         }
