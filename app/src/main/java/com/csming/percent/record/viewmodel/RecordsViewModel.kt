@@ -54,12 +54,12 @@ class RecordsViewModel @Inject constructor(
     fun delete(record: Record) {
         recordRepository.delete(record)
         plan!!.count--
-        plan!!.finished--
-        planLiveData.value = plan
-        planRepository.updatePlanCount(mPlanId, plan!!.count - 1)
+        planRepository.updatePlanCount(mPlanId, plan!!.count)
         if (record.isFinish) {
-            planRepository.updatePlanFinished(mPlanId, plan!!.finished - 1)
+            plan!!.finished--
+            planRepository.updatePlanFinished(mPlanId, plan!!.finished)
         }
+        planLiveData.value = plan
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {

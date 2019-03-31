@@ -12,12 +12,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
-import com.csming.percent.record.viewmodel.RecordsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -34,13 +34,29 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     private static final String EXTRA_TAG_PLAN_ID = "EXTRA_TAG_PLAN_ID";
 
+    private static final String EXTRA_TAG_IS_EDIT = "EXTRA_TAG_IS_EDIT";
+    private static final String EXTRA_TAG_RECORD_ID = "EXTRA_TAG_RECORD_ID";
+    private static final String EXTRA_TAG_TITLE = "EXTRA_TAG_TITLE";
+    private static final String EXTRA_TAG_DESCRIPTION = "EXTRA_TAG_IS_DESCRIPTION";
+
     public static Intent getIntent(Context context, int planId) {
         Intent intent = new Intent(context, AddRecordActivity.class);
         intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
         return intent;
     }
 
+    public static Intent getIntent(Context context, int planId, boolean isEdit, int recordId, String title, String description) {
+        Intent intent = new Intent(context, AddRecordActivity.class);
+        intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
+        intent.putExtra(EXTRA_TAG_IS_EDIT, isEdit);
+        intent.putExtra(EXTRA_TAG_RECORD_ID, recordId);
+        intent.putExtra(EXTRA_TAG_TITLE, title);
+        intent.putExtra(EXTRA_TAG_DESCRIPTION, description);
+        return intent;
+    }
+
     private LinearLayout mLlRoot;
+    private TextView mTvTitle;
     private FloatingActionButton mFabAdd;
 
     private EditText mEtTitle;
@@ -55,6 +71,8 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     ViewModelProvider.Factory factory;
 
     private AddRecordViewModel mAddRecordViewModel;
+
+    private boolean isEdit = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +121,7 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
+        mTvTitle = findViewById(R.id.tv_title);
         mFabAdd = findViewById(R.id.fab_add);
 
         mEtTitle = findViewById(R.id.et_title);
@@ -116,18 +135,34 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            int result = mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            switch (result) {
-                case AddRecordViewModel.STATE_POST_SUCCESS: {
-                    Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                    break;
+            if (!isEdit) {
+                int result = mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddRecordViewModel.STATE_POST_SUCCESS: {
+                        Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddRecordViewModel.STATE_POST_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                 }
-                case AddRecordViewModel.STATE_POST_TITLE_NULL: {
-                    Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
-                    break;
+            } else {
+                int result = mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddRecordViewModel.STATE_UPDATE_SUCCESS: {
+                        Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddRecordViewModel.STATE_UPDATE_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                 }
             }
+
         });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
@@ -158,5 +193,16 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     private void initData() {
         mAddRecordViewModel = ViewModelProviders.of(this, factory).get(AddRecordViewModel.class);
         mAddRecordViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
+
+        isEdit = getIntent().getBooleanExtra(EXTRA_TAG_IS_EDIT, false);
+        if (isEdit) {
+            mAddRecordViewModel.setRecordId(getIntent().getIntExtra(EXTRA_TAG_RECORD_ID, 0));
+            String title = getIntent().getStringExtra(EXTRA_TAG_TITLE);
+            String description = getIntent().getStringExtra(EXTRA_TAG_DESCRIPTION);
+            mEtTitle.setText(title);
+            mEtDescription.setText(description);
+        }
+
+        mTvTitle.setText(isEdit ? R.string.title_edit_record: R.string.title_add_record);
     }
 }

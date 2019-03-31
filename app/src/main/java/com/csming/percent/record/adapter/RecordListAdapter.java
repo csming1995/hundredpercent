@@ -1,4 +1,4 @@
-package com.csming.percent.main.adapter;
+package com.csming.percent.record.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,6 +24,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Record> records;
 
+    private OnItemClickListener mOnItemClickListener;
     private OnItemDeleteClickListener mOnItemDeleteClickListener;
     private OnFinishChangeListener mOnFinishChangeListener;
 
@@ -40,12 +41,20 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, Record record);
+    }
+
     public void setOnItemDeleteClickListener(OnItemDeleteClickListener onLongClickListener) {
         this.mOnItemDeleteClickListener = onLongClickListener;
     }
 
     public interface OnItemDeleteClickListener {
-        void onItemLongClick(View view, int position, Record record);
+        void onItemDeleteClick(View view, int position, Record record);
     }
 
     public void setOnFinishChangeListener(OnFinishChangeListener onFinishChangeListener) {
@@ -71,8 +80,13 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((RecordNormalViewHolder)holder).setTitle(record.getTitle());
             ((RecordNormalViewHolder)holder).setFinish(record.isFinish());
             ((RecordNormalViewHolder)holder).setOnClickListener(view -> {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, position, record);
+                }
+            });
+            ((RecordNormalViewHolder)holder).setOnDeleteClickListener(view -> {
                 if (mOnItemDeleteClickListener != null) {
-                    mOnItemDeleteClickListener.onItemLongClick(view, position, record);
+                    mOnItemDeleteClickListener.onItemDeleteClick(view, position, record);
                 }
             });
             ((RecordNormalViewHolder)holder).setToggerOnClickListener(view -> {
@@ -106,6 +120,10 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         private void setOnClickListener(View.OnClickListener onClickListener) {
+            itemView.setOnClickListener(onClickListener);
+        }
+
+        private void setOnDeleteClickListener(View.OnClickListener onClickListener) {
             mFlDelete.setOnClickListener(onClickListener);
         }
 

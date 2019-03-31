@@ -36,4 +36,8 @@ class RecordRepositoryImpl @Inject constructor(
         recordDao.updateRecordFinish(record.id, finish)
     }
 
+    override fun updateRecord(recordId: Int, title: String, description: String) {
+        recordDao.updateRecord(recordId, title, description)
+    }
+
 }

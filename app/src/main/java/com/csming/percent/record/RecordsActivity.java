@@ -5,44 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
-import com.csming.percent.data.vo.Plan;
 import com.csming.percent.data.vo.Record;
-import com.csming.percent.main.adapter.RecordListAdapter;
-import com.csming.percent.main.viewmodel.MainViewModel;
+import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.widget.PopupWindowCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.DaggerAppCompatActivity;
-import timber.log.Timber;
 
 /**
  * @author Created by csming on 2019/3/29.
@@ -179,6 +163,11 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRvRecords.setLayoutManager(mLinearLayoutManager);
         mRvRecords.setAdapter(mAdapterRecord);
+
+        mAdapterRecord.setOnItemClickListener((view, position, record) -> {
+            startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId(), true, record.id, record.getTitle(), record.getDescription()));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
 
         mAdapterRecord.setOnItemDeleteClickListener((view, position, record) -> {
             mRecordsViewModel.delete(record);

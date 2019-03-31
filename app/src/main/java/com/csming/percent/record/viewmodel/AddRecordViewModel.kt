@@ -16,9 +16,14 @@ class AddRecordViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var mPlanId: Int = 0
+    private var mRecordId: Int = 0
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
+    }
+
+    fun setRecordId(recordId: Int) {
+        this.mRecordId = recordId
     }
 
     fun getPlanId(): Int {
@@ -37,8 +42,17 @@ class AddRecordViewModel @Inject constructor(
         return STATE_POST_SUCCESS
     }
 
+    fun updateRecord(title: String, description: String): Int {
+        if (TextUtils.isEmpty(title)) return STATE_UPDATE_TITLE_NULL
+        recordRepository.updateRecord(mRecordId, title, description)
+        return STATE_UPDATE_SUCCESS
+    }
+
     companion object {
         const val STATE_POST_SUCCESS = 1
         const val STATE_POST_TITLE_NULL = 2
+
+        const val STATE_UPDATE_SUCCESS = 1
+        const val STATE_UPDATE_TITLE_NULL = 2
     }
 }

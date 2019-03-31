@@ -1,5 +1,6 @@
 package com.csming.percent.repository
 
+import android.util.EventLogTags
 import androidx.lifecycle.LiveData
 import com.csming.percent.data.vo.Record
 
@@ -17,4 +18,6 @@ interface RecordRepository {
     fun delete(record: Record)
 
     fun updateRecordFinish(record: Record, finish: Boolean)
+
+    fun updateRecord(recordId: Int, title: String, description: String)
 }
