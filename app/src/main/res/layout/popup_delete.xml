@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/popup_delete"
+            android:text="@string/delete"
             android:textColor="@color/color_ffffff"
             android:textSize="16dp" />
     </FrameLayout>

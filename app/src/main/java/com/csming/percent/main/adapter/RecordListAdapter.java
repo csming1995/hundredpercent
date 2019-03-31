@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.csming.percent.R;
@@ -22,7 +23,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<Record> records;
 
-    private OnItemLongClickListener mOnLongClickListener;
+    private OnItemDeleteClickListener mOnLongClickListener;
 
     public RecordListAdapter() {
         super();
@@ -37,11 +38,11 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    public void setOnItemLongClickListener(OnItemLongClickListener onLongClickListener) {
+    public void setOnItemDeleteClickListener(OnItemDeleteClickListener onLongClickListener) {
         this.mOnLongClickListener = onLongClickListener;
     }
 
-    public interface OnItemLongClickListener {
+    public interface OnItemDeleteClickListener {
         void onItemLongClick(View view, int position, Record record);
     }
 
@@ -58,11 +59,10 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Record record = records.get(position);
         if (record != null) {
             ((RecordNormalViewHolder)holder).setTitle(record.getTitle());
-            ((RecordNormalViewHolder)holder).setOnLongClickListener(view -> {
+            ((RecordNormalViewHolder)holder).setOnClickListener(view -> {
                 if (mOnLongClickListener != null) {
                     mOnLongClickListener.onItemLongClick(view, position, record);
                 }
-                return true;
             });
         }
     }
@@ -75,18 +75,20 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static class RecordNormalViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mTvTitle;
+        private FrameLayout mFlDelete;
 
         private RecordNormalViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvTitle = itemView.findViewById(R.id.tv_title);
+            mFlDelete = itemView.findViewById(R.id.fl_delete);
         }
 
         private void setTitle(String title) {
             mTvTitle.setText(title);
         }
 
-        private void setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
-            itemView.setOnLongClickListener(onLongClickListener);
+        private void setOnClickListener(View.OnClickListener onClickListener) {
+            mFlDelete.setOnClickListener(onClickListener);
         }
     }
 }

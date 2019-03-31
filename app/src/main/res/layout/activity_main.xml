@@ -30,4 +30,10 @@
         app:backgroundTint="@color/color_000000"
         app:rippleColor="@color/color_000000" />
 
+    <com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView
+        android:id="@+id/slide_item"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+    </com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView>
+
 </FrameLayout>

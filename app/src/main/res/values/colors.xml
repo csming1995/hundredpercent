@@ -70,4 +70,6 @@
     <color name="color_select_52">#607D8B</color>
     <color name="color_select_53">#546E7A</color>
     <color name="color_select_54">#455A64</color>
+
+    <color name="color_delete">@color/color_F4511E</color>
 </resources>

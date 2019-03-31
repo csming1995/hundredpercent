@@ -2,26 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:paddingStart="12dp"
-    android:paddingEnd="8dp"
-    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="40dp"
-        android:text="今天你学习了吗"
-        android:layout_gravity="center"
-        android:gravity="center|left"/>
-
-    <androidx.appcompat.widget.AppCompatRadioButton
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingStart="12dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="今天你学习了吗" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_delete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/color_delete"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/delete"
+            android:textColor="@color/color_ffffff"
+            android:textSize="16dp" />
+
+    </FrameLayout>
 
 </LinearLayout>

@@ -61,11 +61,11 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView
                     android:id="@+id/rv_records"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                </androidx.recyclerview.widget.RecyclerView>
+                </com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView>
             </com.csming.percent.common.widget.statuslayout.StatusLayout>
 
 
