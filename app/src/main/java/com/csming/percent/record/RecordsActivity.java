@@ -237,7 +237,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
                     onBackPressed();
                 }
             });
-            mDeleteDialogBuilder.setNegativeButton(R.string.delete_sure, (dialogInterface, i) -> {
+            mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {
                 dialogInterface.dismiss();
             });
             mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
