@@ -25,16 +25,29 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginEnd="20dp"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="啊啊啊啊"
             android:textColor="@color/color_ffffff"
             android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:text="111"
+            android:textColor="@color/color_ffffff" />
 
     </LinearLayout>
 

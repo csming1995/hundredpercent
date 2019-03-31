@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * @author Created by csming on 2018/10/3.
  */
-
+// FIXME 一些数据库操作优化至异步线程
 class RecordsViewModel @Inject constructor(
         private val planRepository: PlanRepository,
         private val recordRepository: RecordRepository
@@ -22,14 +22,21 @@ class RecordsViewModel @Inject constructor(
     private var mPlanTitle: String = ""
 
     private var plan: Plan? = null
+    private var planLiveData = MutableLiveData<Plan>()
+
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
         plan = planRepository.findPlan(planId)
+        planLiveData.value = plan
     }
 
     fun getPlanId(): Int {
         return this.mPlanId
+    }
+
+    fun getPlan(): LiveData<Plan> {
+        return planLiveData
     }
 
     fun setPlanTitle(title: String) {
@@ -48,17 +55,18 @@ class RecordsViewModel @Inject constructor(
         recordRepository.delete(record)
         plan!!.count--
         plan!!.finished--
+        planLiveData.value = plan
         planRepository.updatePlanCount(mPlanId, plan!!.count - 1)
         if (record.isFinish) {
             planRepository.updatePlanFinished(mPlanId, plan!!.finished - 1)
         }
-
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {
         if (record.isFinish == finish) return
         recordRepository.updateRecordFinish(record, finish)
         plan!!.finished = if (finish) plan!!.finished + 1 else plan!!.finished - 1
+        planLiveData.value = plan
         planRepository.updatePlanFinished(mPlanId, plan!!.finished)
     }
 

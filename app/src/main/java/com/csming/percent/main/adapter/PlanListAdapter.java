@@ -81,6 +81,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (plan != null) {
                 ((PlanNormalViewHolder)holder).setBackground(plan.getColor());
                 ((PlanNormalViewHolder)holder).setTitle(plan.getTitle());
+                ((PlanNormalViewHolder)holder).setProgress(plan.getCount(), plan.getFinished());
                 ((PlanNormalViewHolder)holder).setOnClickListener(view -> {
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(view, position - 1, plan);
@@ -114,11 +115,13 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private CardView mCvItem;
         private TextView mTvTitle;
+        private TextView mTvProgress;
 
         PlanNormalViewHolder(@NonNull View itemView) {
             super(itemView);
             mCvItem = itemView.findViewById(R.id.cv_item);
             mTvTitle = itemView.findViewById(R.id.tv_title);
+            mTvProgress = itemView.findViewById(R.id.tv_progress);
         }
 
         private void setBackground(int color) {
@@ -127,6 +130,10 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         private void setTitle(String title) {
             mTvTitle.setText(title);
+        }
+
+        private void setProgress(int count, int finished) {
+            mTvProgress.setText(finished + "/" + count);
         }
 
         private void setOnClickListener(View.OnClickListener onClickListener) {

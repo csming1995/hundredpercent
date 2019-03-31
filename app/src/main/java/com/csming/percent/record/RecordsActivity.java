@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +21,7 @@ import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
+import com.csming.percent.data.vo.Plan;
 import com.csming.percent.data.vo.Record;
 import com.csming.percent.main.adapter.RecordListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
@@ -63,10 +65,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private CardView mCvTitle;
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
+    private TextView mTvProgress;
+    private TextView mTvDescription;
     private FloatingActionButton mFabAdd;
-
-//    private PopupWindow mPopupWindowDelete;
-//    private FrameLayout mFlPopupDelete;
 
     private SlideRecyclerView mRvRecords;
     private LinearLayoutManager mLinearLayoutManager;
@@ -76,8 +77,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
-
-//    private List<Record> records;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -134,6 +133,8 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mCvTitle = findViewById(R.id.cv_title);
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
+        mTvProgress = findViewById(R.id.tv_progress);
+        mTvDescription = findViewById(R.id.tv_description);
         mFabAdd = findViewById(R.id.fab_add_record);
         mRvRecords = findViewById(R.id.rv_records);
 
@@ -204,6 +205,18 @@ public class RecordsActivity extends DaggerAppCompatActivity {
                 mStatusLayout.showNormalView();
             } else {
                 mStatusLayout.showEmptyMessageView();
+            }
+        });
+
+        mRecordsViewModel.getPlan().observe(this, plan -> {
+            if (plan != null) {
+                mTvProgress.setText(plan.getFinished() + "/" + plan.getCount());
+                if (TextUtils.isEmpty(plan.getDescription())){
+                    mTvDescription.setVisibility(View.GONE);
+                } else {
+                    mTvDescription.setVisibility(View.VISIBLE);
+                }
+                mTvDescription.setText(plan.getDescription());
             }
         });
 

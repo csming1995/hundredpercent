@@ -116,7 +116,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         if (ApplicationConfig.getIsFirstIn(this)) {
             mMainViewModel.initPlan(
                     getResources().getString(R.string.first_plan_title),
-                    getResources().getString(R.string.first_plan_description),
+                    "",
                     getResources().getColor(ColorEntity.COLOR_VALUES[0])
             );
             ApplicationConfig.setIsFirstIn(this);
