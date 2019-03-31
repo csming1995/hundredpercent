@@ -28,3 +28,8 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**

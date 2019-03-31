@@ -16,7 +16,7 @@
     <string name="add_plan_description">简介(Nice To Have)</string>
     <string name="update_plan_result_success">计划更新成功</string>
     <string name="post_plan_result_success">计划发布成功</string>
-    <string name="post_plan_result_title_null">为新计划取个好名字吧</string>
+    <string name="post_plan_result_title_null">为你的新计划取个好名字吧</string>
     <string name="post_plan_result_plan_exist">计划已存在</string>
 
     <string name="title_add_record">添加事项</string>
@@ -28,7 +28,7 @@
     <string name="post_record_result_title_null">简述不可为空</string>
 
     <string name="title_records">事项</string>
-    <string name="records_empty">事项为空, 为计划添加一个新事项</string>
+    <string name="records_empty">暂无事项, 快添加一个新事项吧~</string>
 
     <string name="transition_add_add_plan">transition_add_add_plan</string>
 
@@ -38,7 +38,7 @@
     <string name="setting_about">关于作者</string>
     <string name="setting_about_author">-陈烧面</string>
     <string name="setting_about_email">yahaha.2019@gmail.com</string>
-    <string name="setting_about_content">发邮件反馈问题, 和作者交个朋友, 一起完善这个作品吧~</string>
+    <string name="setting_about_content">发份邮件反馈问题, 和作者一起完善这个作品吧~</string>
     <string name="setting_email_subject">"百分百"的意见反馈</string>
 
     <string name="setting_update">检测更新</string>

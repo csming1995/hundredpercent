@@ -15,7 +15,7 @@ public interface RecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Record record);
 
-    @Query("SELECT * FROM records WHERE plan_id = :planId")
+    @Query("SELECT * FROM records WHERE plan_id = :planId ORDER BY id DESC")
     LiveData<List<Record>> loadRecords(int planId);
 
     @Query("SELECT count(id) FROM records")

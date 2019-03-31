@@ -4,19 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.csming.percent.R;
 import com.csming.percent.data.vo.Plan;
-import com.csming.percent.plan.adapter.ColorSelectAdapter;
-import com.csming.percent.plan.vo.ColorEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +23,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private int ITEM_TYPE_NORMAL = 1;
     private int ITEM_TYPE_HEADER = 2;
+    private int ITEM_TYPE_FOOTER = 3;
 
     private List<Plan> plans;
 
@@ -78,6 +75,9 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (viewType == ITEM_TYPE_HEADER) {
             View view = layoutInflater.inflate(R.layout.item_list_plan_header, parent, false);
             return new HeaderViewHolder(view);
+        } else if (viewType == ITEM_TYPE_FOOTER) {
+            View view = layoutInflater.inflate(R.layout.item_list_plan_footer, parent, false);
+            return new FooterViewHolder(view);
         } else {
             View view = layoutInflater.inflate(R.layout.item_list_plan, parent, false);
             return new PlanNormalViewHolder(view);
@@ -89,23 +89,23 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
             Plan plan = plans.get(position - 1);
             if (plan != null) {
-                ((PlanNormalViewHolder)holder).setBackground(plan.getColor());
-                ((PlanNormalViewHolder)holder).setTitle(plan.getTitle());
-                ((PlanNormalViewHolder)holder).setProgress(plan.getCount(), plan.getFinished());
-                ((PlanNormalViewHolder)holder).setOnClickListener(view -> {
+                ((PlanNormalViewHolder) holder).setBackground(plan.getColor());
+                ((PlanNormalViewHolder) holder).setTitle(plan.getTitle());
+                ((PlanNormalViewHolder) holder).setProgress(plan.getCount(), plan.getFinished());
+                ((PlanNormalViewHolder) holder).setOnClickListener(view -> {
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(view, position - 1, plan);
                     }
                 });
-                ((PlanNormalViewHolder)holder).setOnLongClickListener(view -> {
+                ((PlanNormalViewHolder) holder).setOnLongClickListener(view -> {
                     if (mOnItemLongClickListener != null) {
                         mOnItemLongClickListener.onItemLongClick(view, position - 1, plan);
                     }
                     return true;
                 });
             }
-        } else if (getItemViewType(position) == ITEM_TYPE_HEADER){
-            ((HeaderViewHolder)holder).setInfoClickListener(view -> {
+        } else if (getItemViewType(position) == ITEM_TYPE_HEADER) {
+            ((HeaderViewHolder) holder).setInfoClickListener(view -> {
                 if (mOnInfoClickListener != null) {
                     mOnInfoClickListener.onInfoClick(view);
                 }
@@ -115,13 +115,15 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return this.plans == null ? 1 : this.plans.size() + 1;
+        return this.plans == null ? 2 : this.plans.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return ITEM_TYPE_HEADER;
+        } else if (position == this.plans.size() + 1) {
+            return ITEM_TYPE_FOOTER;
         } else {
             return ITEM_TYPE_NORMAL;
         }
@@ -176,5 +178,12 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mCvTitle.setOnClickListener(onClickListener);
         }
 
+    }
+
+    private static class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        FooterViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 }
