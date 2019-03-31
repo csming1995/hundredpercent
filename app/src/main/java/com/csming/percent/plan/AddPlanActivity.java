@@ -7,13 +7,15 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.AutofitRecyclerView;
+import com.csming.percent.data.vo.Plan;
 import com.csming.percent.plan.adapter.ColorSelectAdapter;
-import com.csming.percent.plan.viewmodel.PlanViewModel;
+import com.csming.percent.plan.viewmodel.AddPlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -23,8 +25,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.room.ColumnInfo;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -32,8 +36,18 @@ import dagger.android.support.DaggerAppCompatActivity;
  */
 public class AddPlanActivity extends DaggerAppCompatActivity {
 
+    private static final String EXTRA_TAG_IS_EDIT = "EXTRA_TAG_IS_EDIT";
+    private static final String EXTRA_TAG_PLAN_ID = "EXTRA_TAG_PLAN_ID";
+
     public static Intent getIntent(Context context) {
         return new Intent(context, AddPlanActivity.class);
+    }
+
+    public static Intent getIntent(Context context, boolean isEdit, int planId) {
+        Intent intent = new Intent(context, AddPlanActivity.class);
+        intent.putExtra(EXTRA_TAG_IS_EDIT, isEdit);
+        intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
+        return intent;
     }
 
     private LinearLayout mLlRoot;
@@ -49,7 +63,11 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     @Inject
     ViewModelProvider.Factory factory;
 
-    private PlanViewModel mPlanViewModel;
+    private AddPlanViewModel mAddPlanViewModel;
+
+    private boolean isEdit;
+
+    private ColorSelectAdapter mColorSelectAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -105,19 +123,37 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            int result = mPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            switch (result) {
-                case PlanViewModel.STATE_POST_SUCCESS: {
-                    Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
-                    onBackPressed();
-                    break;
+            if (!isEdit) {
+                int result = mAddPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddPlanViewModel.STATE_POST_SUCCESS: {
+                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_POST_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_POST_PLAN_EXIST: {
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
                 }
-                case PlanViewModel.STATE_POST_TITLE_NULL: {
-                    Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                case PlanViewModel.STATE_POST_PLAN_EXIST: {
-                    Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+            } else {
+                int result = mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                switch (result) {
+                    case AddPlanViewModel.STATE_UPDATE_SUCCESS: {
+                        Toast.makeText(this, R.string.update_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_UPDATE_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case AddPlanViewModel.STATE_UPDATE_PLAN_EXIST: {
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -125,7 +161,6 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
             public void onTouchUp() {
-                onBackPressed();
             }
 
             @Override
@@ -149,7 +184,6 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
      */
     private void initColorPanel() {
         AutofitRecyclerView rvColorSelectList;
-        ColorSelectAdapter colorSelectAdapter;
         List<ColorEntity> mColorEntities;
 
         rvColorSelectList = findViewById(R.id.rv_color_select_list);
@@ -162,16 +196,34 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
             mColorEntities.add(colorEntity);
         }
-        colorSelectAdapter = new ColorSelectAdapter(mColorEntities);
-        rvColorSelectList.setAdapter(colorSelectAdapter);
-        colorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
+        mColorSelectAdapter = new ColorSelectAdapter(mColorEntities);
+        rvColorSelectList.setAdapter(mColorSelectAdapter);
+        mColorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
             int color = getResources().getColor(colorEntity.getColorValue());
-            mPlanViewModel.setColor(color);
+            mAddPlanViewModel.setColor(color);
         });
     }
 
     private void initViewModel() {
-        mPlanViewModel = ViewModelProviders.of(this, factory).get(PlanViewModel.class);
-        mPlanViewModel.setColor(getResources().getColor(ColorEntity.COLOR_VALUES[0]));
+        mAddPlanViewModel = ViewModelProviders.of(this, factory).get(AddPlanViewModel.class);
+        mAddPlanViewModel.setColor(getResources().getColor(ColorEntity.COLOR_VALUES[0]));
+
+        isEdit = getIntent().getBooleanExtra(EXTRA_TAG_IS_EDIT, false);
+        if (isEdit) {
+            mAddPlanViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
+            mAddPlanViewModel.getPlan().observe(this, plan -> {
+                mEtTitle.setText(plan.getTitle());
+                mEtDescription.setText(plan.getDescription());
+                mAddPlanViewModel.setColor(plan.getColor());
+                for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+                    if (getResources().getColor(ColorEntity.COLOR_VALUES[index]) == plan.getColor()) {
+                        mColorSelectAdapter.setSelectIndex(index);
+                        break;
+                    }
+                }
+            });
+        }
+        ((TextView)findViewById(R.id.tv_title)).setText(isEdit ? R.string.title_edit_plan: R.string.title_add_plan);
+
     }
 }

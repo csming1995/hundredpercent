@@ -1,5 +1,6 @@
 package com.csming.percent.repository
 
+import android.util.EventLogTags
 import androidx.lifecycle.LiveData
 import com.csming.percent.data.vo.Plan
 
@@ -21,4 +22,6 @@ interface PlanRepository {
     fun updatePlanCount(planId: Int, count: Int)
 
     fun updatePlanFinished(planId: Int, finished: Int)
+
+    fun updatePlan(planId: Int, title: String, description: String, color: Int)
 }

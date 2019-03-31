@@ -1,6 +1,7 @@
 package com.csming.percent.record.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
             ((RecordNormalViewHolder)holder).setToggerOnClickListener(view -> {
+                ((RecordNormalViewHolder)holder).setFinish(!record.isFinish());
                 if (mOnFinishChangeListener != null) {
                     mOnFinishChangeListener.onFinishChanged(view, position, record, !record.isFinish());
                 }
@@ -132,6 +134,11 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         private void setFinish(boolean finish) {
+            if (finish) {
+                mTvTitle.setPaintFlags(mTvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                mTvTitle.setPaintFlags(mTvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
             mTbFinish.setChecked(finish);
         }
     }

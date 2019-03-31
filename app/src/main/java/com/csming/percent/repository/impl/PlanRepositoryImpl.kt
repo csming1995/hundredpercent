@@ -41,4 +41,8 @@ class PlanRepositoryImpl @Inject constructor(
         planDao.updatePlanFinished(planId, finished)
     }
 
+    override fun updatePlan(planId: Int, title: String, description: String, color: Int) {
+        planDao.updatePlan(planId, title, description, color)
+    }
+
 }

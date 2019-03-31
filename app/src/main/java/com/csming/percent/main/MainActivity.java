@@ -1,12 +1,8 @@
 package com.csming.percent.main;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-
 import com.csming.percent.R;
 import com.csming.percent.common.ApplicationConfig;
-import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
@@ -66,7 +62,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         mRvPlans.setAdapter(mAdapterPlans);
 
         mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
-            startActivity(RecordsActivity.getIntent(this, plan.getId(), plan.getTitle(), plan.getColor()));
+            startActivity(RecordsActivity.getIntent(this, plan.getId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 

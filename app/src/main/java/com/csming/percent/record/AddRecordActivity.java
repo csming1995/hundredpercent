@@ -168,7 +168,6 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
             public void onTouchUp() {
-                onBackPressed();
             }
 
             @Override

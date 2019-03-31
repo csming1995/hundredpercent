@@ -15,6 +15,7 @@ import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.data.vo.Record;
+import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,14 +35,10 @@ import dagger.android.support.DaggerAppCompatActivity;
 public class RecordsActivity extends DaggerAppCompatActivity {
 
     private static final String EXTRA_TAG_PLAN_ID = "EXTRA_TAG_PLAN_ID";
-    private static final String EXTRA_TAG_PLAN_TITLE = "EXTRA_TAG_PLAN_TITLE";
-    private static final String EXTRA_TAG_PLAN_COLOR = "EXTRA_TAG_PLAN_COLOR";
 
-    public static Intent getIntent(Context context, int planId, String planTitle, int color) {
+    public static Intent getIntent(Context context, int planId) {
         Intent intent = new Intent(context, RecordsActivity.class);
         intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
-        intent.putExtra(EXTRA_TAG_PLAN_TITLE, planTitle);
-        intent.putExtra(EXTRA_TAG_PLAN_COLOR, color);
         return intent;
     }
 
@@ -131,6 +128,11 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             mObjectAnimatorFabEnter.start();
         });
 
+        mCvTitle.setOnClickListener(view -> {
+            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
         mFabAdd.setOnClickListener(v -> {
             startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
@@ -140,7 +142,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
             public void onTouchUp() {
-                onBackPressed();
             }
 
             @Override
@@ -186,7 +187,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private void initData() {
         mRecordsViewModel = ViewModelProviders.of(this, factory).get(RecordsViewModel.class);
         mRecordsViewModel.setPlanId(getIntent().getIntExtra(EXTRA_TAG_PLAN_ID, 0));
-        mRecordsViewModel.setPlanTitle(getIntent().getStringExtra(EXTRA_TAG_PLAN_TITLE));
 
         mRecordsViewModel.getRecords().observe(this, records -> {
             if (records.size() > 0) {
@@ -206,10 +206,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
                     mTvDescription.setVisibility(View.VISIBLE);
                 }
                 mTvDescription.setText(plan.getDescription());
+                mTvTitle.setText(plan.getTitle());
+                mCvTitle.setCardBackgroundColor(plan.getColor());
             }
         });
-
-        mCvTitle.setCardBackgroundColor(getIntent().getIntExtra(EXTRA_TAG_PLAN_COLOR, getResources().getColor(R.color.color_111111)));
-        mTvTitle.setText(mRecordsViewModel.getPlanTitle());
     }
 }
