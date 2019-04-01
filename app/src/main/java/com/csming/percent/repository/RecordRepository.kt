@@ -1,7 +1,7 @@
 package com.csming.percent.repository
 
-import android.util.EventLogTags
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.csming.percent.data.vo.Record
 
 /**
@@ -9,7 +9,7 @@ import com.csming.percent.data.vo.Record
  */
 interface RecordRepository {
 
-    fun addRecord(record: Record)
+    fun addRecord(record: Record, result: MutableLiveData<Int>)
 
     fun getRecords(planId: Int): LiveData<List<Record>>
 
@@ -19,5 +19,5 @@ interface RecordRepository {
 
     fun updateRecordFinish(record: Record, finish: Boolean)
 
-    fun updateRecord(recordId: Int, title: String, description: String)
+    fun updateRecord(recordId: Int, title: String, description: String, result: MutableLiveData<Int>)
 }

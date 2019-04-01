@@ -1,6 +1,8 @@
 package com.csming.percent.repository.impl
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.csming.percent.common.AppExecutors
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.dao.RecordDao
 import com.csming.percent.data.vo.Record
@@ -12,11 +14,18 @@ import javax.inject.Inject
  */
 class RecordRepositoryImpl @Inject constructor(
         private val recordDao: RecordDao,
-        private val planDao: PlanDao
+        private val planDao: PlanDao,
+        private val executors: AppExecutors
 ) : RecordRepository {
-    override fun addRecord(record: Record) {
-        recordDao.insert(record)
-        planDao.updatePlanCount(record.planId, record.order + 1)
+
+    override fun addRecord(record: Record, result: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            val order = getOrder(record.planId)
+            record.order = order
+            recordDao.insert(record)
+            planDao.updatePlanCount(record.planId, record.order + 1)
+            result.postValue(STATE_POST_SUCCESS)
+        }
     }
 
     override fun getRecords(planId: Int): LiveData<List<Record>> {
@@ -24,8 +33,7 @@ class RecordRepositoryImpl @Inject constructor(
     }
 
     override fun getOrder(planId: Int): Int {
-        val plan = planDao.findPlan(planId)
-        return plan.count
+        return planDao.findRecordCount(planId)
     }
 
     override fun delete(record: Record) {
@@ -36,8 +44,23 @@ class RecordRepositoryImpl @Inject constructor(
         recordDao.updateRecordFinish(record.id, finish)
     }
 
-    override fun updateRecord(recordId: Int, title: String, description: String) {
-        recordDao.updateRecord(recordId, title, description)
+    override fun updateRecord(recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            recordDao.updateRecord(recordId, title, description)
+            result.postValue(STATE_UPDATE_SUCCESS)
+        }
     }
 
+    companion object {
+        const val STATE_POST_NORMAL = 0
+        const val STATE_POST_LODAING = 1
+        const val STATE_POST_SUCCESS = 2
+        const val STATE_POST_TITLE_NULL = 3
+
+        const val STATE_UPDATE_NORMAL = 0
+        const val STATE_UPDATE_LODAING = 1
+        const val STATE_UPDATE_SUCCESS = 2
+        const val STATE_UPDATE_TITLE_NULL = 3
+
+    }
 }

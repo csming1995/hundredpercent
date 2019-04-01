@@ -1,6 +1,7 @@
 package com.csming.percent.repository.impl
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.vo.Plan
 import com.csming.percent.repository.PlanRepository
@@ -21,7 +22,7 @@ class PlanRepositoryImpl @Inject constructor(
         return planDao.loadPlans()
     }
 
-    override fun findPlan(planId: Int): Plan? {
+    override fun findPlan(planId: Int): LiveData<Plan?> {
         return planDao.findPlan(planId)
     }
 
@@ -45,7 +46,8 @@ class PlanRepositoryImpl @Inject constructor(
         planDao.updatePlan(planId, title, description, color)
     }
 
-    override fun deletePlan(planId: Int) {
+    override fun deletePlan(planId: Int, result: MutableLiveData<Int>) {
+
         planDao.deleteByPlanId(planId)
     }
 

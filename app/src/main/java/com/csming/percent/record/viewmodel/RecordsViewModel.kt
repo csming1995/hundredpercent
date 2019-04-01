@@ -20,21 +20,21 @@ class RecordsViewModel @Inject constructor(
 
     private var mPlanId: Int = 0
 
-    private var plan: Plan? = null
-    private var planLiveData = MutableLiveData<Plan>()
+    private var planLiveData: LiveData<Plan?>? = null
+
+    private var stateLiveData = MutableLiveData<Int>()
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
-        plan = planRepository.findPlan(planId)
-        planLiveData.value = plan
+        planLiveData = planRepository.findPlan(planId)
     }
 
     fun getPlanId(): Int {
         return this.mPlanId
     }
 
-    fun getPlan(): LiveData<Plan> {
-        return planLiveData
+    fun getPlan(): LiveData<Plan?> {
+        return planLiveData!!
     }
 
     fun getRecords(): LiveData<List<Record>> {
@@ -43,25 +43,25 @@ class RecordsViewModel @Inject constructor(
 
     fun delete(record: Record) {
         recordRepository.delete(record)
-        plan!!.count--
-        planRepository.updatePlanCount(mPlanId, plan!!.count)
+        planLiveData!!.value!!.count--
+        planRepository.updatePlanCount(mPlanId, planLiveData!!.value!!.count)
         if (record.isFinish) {
-            plan!!.finished--
-            planRepository.updatePlanFinished(mPlanId, plan!!.finished)
+            planLiveData!!.value!!.finished--
+            planRepository.updatePlanFinished(mPlanId, planLiveData!!.value!!.finished)
         }
-        planLiveData.value = plan
+//        planLiveData.value = plan
     }
 
     fun deletePlan() {
-        planRepository.deletePlan(mPlanId)
+        planRepository.deletePlan(mPlanId, stateLiveData)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {
         if (record.isFinish == finish) return
         recordRepository.updateRecordFinish(record, finish)
-        plan!!.finished = if (finish) plan!!.finished + 1 else plan!!.finished - 1
-        planLiveData.value = plan
-        planRepository.updatePlanFinished(mPlanId, plan!!.finished)
+        planLiveData!!.value!!.finished = if (finish) planLiveData!!.value!!.finished + 1 else planLiveData!!.value!!.finished - 1
+//        planLiveData.value = plan
+        planRepository.updatePlanFinished(mPlanId, planLiveData!!.value!!.finished)
     }
 
 }
