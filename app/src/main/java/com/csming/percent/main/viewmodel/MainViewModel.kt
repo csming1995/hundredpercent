@@ -14,9 +14,14 @@ class MainViewModel @Inject constructor(
         private val planRepository: PlanRepository
 ) : ViewModel() {
 
+    private val plans: LiveData<List<Plan>>
 
-    fun findAllPlans(): LiveData<List<Plan>> {
-        return planRepository.getPlans()
+    init {
+        plans = planRepository.getPlans()
+    }
+
+    fun findPlans(): LiveData<List<Plan>> {
+        return plans
     }
 
     /**

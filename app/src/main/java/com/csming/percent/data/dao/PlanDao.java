@@ -22,7 +22,10 @@ public interface PlanDao {
     Plan findPlan(String title);
 
     @Query("SELECT * FROM plans WHERE `id` = :planId")
-    Plan findPlan(int planId);
+    LiveData<Plan> findPlan(int planId);
+
+    @Query("SELECT plans.count FROM plans WHERE `id` = :planId")
+    int findRecordCount(int planId);
 
     @Query("SELECT count(id) FROM plans")
     int getCount();

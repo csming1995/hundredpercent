@@ -7,6 +7,9 @@ import com.csming.percent.data.vo.Plan
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.PlanRepository
 import com.csming.percent.repository.RecordRepository
+import com.csming.percent.repository.impl.PlanRepositoryImpl
+import com.csming.percent.repository.impl.PlanRepositoryImpl.Companion.STATE_LOADING
+import com.csming.percent.repository.impl.RecordRepositoryImpl
 import javax.inject.Inject
 
 /**
@@ -20,48 +23,56 @@ class RecordsViewModel @Inject constructor(
 
     private var mPlanId: Int = 0
 
-    private var plan: Plan? = null
-    private var planLiveData = MutableLiveData<Plan>()
+    private var planLiveData: LiveData<Plan?>? = null
+
+    private var recordStateLiveData = MutableLiveData<Int>()
+    private var deletePlanStateLiveData = MutableLiveData<Int>()
+
+    init {
+        recordStateLiveData.value = RecordRepositoryImpl.STATE_NORMAL
+        deletePlanStateLiveData.value = PlanRepositoryImpl.STATE_NORMAL
+    }
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
-        plan = planRepository.findPlan(planId)
-        planLiveData.value = plan
+        planLiveData = planRepository.findPlan(planId)
     }
 
     fun getPlanId(): Int {
         return this.mPlanId
     }
 
-    fun getPlan(): LiveData<Plan> {
-        return planLiveData
+    fun getPlan(): LiveData<Plan?> {
+        return planLiveData!!
     }
 
     fun getRecords(): LiveData<List<Record>> {
         return recordRepository.getRecords(mPlanId)
     }
 
+    fun getDeletePlanState(): LiveData<Int> {
+        return deletePlanStateLiveData
+    }
+
+    fun getRecordState(): LiveData<Int> {
+        return recordStateLiveData
+    }
+
     fun delete(record: Record) {
-        recordRepository.delete(record)
-        plan!!.count--
-        planRepository.updatePlanCount(mPlanId, plan!!.count)
-        if (record.isFinish) {
-            plan!!.finished--
-            planRepository.updatePlanFinished(mPlanId, plan!!.finished)
-        }
-        planLiveData.value = plan
+        recordStateLiveData.value = STATE_LOADING
+        recordRepository.delete(record, recordStateLiveData, planLiveData!!)
     }
 
     fun deletePlan() {
-        planRepository.deletePlan(mPlanId)
+        deletePlanStateLiveData.value = STATE_LOADING
+        planRepository.deletePlan(mPlanId, deletePlanStateLiveData)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {
         if (record.isFinish == finish) return
-        recordRepository.updateRecordFinish(record, finish)
-        plan!!.finished = if (finish) plan!!.finished + 1 else plan!!.finished - 1
-        planLiveData.value = plan
-        planRepository.updatePlanFinished(mPlanId, plan!!.finished)
+        recordStateLiveData.value = STATE_LOADING
+
+        recordRepository.updateRecordFinish(record, finish, recordStateLiveData, planLiveData!!)
     }
 
 }

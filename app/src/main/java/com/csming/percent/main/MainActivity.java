@@ -125,6 +125,7 @@ public class MainActivity extends DaggerAppCompatActivity {
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
+//        PopupWindow
 //        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_delete, null);
 //        mFlPopupDelete = contentView.findViewById(R.id.fl_delete);
 //        mPopupWindowDelete = new PopupWindow(contentView);
@@ -153,7 +154,7 @@ public class MainActivity extends DaggerAppCompatActivity {
     private void initData() {
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
 
-        mMainViewModel.findAllPlans().observe(this, plans -> {
+        mMainViewModel.findPlans().observe(this, plans -> {
             if (plans.size() > 0) {
                 mAdapterPlans.setData(plans);
                 mStatusLayout.showNormalView();

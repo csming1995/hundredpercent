@@ -2,13 +2,9 @@ package com.csming.percent.plan.viewmodel
 
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.ColumnInfo
 import com.csming.percent.data.vo.Plan
-import com.csming.percent.plan.vo.ColorEntity
 import com.csming.percent.repository.PlanRepository
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -25,18 +21,18 @@ class AddPlanViewModel @Inject constructor(
 
     // Edit
     private var mPlanId: Int = 0
-    private var plan: Plan? = null
-    private var planLiveData = MutableLiveData<Plan>()
+    //    private var plan: Plan? = null
+    private var planLiveData: LiveData<Plan?>? = null
 
 
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
-        plan = planRepository.findPlan(planId)
-        planLiveData.value = plan
+        planLiveData = planRepository.findPlan(planId)
+//        planLiveData.value = plan
     }
 
-    fun getPlan(): LiveData<Plan> {
-        return planLiveData
+    fun getPlan(): LiveData<Plan?> {
+        return planLiveData!!
     }
 
     fun setColor(color: Int) {
@@ -60,8 +56,9 @@ class AddPlanViewModel @Inject constructor(
 
     fun updatePlan(title: String, description: String): Int {
         if (TextUtils.isEmpty(title)) return STATE_UPDATE_TITLE_NULL
-        if (plan!!.title != title && planRepository.findPlan(title) != null) return STATE_UPDATE_PLAN_EXIST
-        planRepository.updatePlan(mPlanId, title, description, mColor?: plan!!.color)
+        if (planLiveData!!.value!!.title != title && planRepository.findPlan(title) != null) return STATE_UPDATE_PLAN_EXIST
+        planRepository.updatePlan(mPlanId, title, description, mColor
+                ?: planLiveData!!.value!!.color)
         return STATE_UPDATE_SUCCESS
     }
 

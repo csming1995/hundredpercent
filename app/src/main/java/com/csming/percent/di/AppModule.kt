@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import androidx.room.Room
 import com.csming.percent.PercentApplication
+import com.csming.percent.common.AppExecutors
 import com.csming.percent.data.PercentDatabase
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.dao.RecordDao
@@ -28,6 +29,11 @@ class AppModule {
     fun providesClipboardManager(context: Context): ClipboardManager =
         context.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE)
             as ClipboardManager
+
+    @Provides
+    fun providesAppExecutors(): AppExecutors {
+        return AppExecutors()
+    }
 
     @Singleton
     @Provides

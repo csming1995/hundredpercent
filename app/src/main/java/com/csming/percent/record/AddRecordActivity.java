@@ -13,7 +13,9 @@ import android.widget.Toast;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
+import com.csming.percent.repository.impl.RecordRepositoryImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -139,31 +141,9 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
         mFabAdd.setOnClickListener(v -> {
             if (!isEdit) {
-                int result = mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-                switch (result) {
-                    case AddRecordViewModel.STATE_POST_SUCCESS: {
-                        Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                        break;
-                    }
-                    case AddRecordViewModel.STATE_POST_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
+                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             } else {
-                int result = mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-                switch (result) {
-                    case AddRecordViewModel.STATE_UPDATE_SUCCESS: {
-                        Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                        break;
-                    }
-                    case AddRecordViewModel.STATE_UPDATE_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                }
+                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             }
 
         });
@@ -203,8 +183,49 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             String description = getIntent().getStringExtra(EXTRA_TAG_DESCRIPTION);
             mEtTitle.setText(title);
             mEtDescription.setText(description);
+            mAddRecordViewModel.getPostState().observe(this, result -> {
+                switch (result) {
+                    case RecordRepositoryImpl.STATE_UPDATE_NORMAL: {
+                        LoadingFragment.hidden();
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_UPDATE_LOADING: {
+                        LoadingFragment.show(getSupportFragmentManager());
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_UPDATE_SUCCESS: {
+                        Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_UPDATE_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                        LoadingFragment.hidden();
+                        break;
+                    }
+                }
+            });
+        } else {
+            mAddRecordViewModel.getPostState().observe(this, result -> {
+                switch (result) {
+                    case RecordRepositoryImpl.STATE_POST_LOADING: {
+                        LoadingFragment.show(getSupportFragmentManager());
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_POST_SUCCESS: {
+                        Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_POST_TITLE_NULL: {
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                        LoadingFragment.hidden();
+                        break;
+                    }
+                }
+            });
         }
 
-        mTvTitle.setText(isEdit ? R.string.title_edit_record: R.string.title_add_record);
+        mTvTitle.setText(isEdit ? R.string.title_edit_record : R.string.title_add_record);
     }
 }

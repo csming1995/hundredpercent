@@ -1,6 +1,7 @@
 package com.csming.percent.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.csming.percent.data.vo.Plan
 
 /**
@@ -12,7 +13,7 @@ interface PlanRepository {
 
     fun getPlans(): LiveData<List<Plan>>
 
-    fun findPlan(planId: Int): Plan?
+    fun findPlan(planId: Int): LiveData<Plan?>
 
     fun findPlan(title: String): Plan?
 
@@ -24,5 +25,5 @@ interface PlanRepository {
 
     fun updatePlan(planId: Int, title: String, description: String, color: Int)
 
-    fun deletePlan(planId: Int)
+    fun deletePlan(planId: Int, result: MutableLiveData<Int>)
 }

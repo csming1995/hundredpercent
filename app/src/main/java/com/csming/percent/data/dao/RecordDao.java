@@ -15,7 +15,7 @@ public interface RecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Record record);
 
-    @Query("SELECT * FROM records WHERE plan_id = :planId ORDER BY id DESC")
+    @Query("SELECT * FROM records WHERE plan_id = :planId ORDER BY id DESC, finish DESC")
     LiveData<List<Record>> loadRecords(int planId);
 
     @Query("SELECT count(id) FROM records")
@@ -24,9 +24,13 @@ public interface RecordDao {
     @Query("DELETE FROM records WHERE id = :recordId")
     void deleteByRecordId(int recordId);
 
+    @Query("DELETE FROM records WHERE plan_id = :planId")
+    void deleteByPlanId(int planId);
+
     @Query("UPDATE records SET finish = :finish WHERE id = :recordId")
     void updateRecordFinish(int recordId, boolean finish);
 
     @Query("UPDATE records SET title = :title, description = :description WHERE id = :recordId")
     void updateRecord(int recordId, String title, String description);
+
 }
