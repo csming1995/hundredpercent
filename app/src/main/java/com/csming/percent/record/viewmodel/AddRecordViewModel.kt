@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.RecordRepository
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_LOADING
 import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_NORMAL
 import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_TITLE_NULL
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_LOADING
 import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_TITLE_NULL
 import javax.inject.Inject
 
@@ -45,6 +47,7 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun postRecord(title: String, description: String) {
+        mPostState.value = STATE_POST_LOADING
         if (TextUtils.isEmpty(title)) {
             mPostState.value = STATE_POST_TITLE_NULL
         }
@@ -56,6 +59,7 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun updateRecord(title: String, description: String) {
+        mPostState.value = STATE_UPDATE_LOADING
         if (TextUtils.isEmpty(title)) {
             if (TextUtils.isEmpty(title)) {
                 mPostState.value = STATE_UPDATE_TITLE_NULL

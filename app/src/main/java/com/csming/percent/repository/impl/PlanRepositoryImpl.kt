@@ -2,7 +2,9 @@ package com.csming.percent.repository.impl
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.csming.percent.common.AppExecutors
 import com.csming.percent.data.dao.PlanDao
+import com.csming.percent.data.dao.RecordDao
 import com.csming.percent.data.vo.Plan
 import com.csming.percent.repository.PlanRepository
 import javax.inject.Inject
@@ -11,7 +13,9 @@ import javax.inject.Inject
  * @author Created by csming on 2018/10/4.
  */
 class PlanRepositoryImpl @Inject constructor(
-        private val planDao: PlanDao
+        private val recordDao: RecordDao,
+        private val planDao: PlanDao,
+        private val executors: AppExecutors
 ) : PlanRepository {
 
     override fun addPlan(plan: Plan) {
@@ -47,8 +51,21 @@ class PlanRepositoryImpl @Inject constructor(
     }
 
     override fun deletePlan(planId: Int, result: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            planDao.deleteByPlanId(planId)
+            recordDao.deleteByPlanId(planId)
+            result.postValue(STATE_SUCCESS)
+        }
 
-        planDao.deleteByPlanId(planId)
+    }
+
+    companion object {
+        const val STATE_NORMAL = 0
+        const val STATE_LOADING = 1
+        const val STATE_SUCCESS = 2
+
+
+        const val STATE_POST_TITLE_NULL = 3
     }
 
 }

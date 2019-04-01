@@ -34,8 +34,9 @@ public class LoadingFragment extends DialogFragment {
             loadingFragment = init();
         }
 
-        if (loadingFragment.getDialog() == null || !loadingFragment.isAdded() && !loadingFragment.getDialog().isShowing()) {
-            loadingFragment.show(fragmentManager, TAG);
+        if (loadingFragment.getDialog() == null && !loadingFragment.isAdded() && !loadingFragment.isVisible() &&
+                !loadingFragment.isRemoving()) {
+            loadingFragment.show(fragmentManager.beginTransaction(), TAG);
         }
     }
 

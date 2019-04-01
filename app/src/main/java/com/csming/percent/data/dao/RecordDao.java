@@ -24,9 +24,13 @@ public interface RecordDao {
     @Query("DELETE FROM records WHERE id = :recordId")
     void deleteByRecordId(int recordId);
 
+    @Query("DELETE FROM records WHERE plan_id = :planId")
+    void deleteByPlanId(int planId);
+
     @Query("UPDATE records SET finish = :finish WHERE id = :recordId")
     void updateRecordFinish(int recordId, boolean finish);
 
     @Query("UPDATE records SET title = :title, description = :description WHERE id = :recordId")
     void updateRecord(int recordId, String title, String description);
+
 }

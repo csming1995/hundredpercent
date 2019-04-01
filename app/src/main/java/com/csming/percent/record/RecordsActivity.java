@@ -16,11 +16,13 @@ import android.widget.TextView;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
+import com.csming.percent.repository.impl.PlanRepositoryImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -254,7 +256,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRecordsViewModel.getPlan().observe(this, plan -> {
             if (plan != null) {
                 mTvProgress.setText(plan.getFinished() + "/" + plan.getCount());
-                if (TextUtils.isEmpty(plan.getDescription())){
+                if (TextUtils.isEmpty(plan.getDescription())) {
                     mTvDescription.setVisibility(View.GONE);
                 } else {
                     mTvDescription.setVisibility(View.VISIBLE);
@@ -264,6 +266,41 @@ public class RecordsActivity extends DaggerAppCompatActivity {
                 mCvTitle.setCardBackgroundColor(plan.getColor());
             }
         });
+
+        mRecordsViewModel.getDeletePlanState().observe(this, state -> {
+            switch (state) {
+                case PlanRepositoryImpl.STATE_NORMAL: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+                case PlanRepositoryImpl.STATE_LOADING: {
+                    LoadingFragment.show(getSupportFragmentManager());
+                    break;
+                }
+                case PlanRepositoryImpl.STATE_SUCCESS: {
+                    LoadingFragment.hidden();
+                    onBackPressed();
+                    break;
+                }
+            }
+        });
+
+        mRecordsViewModel.getRecordState().observe(this, state -> {
+//            switch (state) {
+//                case RecordRepositoryImpl.STATE_NORMAL: {
+//                    LoadingFragment.hidden();
+//                    break;
+//                }
+//                case RecordRepositoryImpl.STATE_LOADING: {
+//                    LoadingFragment.show(getSupportFragmentManager());
+//                    break;
+//                }
+//                case RecordRepositoryImpl.STATE_SUCCESS: {
+//                    LoadingFragment.hidden();
+//                    break;
+//                }
+//            }
+        });
     }
 
     private void showDeleteDialog() {
@@ -272,7 +309,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
                 if (mRecordsViewModel != null) {
                     mRecordsViewModel.deletePlan();
-                    onBackPressed();
                 }
             });
             mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {

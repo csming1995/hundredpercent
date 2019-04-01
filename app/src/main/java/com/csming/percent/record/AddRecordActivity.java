@@ -186,7 +186,12 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
                     case RecordRepositoryImpl.STATE_UPDATE_NORMAL: {
+                        LoadingFragment.hidden();
+                        break;
+                    }
+                    case RecordRepositoryImpl.STATE_UPDATE_LOADING: {
                         LoadingFragment.show(getSupportFragmentManager());
+                        break;
                     }
                     case RecordRepositoryImpl.STATE_UPDATE_SUCCESS: {
                         Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
@@ -203,8 +208,9 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         } else {
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
-                    case RecordRepositoryImpl.STATE_POST_LODAING: {
+                    case RecordRepositoryImpl.STATE_POST_LOADING: {
                         LoadingFragment.show(getSupportFragmentManager());
+                        break;
                     }
                     case RecordRepositoryImpl.STATE_POST_SUCCESS: {
                         Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
