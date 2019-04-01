@@ -1,10 +1,16 @@
 package com.csming.percent.record.viewmodel
 
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.csming.percent.data.vo.Plan
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.RecordRepository
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_LOADING
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_NORMAL
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_TITLE_NULL
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_LOADING
+import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_TITLE_NULL
 import javax.inject.Inject
 
 /**
@@ -18,6 +24,12 @@ class AddRecordViewModel @Inject constructor(
     private var mPlanId: Int = 0
     private var mRecordId: Int = 0
 
+    private val mPostState = MutableLiveData<Int>()
+
+    init {
+        mPostState.value = STATE_POST_NORMAL
+    }
+
     fun setPlanId(planId: Int) {
         this.mPlanId = planId
     }
@@ -30,29 +42,29 @@ class AddRecordViewModel @Inject constructor(
         return this.mPlanId
     }
 
-    fun postRecord(title: String, description: String): Int {
-        if (TextUtils.isEmpty(title)) return STATE_POST_TITLE_NULL
+    fun getPostState(): LiveData<Int> {
+        return mPostState
+    }
+
+    fun postRecord(title: String, description: String) {
+        mPostState.value = STATE_POST_LOADING
+        if (TextUtils.isEmpty(title)) {
+            mPostState.value = STATE_POST_TITLE_NULL
+        }
         val record = Record()
         record.title = title
         record.description = description
         record.planId = mPlanId
-        val order = recordRepository.getOrder(mPlanId)
-        record.order = order
-        recordRepository.addRecord(record)
-        return STATE_POST_SUCCESS
+        recordRepository.addRecord(record, mPostState)
     }
 
-    fun updateRecord(title: String, description: String): Int {
-        if (TextUtils.isEmpty(title)) return STATE_UPDATE_TITLE_NULL
-        recordRepository.updateRecord(mRecordId, title, description)
-        return STATE_UPDATE_SUCCESS
-    }
-
-    companion object {
-        const val STATE_POST_SUCCESS = 1
-        const val STATE_POST_TITLE_NULL = 2
-
-        const val STATE_UPDATE_SUCCESS = 1
-        const val STATE_UPDATE_TITLE_NULL = 2
+    fun updateRecord(title: String, description: String) {
+        mPostState.value = STATE_UPDATE_LOADING
+        if (TextUtils.isEmpty(title)) {
+            if (TextUtils.isEmpty(title)) {
+                mPostState.value = STATE_UPDATE_TITLE_NULL
+            }
+        }
+        recordRepository.updateRecord(mRecordId, title, description, mPostState)
     }
 }
