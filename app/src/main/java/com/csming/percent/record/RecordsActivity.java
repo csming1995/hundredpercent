@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -45,12 +49,14 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private StatusLayout mStatusLayout;
     private CardView mCvTitle;
-    private CardView mCvDelete;
+    //    private CardView mCvDelete;
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
     private TextView mTvProgress;
     private TextView mTvDescription;
     private FloatingActionButton mFabAdd;
+
+    private Toolbar toolbar;
 
     private SlideRecyclerView mRvRecords;
     private LinearLayoutManager mLinearLayoutManager;
@@ -73,6 +79,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
 
+        initToolBar();
         initView();
     }
 
@@ -108,6 +115,37 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_records, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_delete) {
+            showDeleteDialog();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 初始化ToolBar
+     */
+    private void initToolBar() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setTitle(null);
+        }
+
+    }
+
     private void initAnimator() {
 
         // 获取 主面板高度
@@ -123,7 +161,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private void initView() {
         mStatusLayout = findViewById(R.id.status_layout);
         mCvTitle = findViewById(R.id.cv_title);
-        mCvDelete = findViewById(R.id.cv_delete);
+//        mCvDelete = findViewById(R.id.cv_delete);
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
         mTvProgress = findViewById(R.id.tv_progress);
@@ -145,9 +183,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
-        mCvDelete.setOnClickListener(view -> {
-            showDeleteDialog();
-        });
+//        mCvDelete.setOnClickListener(view -> {
+//            showDeleteDialog();
+//        });
 
         mFabAdd.setOnClickListener(v -> {
             startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()));
