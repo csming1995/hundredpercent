@@ -174,7 +174,7 @@
                         android:background="@color/color_111111" />
 
                     <LinearLayout
-                        android:id="@+id/rv_update_searche"
+                        android:id="@+id/ll_update"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
