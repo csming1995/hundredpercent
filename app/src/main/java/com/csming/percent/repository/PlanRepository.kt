@@ -9,7 +9,9 @@ import com.csming.percent.data.vo.Plan
  */
 interface PlanRepository {
 
-    fun addPlan(plan: Plan)
+    fun addPlan(plan: Plan, stateLiveData: MutableLiveData<Int>)
+
+    fun initPlan(plan: Plan)
 
     fun getPlans(): LiveData<List<Plan>>
 
@@ -19,11 +21,7 @@ interface PlanRepository {
 
     fun getOrder(): Int
 
-    fun updatePlanCount(planId: Int, count: Int)
-
-    fun updatePlanFinished(planId: Int, finished: Int)
-
-    fun updatePlan(planId: Int, title: String, description: String, color: Int)
+    fun updatePlan(planId: Int, title: String, description: String, color: Int, stateLiveData: MutableLiveData<Int>)
 
     fun deletePlan(planId: Int, result: MutableLiveData<Int>)
 }

@@ -19,8 +19,21 @@ class PlanRepositoryImpl @Inject constructor(
         private val executors: AppExecutors
 ) : PlanRepository {
 
-    override fun addPlan(plan: Plan) {
-        planDao.insert(plan)
+    override fun addPlan(plan: Plan, stateLiveData: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            val order = getOrder()
+            plan.order = order
+            planDao.insert(plan)
+            stateLiveData.postValue(Contacts.STATE_SUCCESS)
+        }
+    }
+
+    override fun initPlan(plan: Plan) {
+        executors.diskIO().execute {
+            val order = getOrder()
+            plan.order = order
+            planDao.insert(plan)
+        }
     }
 
     override fun getPlans(): LiveData<List<Plan>> {
@@ -39,16 +52,11 @@ class PlanRepositoryImpl @Inject constructor(
         return planDao.count
     }
 
-    override fun updatePlanCount(planId: Int, count: Int) {
-        planDao.updatePlanCount(planId, count)
-    }
-
-    override fun updatePlanFinished(planId: Int, finished: Int) {
-        planDao.updatePlanFinished(planId, finished)
-    }
-
-    override fun updatePlan(planId: Int, title: String, description: String, color: Int) {
-        planDao.updatePlan(planId, title, description, color)
+    override fun updatePlan(planId: Int, title: String, description: String, color: Int, stateLiveData: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            planDao.updatePlan(planId, title, description, color)
+            stateLiveData.postValue(Contacts.STATE_SUCCESS)
+        }
     }
 
     override fun deletePlan(planId: Int, result: MutableLiveData<Int>) {

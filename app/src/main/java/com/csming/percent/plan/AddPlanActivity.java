@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.Contacts;
+import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.common.widget.AutofitRecyclerView;
 import com.csming.percent.plan.adapter.ColorSelectAdapter;
 import com.csming.percent.plan.viewmodel.AddPlanViewModel;
@@ -133,38 +135,11 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            if (!isEdit) {
-                int result = mAddPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-                switch (result) {
-                    case AddPlanViewModel.STATE_POST_SUCCESS: {
-                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                        break;
-                    }
-                    case AddPlanViewModel.STATE_POST_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case AddPlanViewModel.STATE_POST_PLAN_EXIST: {
-                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
-                    }
-                }
+            LoadingFragment.show(getSupportFragmentManager());
+            if (isEdit) {
+                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             } else {
-                int result = mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-                switch (result) {
-                    case AddPlanViewModel.STATE_UPDATE_SUCCESS: {
-                        Toast.makeText(this, R.string.update_plan_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
-                        break;
-                    }
-                    case AddPlanViewModel.STATE_UPDATE_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
-                        break;
-                    }
-                    case AddPlanViewModel.STATE_UPDATE_PLAN_EXIST: {
-                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
-                    }
-                }
+                mAddPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             }
         });
 
@@ -231,6 +206,47 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
                         break;
                     }
                 }
+            });
+
+            mAddPlanViewModel.getStateLiveData().observe(this, state -> {
+                switch (state) {
+                    case Contacts.STATE_SUCCESS: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.update_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case Contacts.STATE_UPDATE_TITLE_NULL: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case Contacts.STATE_POST_PLAN_EXIST: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            mAddPlanViewModel.getStateLiveData().observe(this, state -> {
+                switch (state) {
+                    case Contacts.STATE_SUCCESS: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                        break;
+                    }
+                    case Contacts.STATE_POST_TITLE_NULL: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_plan_result_title_null, Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case Contacts.STATE_POST_PLAN_EXIST: {
+                        LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_plan_result_plan_exist, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
             });
         }
         ((TextView)findViewById(R.id.tv_title)).setText(isEdit ? R.string.title_edit_plan: R.string.title_add_plan);
