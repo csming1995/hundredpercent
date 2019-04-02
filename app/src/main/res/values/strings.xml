@@ -44,6 +44,8 @@
     <string name="setting_update">检测更新</string>
     <string name="setting_update_content">今天天气很好</string>
 
+    <string name="setting_slogon">I keep my Ideals.</string>
+
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>
     <string name="str_net_error">你已进入没有网络的异次元</string>
@@ -55,4 +57,5 @@
     <string name="delete_dialog_message">确定删除该计划吗</string>
     <string name="delete_sure">确定</string>
     <string name="delete_cancel">取消</string>
+
 </resources>
