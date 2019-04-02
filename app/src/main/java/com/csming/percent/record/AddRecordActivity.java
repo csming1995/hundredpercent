@@ -141,12 +141,11 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
         mFabAdd.setOnClickListener(v -> {
             LoadingFragment.show(getSupportFragmentManager());
-            if (!isEdit) {
-                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            } else {
+            if (isEdit) {
                 mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            } else {
+                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             }
-
         });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
@@ -187,13 +186,14 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
                     case Contacts.STATE_SUCCESS: {
+                        LoadingFragment.hidden();
                         Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         break;
                     }
                     case Contacts.STATE_UPDATE_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
@@ -202,13 +202,14 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
                     case Contacts.STATE_SUCCESS: {
+                        LoadingFragment.hidden();
                         Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         break;
                     }
                     case Contacts.STATE_POST_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }

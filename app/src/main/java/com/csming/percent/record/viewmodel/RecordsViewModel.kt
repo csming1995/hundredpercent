@@ -57,18 +57,18 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun delete(record: Record) {
-        recordStateLiveData.value = Contacts.STATE_LOADING
+        recordStateLiveData.postValue(Contacts.STATE_LOADING)
         recordRepository.delete(record, recordStateLiveData, planLiveData!!)
     }
 
     fun deletePlan() {
-        deletePlanStateLiveData.value = Contacts.STATE_LOADING
+        deletePlanStateLiveData.postValue(Contacts.STATE_LOADING)
         planRepository.deletePlan(mPlanId, deletePlanStateLiveData)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {
         if (record.isFinish == finish) return
-        recordStateLiveData.value = Contacts.STATE_LOADING
+        recordStateLiveData.postValue(Contacts.STATE_LOADING)
 
         recordRepository.updateRecordFinish(record, finish, recordStateLiveData, planLiveData!!)
     }

@@ -43,10 +43,8 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun postRecord(title: String, description: String) {
-        mPostState.value = Contacts.STATE_LOADING
         if (TextUtils.isEmpty(title)) {
-            mPostState.value = Contacts.STATE_POST_TITLE_NULL
-            return
+            mPostState.postValue(Contacts.STATE_POST_TITLE_NULL)
         }
         val record = Record()
         record.title = title
@@ -56,9 +54,8 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun updateRecord(title: String, description: String) {
-        mPostState.value = Contacts.STATE_LOADING
         if (TextUtils.isEmpty(title)) {
-            mPostState.value = Contacts.STATE_UPDATE_TITLE_NULL
+            mPostState.postValue(Contacts.STATE_UPDATE_TITLE_NULL)
             return
         }
         recordRepository.updateRecord(mRecordId, title, description, mPostState)
