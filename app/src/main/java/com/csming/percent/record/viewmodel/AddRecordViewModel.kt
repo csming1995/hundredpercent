@@ -34,10 +34,6 @@ class AddRecordViewModel @Inject constructor(
         this.mRecordId = recordId
     }
 
-    fun getPlanId(): Int {
-        return this.mPlanId
-    }
-
     fun getPostState(): LiveData<Int> {
         return mPostState
     }
@@ -45,6 +41,7 @@ class AddRecordViewModel @Inject constructor(
     fun postRecord(title: String, description: String) {
         if (TextUtils.isEmpty(title)) {
             mPostState.postValue(Contacts.STATE_POST_TITLE_NULL)
+            return
         }
         val record = Record()
         record.title = title
