@@ -4,13 +4,9 @@ import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.csming.percent.common.Contacts
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.RecordRepository
-import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_LOADING
-import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_NORMAL
-import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_POST_TITLE_NULL
-import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_LOADING
-import com.csming.percent.repository.impl.RecordRepositoryImpl.Companion.STATE_UPDATE_TITLE_NULL
 import javax.inject.Inject
 
 /**
@@ -27,7 +23,7 @@ class AddRecordViewModel @Inject constructor(
     private val mPostState = MutableLiveData<Int>()
 
     init {
-        mPostState.value = STATE_POST_NORMAL
+        mPostState.value = Contacts.STATE_NORMAL
     }
 
     fun setPlanId(planId: Int) {
@@ -47,9 +43,10 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun postRecord(title: String, description: String) {
-        mPostState.value = STATE_POST_LOADING
+        mPostState.value = Contacts.STATE_LOADING
         if (TextUtils.isEmpty(title)) {
-            mPostState.value = STATE_POST_TITLE_NULL
+            mPostState.value = Contacts.STATE_POST_TITLE_NULL
+            return
         }
         val record = Record()
         record.title = title
@@ -59,11 +56,10 @@ class AddRecordViewModel @Inject constructor(
     }
 
     fun updateRecord(title: String, description: String) {
-        mPostState.value = STATE_UPDATE_LOADING
+        mPostState.value = Contacts.STATE_LOADING
         if (TextUtils.isEmpty(title)) {
-            if (TextUtils.isEmpty(title)) {
-                mPostState.value = STATE_UPDATE_TITLE_NULL
-            }
+            mPostState.value = Contacts.STATE_UPDATE_TITLE_NULL
+            return
         }
         recordRepository.updateRecord(mRecordId, title, description, mPostState)
     }

@@ -3,6 +3,7 @@ package com.csming.percent.repository.impl
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.csming.percent.common.AppExecutors
+import com.csming.percent.common.Contacts
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.dao.RecordDao
 import com.csming.percent.data.vo.Plan
@@ -54,18 +55,9 @@ class PlanRepositoryImpl @Inject constructor(
         executors.diskIO().execute {
             planDao.deleteByPlanId(planId)
             recordDao.deleteByPlanId(planId)
-            result.postValue(STATE_SUCCESS)
+            result.postValue(Contacts.STATE_SUCCESS)
         }
 
-    }
-
-    companion object {
-        const val STATE_NORMAL = 0
-        const val STATE_LOADING = 1
-        const val STATE_SUCCESS = 2
-
-
-        const val STATE_POST_TITLE_NULL = 3
     }
 
 }
