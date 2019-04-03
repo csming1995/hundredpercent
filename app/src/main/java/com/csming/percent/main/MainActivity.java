@@ -163,7 +163,6 @@ public class MainActivity extends DaggerAppCompatActivity {
             }
         });
 
-
         if (ApplicationConfig.getIsFirstIn(this)) {
             mMainViewModel.initPlan(
                     getResources().getString(R.string.first_plan_title),

@@ -3,13 +3,11 @@ package com.csming.percent.record.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.csming.percent.common.Contacts
 import com.csming.percent.data.vo.Plan
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.PlanRepository
 import com.csming.percent.repository.RecordRepository
-import com.csming.percent.repository.impl.PlanRepositoryImpl
-import com.csming.percent.repository.impl.PlanRepositoryImpl.Companion.STATE_LOADING
-import com.csming.percent.repository.impl.RecordRepositoryImpl
 import javax.inject.Inject
 
 /**
@@ -29,8 +27,8 @@ class RecordsViewModel @Inject constructor(
     private var deletePlanStateLiveData = MutableLiveData<Int>()
 
     init {
-        recordStateLiveData.value = RecordRepositoryImpl.STATE_NORMAL
-        deletePlanStateLiveData.value = PlanRepositoryImpl.STATE_NORMAL
+        recordStateLiveData.value = Contacts.STATE_NORMAL
+        deletePlanStateLiveData.value = Contacts.STATE_NORMAL
     }
 
     fun setPlanId(planId: Int) {
@@ -59,18 +57,18 @@ class RecordsViewModel @Inject constructor(
     }
 
     fun delete(record: Record) {
-        recordStateLiveData.value = STATE_LOADING
+        recordStateLiveData.postValue(Contacts.STATE_LOADING)
         recordRepository.delete(record, recordStateLiveData, planLiveData!!)
     }
 
     fun deletePlan() {
-        deletePlanStateLiveData.value = STATE_LOADING
+        deletePlanStateLiveData.postValue(Contacts.STATE_LOADING)
         planRepository.deletePlan(mPlanId, deletePlanStateLiveData)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {
         if (record.isFinish == finish) return
-        recordStateLiveData.value = STATE_LOADING
+        recordStateLiveData.postValue(Contacts.STATE_LOADING)
 
         recordRepository.updateRecordFinish(record, finish, recordStateLiveData, planLiveData!!)
     }

@@ -17,7 +17,7 @@
     <string name="update_plan_result_success">计划更新成功</string>
     <string name="post_plan_result_success">计划发布成功</string>
     <string name="post_plan_result_title_null">为你的新计划取个好名字吧</string>
-    <string name="post_plan_result_plan_exist">计划已存在</string>
+    <string name="post_plan_result_plan_exist">计划标题重复, 再想个好名字吧</string>
 
     <string name="title_add_record">添加事项</string>
     <string name="title_edit_record">编辑事项</string>
@@ -44,6 +44,8 @@
     <string name="setting_update">检测更新</string>
     <string name="setting_update_content">今天天气很好</string>
 
+    <string name="setting_slogon">I keep my Ideals.</string>
+
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>
     <string name="str_net_error">你已进入没有网络的异次元</string>
@@ -55,4 +57,5 @@
     <string name="delete_dialog_message">确定删除该计划吗</string>
     <string name="delete_sure">确定</string>
     <string name="delete_cancel">取消</string>
+
 </resources>

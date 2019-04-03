@@ -29,14 +29,11 @@ class MainViewModel @Inject constructor(
      */
     fun initPlan(title: String, description: String, color: Int) {
         val plan = Plan()
-        if (planRepository.getOrder() == 0) {
-            plan.title = title
-            plan.description = description
-            plan.color = color
-            val order = 0
-            plan.order = order
-            planRepository.addPlan(plan)
-        }
+        plan.title = title
+        plan.description = description
+        plan.color = color
+        plan.order = 0
+        planRepository.initPlan(plan)
     }
 
 }

@@ -3,6 +3,7 @@ package com.csming.percent.repository.impl
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.csming.percent.common.AppExecutors
+import com.csming.percent.common.Contacts
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.dao.RecordDao
 import com.csming.percent.data.vo.Plan
@@ -25,7 +26,7 @@ class RecordRepositoryImpl @Inject constructor(
             record.order = order
             recordDao.insert(record)
             planDao.updatePlanCount(record.planId, record.order + 1)
-            result.postValue(STATE_POST_SUCCESS)
+            result.postValue(Contacts.STATE_SUCCESS)
         }
     }
 
@@ -47,7 +48,7 @@ class RecordRepositoryImpl @Inject constructor(
                 planLiveData.value!!.finished--
                 planDao.updatePlanFinished(record.planId, planLiveData.value!!.finished)
             }
-            recordStateLiveData.postValue(STATE_SUCCESS)
+            recordStateLiveData.postValue(Contacts.STATE_SUCCESS)
         }
     }
 
@@ -60,31 +61,14 @@ class RecordRepositoryImpl @Inject constructor(
                 planLiveData.value!!.finished = planLiveData.value!!.finished - 1
             }
             planDao.updatePlanFinished(record.planId, planLiveData.value!!.finished)
-            recordStateLiveData.postValue(STATE_SUCCESS)
+            recordStateLiveData.postValue(Contacts.STATE_SUCCESS)
         }
     }
 
     override fun updateRecord(recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
         executors.diskIO().execute {
             recordDao.updateRecord(recordId, title, description)
-            result.postValue(STATE_UPDATE_SUCCESS)
+            result.postValue(Contacts.STATE_SUCCESS)
         }
-    }
-
-    companion object {
-        const val STATE_POST_NORMAL = 0
-        const val STATE_POST_LOADING = 1
-        const val STATE_POST_SUCCESS = 2
-        const val STATE_POST_TITLE_NULL = 3
-
-        const val STATE_UPDATE_NORMAL = 0
-        const val STATE_UPDATE_LOADING = 1
-        const val STATE_UPDATE_SUCCESS = 2
-        const val STATE_UPDATE_TITLE_NULL = 3
-
-        const val STATE_NORMAL = 0
-        const val STATE_LOADING = 1
-        const val STATE_SUCCESS = 2
-
     }
 }

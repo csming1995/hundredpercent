@@ -16,13 +16,13 @@ import android.widget.TextView;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
-import com.csming.percent.repository.impl.PlanRepositoryImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -227,6 +227,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
 
         mAdapterRecord.setOnItemDeleteClickListener((view, position, record) -> {
+            LoadingFragment.show(getSupportFragmentManager());
             mRecordsViewModel.delete(record);
             mRvRecords.closeMenu();
         });
@@ -269,15 +270,11 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
         mRecordsViewModel.getDeletePlanState().observe(this, state -> {
             switch (state) {
-                case PlanRepositoryImpl.STATE_NORMAL: {
+                case Contacts.STATE_NORMAL: {
                     LoadingFragment.hidden();
                     break;
                 }
-                case PlanRepositoryImpl.STATE_LOADING: {
-                    LoadingFragment.show(getSupportFragmentManager());
-                    break;
-                }
-                case PlanRepositoryImpl.STATE_SUCCESS: {
+                case Contacts.STATE_SUCCESS: {
                     LoadingFragment.hidden();
                     onBackPressed();
                     break;
@@ -286,20 +283,16 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
 
         mRecordsViewModel.getRecordState().observe(this, state -> {
-//            switch (state) {
-//                case RecordRepositoryImpl.STATE_NORMAL: {
-//                    LoadingFragment.hidden();
-//                    break;
-//                }
-//                case RecordRepositoryImpl.STATE_LOADING: {
-//                    LoadingFragment.show(getSupportFragmentManager());
-//                    break;
-//                }
-//                case RecordRepositoryImpl.STATE_SUCCESS: {
-//                    LoadingFragment.hidden();
-//                    break;
-//                }
-//            }
+            switch (state) {
+                case Contacts.STATE_NORMAL: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+                case Contacts.STATE_SUCCESS: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+            }
         });
     }
 
@@ -308,6 +301,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             mDeleteDialogBuilder = new AlertDialog.Builder(this);
             mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
                 if (mRecordsViewModel != null) {
+                    LoadingFragment.show(getSupportFragmentManager());
                     mRecordsViewModel.deletePlan();
                 }
             });

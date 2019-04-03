@@ -13,9 +13,9 @@ import android.widget.Toast;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
-import com.csming.percent.repository.impl.RecordRepositoryImpl;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -78,13 +78,13 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_add_record);
 
         initView();
+        initData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         AnalyticsUtil.onResume(this);
-        initData();
     }
 
     @Override
@@ -140,12 +140,12 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         });
 
         mFabAdd.setOnClickListener(v -> {
-            if (!isEdit) {
-                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            } else {
+            LoadingFragment.show(getSupportFragmentManager());
+            if (isEdit) {
                 mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            } else {
+                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             }
-
         });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
@@ -185,22 +185,15 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mEtDescription.setText(description);
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
-                    case RecordRepositoryImpl.STATE_UPDATE_NORMAL: {
+                    case Contacts.STATE_SUCCESS: {
                         LoadingFragment.hidden();
-                        break;
-                    }
-                    case RecordRepositoryImpl.STATE_UPDATE_LOADING: {
-                        LoadingFragment.show(getSupportFragmentManager());
-                        break;
-                    }
-                    case RecordRepositoryImpl.STATE_UPDATE_SUCCESS: {
                         Toast.makeText(this, R.string.update_record_result_success, Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         break;
                     }
-                    case RecordRepositoryImpl.STATE_UPDATE_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                    case Contacts.STATE_UPDATE_TITLE_NULL: {
                         LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
@@ -208,18 +201,15 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
         } else {
             mAddRecordViewModel.getPostState().observe(this, result -> {
                 switch (result) {
-                    case RecordRepositoryImpl.STATE_POST_LOADING: {
-                        LoadingFragment.show(getSupportFragmentManager());
-                        break;
-                    }
-                    case RecordRepositoryImpl.STATE_POST_SUCCESS: {
+                    case Contacts.STATE_SUCCESS: {
+                        LoadingFragment.hidden();
                         Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
                         onBackPressed();
                         break;
                     }
-                    case RecordRepositoryImpl.STATE_POST_TITLE_NULL: {
-                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
+                    case Contacts.STATE_POST_TITLE_NULL: {
                         LoadingFragment.hidden();
+                        Toast.makeText(this, R.string.post_record_result_title_null, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
