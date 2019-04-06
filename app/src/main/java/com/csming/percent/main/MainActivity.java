@@ -48,8 +48,8 @@ public class MainActivity extends DaggerAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initToolBar();
         initView();
+        initToolBar();
     }
 
     @Override
@@ -86,13 +86,14 @@ public class MainActivity extends DaggerAppCompatActivity {
      */
     private void initToolBar() {
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setTitle(null);
+            actionBar.setTitle(R.string.title_plan);
         }
 
     }
@@ -112,11 +113,6 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
             startActivity(RecordsActivity.getIntent(this, plan.getId()));
-            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-        });
-
-        mAdapterPlans.setOnInfoClickListener(view -> {
-            startActivity(SettingActivity.getIntent(this));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 

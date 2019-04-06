@@ -33,14 +33,9 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private OnItemClickListener mOnItemClickListener = null;
     private OnItemLongClickListener mOnItemLongClickListener = null;
-    private OnInfoClickListener mOnInfoClickListener = null;
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position, Plan plan);
-    }
-
-    public interface OnInfoClickListener {
-        void onInfoClick(View view);
     }
 
     public interface OnItemLongClickListener {
@@ -49,14 +44,6 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
-    }
-
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
-        mOnItemLongClickListener = onItemLongClickListener;
-    }
-
-    public void setOnInfoClickListener(OnInfoClickListener onInfoClickListener) {
-        mOnInfoClickListener = onInfoClickListener;
     }
 
     public void setData(List<Plan> plans) {
@@ -104,12 +91,6 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     return true;
                 });
             }
-        } else if (getItemViewType(position) == ITEM_TYPE_HEADER) {
-            ((HeaderViewHolder) holder).setInfoClickListener(view -> {
-                if (mOnInfoClickListener != null) {
-                    mOnInfoClickListener.onInfoClick(view);
-                }
-            });
         }
     }
 
@@ -167,16 +148,16 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView mCvTitle;
+//        private CardView mCvTitle;
 
         HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCvTitle = itemView.findViewById(R.id.cv_title);
+//            mCvTitle = itemView.findViewById(R.id.cv_title);
         }
 
-        private void setInfoClickListener(View.OnClickListener onClickListener) {
-            mCvTitle.setOnClickListener(onClickListener);
-        }
+//        private void setInfoClickListener(View.OnClickListener onClickListener) {
+//            mCvTitle.setOnClickListener(onClickListener);
+//        }
 
     }
 

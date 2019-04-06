@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -54,6 +55,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private Toolbar mToolbar;
     private AppBarLayout mAppBarLayout;
+//    private ImageView mIvEdit;
 
     private RecyclerView mRvRecords;
     private LinearLayoutManager mLinearLayoutManager;
@@ -97,8 +99,16 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
-        finish();
+        if (mAdapterRecord == null || !mAdapterRecord.clearDeleteState()) {
+            finish();
+        }
     }
 
     @Override
@@ -110,8 +120,10 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_delete) {
-            showDeleteDialog();
+        if (id == R.id.action_edit) {
+            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+//            showDeleteDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -126,18 +138,22 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setTitle(null);
         }
 
     }
 
     private void initView() {
+//        mIvEdit = findViewById(R.id.iv_setting);
         mStatusLayout = findViewById(R.id.status_layout);
         mTvProgress = findViewById(R.id.tv_progress);
         mFabAdd = findViewById(R.id.fab_add_record);
         mRvRecords = findViewById(R.id.rv_records);
+        SimpleItemAnimator animator = (SimpleItemAnimator) mRvRecords.getItemAnimator();
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
 
         mStatusLayout.setEmptyMessageView(R.string.records_empty, null, null);
 
@@ -186,10 +202,10 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             mRecordsViewModel.updateRecordFinish(record, finish);
         });
 
-        mAdapterRecord.setOnSettingClickListener(view -> {
-            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
-            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-        });
+//        mIvEdit.setOnClickListener(view -> {
+//            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
+//            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+//        });
     }
 
     /**
