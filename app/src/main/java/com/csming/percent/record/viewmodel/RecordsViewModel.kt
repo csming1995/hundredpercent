@@ -13,7 +13,6 @@ import javax.inject.Inject
 /**
  * @author Created by csming on 2018/10/3.
  */
-// FIXME 一些数据库操作优化至异步线程
 class RecordsViewModel @Inject constructor(
         private val planRepository: PlanRepository,
         private val recordRepository: RecordRepository
@@ -24,11 +23,9 @@ class RecordsViewModel @Inject constructor(
     private var planLiveData: LiveData<Plan?>? = null
 
     private var recordStateLiveData = MutableLiveData<Int>()
-    private var deletePlanStateLiveData = MutableLiveData<Int>()
 
     init {
         recordStateLiveData.value = Contacts.STATE_NORMAL
-        deletePlanStateLiveData.value = Contacts.STATE_NORMAL
     }
 
     fun setPlanId(planId: Int) {
@@ -48,10 +45,6 @@ class RecordsViewModel @Inject constructor(
         return recordRepository.getRecords(mPlanId)
     }
 
-    fun getDeletePlanState(): LiveData<Int> {
-        return deletePlanStateLiveData
-    }
-
     fun getRecordState(): LiveData<Int> {
         return recordStateLiveData
     }
@@ -59,11 +52,6 @@ class RecordsViewModel @Inject constructor(
     fun delete(record: Record) {
         recordStateLiveData.postValue(Contacts.STATE_LOADING)
         recordRepository.delete(record, recordStateLiveData, planLiveData!!)
-    }
-
-    fun deletePlan() {
-        deletePlanStateLiveData.postValue(Contacts.STATE_LOADING)
-        planRepository.deletePlan(mPlanId, deletePlanStateLiveData)
     }
 
     fun updateRecordFinish(record: Record, finish: Boolean) {

@@ -1,5 +1,6 @@
 package com.csming.percent.main;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 import com.csming.percent.R;
 import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.ApplicationConfig;
+import com.csming.percent.common.Contacts;
+import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
@@ -24,6 +27,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
@@ -36,6 +40,8 @@ public class MainActivity extends DaggerAppCompatActivity {
     private FloatingActionButton mFabAddPlan;
 
     private Toolbar toolbar;
+
+    private AlertDialog.Builder mDeleteDialogBuilder;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -103,6 +109,11 @@ public class MainActivity extends DaggerAppCompatActivity {
         mRvPlans = findViewById(R.id.rv_plans);
         mFabAddPlan = findViewById(R.id.fab_add_plan);
 
+        SimpleItemAnimator animator = (SimpleItemAnimator) mRvPlans.getItemAnimator();
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
+
         mAdapterPlans = new PlanListAdapter();
 
         mStatusLayout.setEmptyMessageView(R.string.plans_empty, null, null);
@@ -114,6 +125,12 @@ public class MainActivity extends DaggerAppCompatActivity {
         mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
             startActivity(RecordsActivity.getIntent(this, plan.getId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
+
+        mAdapterPlans.setOnItemDeleteClickListener((view, position, plan) -> {
+            showDeleteDialog(plan.getId());
+//            startActivity(AddPlanActivity.getIntent(this, true, plan.getId()));
+//            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
         mFabAddPlan.setOnClickListener(v -> {
@@ -159,6 +176,19 @@ public class MainActivity extends DaggerAppCompatActivity {
             }
         });
 
+        mMainViewModel.getDeletePlanState().observe(this, state -> {
+            switch (state) {
+                case Contacts.STATE_NORMAL: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+                case Contacts.STATE_SUCCESS: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+            }
+        });
+
         if (ApplicationConfig.getIsFirstIn(this)) {
             mMainViewModel.initPlan(
                     getResources().getString(R.string.first_plan_title),
@@ -167,5 +197,24 @@ public class MainActivity extends DaggerAppCompatActivity {
             );
             ApplicationConfig.setIsFirstIn(this);
         }
+    }
+
+    private void showDeleteDialog(final int planId) {
+        mMainViewModel.setDeletePlan(planId);
+        if (mDeleteDialogBuilder == null) {
+            mDeleteDialogBuilder = new AlertDialog.Builder(this);
+            mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
+                if (mMainViewModel != null) {
+                    LoadingFragment.show(getSupportFragmentManager());
+                    mMainViewModel.deletePlan();
+                }
+            });
+            mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+            });
+            mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
+        }
+
+        mDeleteDialogBuilder.show();
     }
 }

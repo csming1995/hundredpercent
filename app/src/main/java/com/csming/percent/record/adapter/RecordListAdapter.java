@@ -39,6 +39,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private String description = "";
 
+    public interface OnItemDeleteClickListener {
+        void onItemDeleteClick(View view, int position, Record record);
+    }
+
+    public interface OnFinishChangeListener {
+        void onFinishChanged(View view, int position, Record record, boolean finish);
+    }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
@@ -120,14 +128,6 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 });
             }
         }
-    }
-
-    public interface OnItemDeleteClickListener {
-        void onItemDeleteClick(View view, int position, Record record);
-    }
-
-    public interface OnFinishChangeListener {
-        void onFinishChanged(View view, int position, Record record, boolean finish);
     }
 
     @NonNull

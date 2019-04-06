@@ -1,6 +1,5 @@
 package com.csming.percent.record;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,8 +61,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     private RecordListAdapter mAdapterRecord;
 
     private SlideTouchEventListener mSlideTouchEventListener;
-
-    private AlertDialog.Builder mDeleteDialogBuilder;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -201,11 +198,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mAdapterRecord.setOnFinishChangeListener((view, position, record, finish) -> {
             mRecordsViewModel.updateRecordFinish(record, finish);
         });
-
-//        mIvEdit.setOnClickListener(view -> {
-//            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
-//            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-//        });
     }
 
     /**
@@ -233,20 +225,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             }
         });
 
-        mRecordsViewModel.getDeletePlanState().observe(this, state -> {
-            switch (state) {
-                case Contacts.STATE_NORMAL: {
-                    LoadingFragment.hidden();
-                    break;
-                }
-                case Contacts.STATE_SUCCESS: {
-                    LoadingFragment.hidden();
-                    onBackPressed();
-                    break;
-                }
-            }
-        });
-
         mRecordsViewModel.getRecordState().observe(this, state -> {
             switch (state) {
                 case Contacts.STATE_NORMAL: {
@@ -261,31 +239,13 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
     }
 
-    private void showDeleteDialog() {
-        if (mDeleteDialogBuilder == null) {
-            mDeleteDialogBuilder = new AlertDialog.Builder(this);
-            mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
-                if (mRecordsViewModel != null) {
-                    LoadingFragment.show(getSupportFragmentManager());
-                    mRecordsViewModel.deletePlan();
-                }
-            });
-            mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {
-                dialogInterface.dismiss();
-            });
-            mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
-        }
-
-        mDeleteDialogBuilder.show();
-    }
-
     private void initToolbarColor(int color) {
 
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         float val = 0.8F;
 
-        setTransparentStatusBar(Color.HSVToColor(new float[]{hsv[0], hsv[1], val}));
+        setTransparentStatusBar(color/*Color.HSVToColor(new float[]{hsv[0], hsv[1], val})*/);
         mAppBarLayout.setBackgroundColor(color);
         mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
     }
