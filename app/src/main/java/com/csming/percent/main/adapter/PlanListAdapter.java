@@ -122,7 +122,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         if (position == 0) {
             return ITEM_TYPE_HEADER;
-        } else if (position == this.plans.size() + 1) {
+        } else if (position == getItemCount() - 1) {
             return ITEM_TYPE_FOOTER;
         } else {
             return ITEM_TYPE_NORMAL;

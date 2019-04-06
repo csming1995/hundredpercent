@@ -1,16 +1,15 @@
 package com.csming.percent.record;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.csming.percent.R;
@@ -18,11 +17,11 @@ import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
-import com.csming.percent.common.widget.sliderecyclerview.SlideRecyclerView;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
@@ -30,10 +29,10 @@ import javax.inject.Inject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -50,24 +49,17 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     }
 
     private StatusLayout mStatusLayout;
-    private CardView mCvTitle;
-    //    private CardView mCvDelete;
-    private LinearLayout mLlRoot;
-    private TextView mTvTitle;
     private TextView mTvProgress;
-    private TextView mTvDescription;
     private FloatingActionButton mFabAdd;
 
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
+    private AppBarLayout mAppBarLayout;
 
-    private SlideRecyclerView mRvRecords;
+    private RecyclerView mRvRecords;
     private LinearLayoutManager mLinearLayoutManager;
     private RecordListAdapter mAdapterRecord;
 
     private SlideTouchEventListener mSlideTouchEventListener;
-
-    private ObjectAnimator mObjectAnimatorCardPanelEnter;
-    private ObjectAnimator mObjectAnimatorFabEnter;
 
     private AlertDialog.Builder mDeleteDialogBuilder;
 
@@ -110,14 +102,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (mSlideTouchEventListener != null) {
-            mSlideTouchEventListener.onTouchEvent(event);
-        }
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_records, menu);
         return true;
@@ -136,8 +120,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
      * 初始化ToolBar
      */
     private void initToolBar() {
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        mAppBarLayout = findViewById(R.id.app_bar_layout);
+        setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
@@ -148,51 +133,17 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     }
 
-    private void initAnimator() {
-
-        // 获取 主面板高度
-        int heightCardPanel = mLlRoot.getMeasuredHeight();
-        // 获取屏幕信息
-        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
-        mObjectAnimatorCardPanelEnter.setDuration(500);
-
-        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
-        mObjectAnimatorFabEnter.setDuration(600);
-    }
-
     private void initView() {
         mStatusLayout = findViewById(R.id.status_layout);
-        mCvTitle = findViewById(R.id.cv_title);
-//        mCvDelete = findViewById(R.id.cv_delete);
-        mLlRoot = findViewById(R.id.ll_root);
-        mTvTitle = findViewById(R.id.tv_title);
         mTvProgress = findViewById(R.id.tv_progress);
-        mTvDescription = findViewById(R.id.tv_description);
         mFabAdd = findViewById(R.id.fab_add_record);
         mRvRecords = findViewById(R.id.rv_records);
 
         mStatusLayout.setEmptyMessageView(R.string.records_empty, null, null);
 
-        mLlRoot.post(() -> {
-            initAnimator();
-
-            mObjectAnimatorCardPanelEnter.start();
-            mObjectAnimatorFabEnter.start();
-        });
-
-        mCvTitle.setOnClickListener(view -> {
-            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
-            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-        });
-
-//        mCvDelete.setOnClickListener(view -> {
-//            showDeleteDialog();
-//        });
-
         mFabAdd.setOnClickListener(v -> {
             startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-            mRvRecords.closeMenu();
         });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
@@ -229,12 +180,15 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mAdapterRecord.setOnItemDeleteClickListener((view, position, record) -> {
             LoadingFragment.show(getSupportFragmentManager());
             mRecordsViewModel.delete(record);
-            mRvRecords.closeMenu();
         });
 
         mAdapterRecord.setOnFinishChangeListener((view, position, record, finish) -> {
-            mRvRecords.closeMenu();
             mRecordsViewModel.updateRecordFinish(record, finish);
+        });
+
+        mAdapterRecord.setOnSettingClickListener(view -> {
+            startActivity(AddPlanActivity.getIntent(this, true, mRecordsViewModel.getPlanId()));
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
     }
 
@@ -257,14 +211,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRecordsViewModel.getPlan().observe(this, plan -> {
             if (plan != null) {
                 mTvProgress.setText(plan.getFinished() + "/" + plan.getCount());
-                if (TextUtils.isEmpty(plan.getDescription())) {
-                    mTvDescription.setVisibility(View.GONE);
-                } else {
-                    mTvDescription.setVisibility(View.VISIBLE);
-                }
-                mTvDescription.setText(plan.getDescription());
-                mTvTitle.setText(plan.getTitle());
-                mCvTitle.setCardBackgroundColor(plan.getColor());
+                mToolbar.setTitle(plan.getTitle());
+                initToolbarColor(plan.getColor());
+                mAdapterRecord.setDescription(plan.getDescription());
             }
         });
 
@@ -313,4 +262,31 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
         mDeleteDialogBuilder.show();
     }
+
+    private void initToolbarColor(int color) {
+
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        float val = 0.8F;
+
+        setTransparentStatusBar(Color.HSVToColor(new float[]{hsv[0], hsv[1], val}));
+        mAppBarLayout.setBackgroundColor(color);
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
+    }
+
+    private void setTransparentStatusBar(int color) {
+        //5.0及以上
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(color);
+            //4.4到5.0
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+    }
+
 }

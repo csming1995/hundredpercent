@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/color_212121</color>
-    <color name="colorPrimaryDark">@color/color_00000000</color>
+    <color name="colorPrimaryDark">@color/color_D1D1D1</color>
     <color name="colorAccent">@color/color_000000</color>
 
     <color name="color_000000">#000000</color>
@@ -11,6 +11,7 @@
     <color name="color_BDBDBD">#BDBDBD</color>
     <color name="color_ffffff">#ffffff</color>
     <color name="color_00000000">#00000000</color>
+    <color name="color_D1D1D1">#D1D1D1</color>
 
     <color name="color_D84315">#D84315</color>
 
@@ -35,7 +36,6 @@
     <color name="color_select_12">#512DA8</color>
     <color name="color_select_13">#3F51B5</color>
     <color name="color_select_14">#3949AB</color>
-    <color name="color_select_15">#303F9F</color>
     <color name="color_select_16">#2196F3</color>
     <color name="color_select_17">#1E88E5</color>
     <color name="color_select_18">#1976D2</color>
@@ -47,7 +47,6 @@
     <color name="color_select_24">#0097A7</color>
     <color name="color_select_25">#009688</color>
     <color name="color_select_26">#00897B</color>
-    <color name="color_select_27">#00796B</color>
     <color name="color_select_28">#4CAF50</color>
     <color name="color_select_29">#43A047</color>
     <color name="color_select_30">#388E3C</color>
@@ -71,10 +70,8 @@
     <color name="color_select_48">#E64A19</color>
     <color name="color_select_49">#795548</color>
     <color name="color_select_50">#6D4C41</color>
-    <color name="color_select_51">#5D4037</color>
     <color name="color_select_52">#607D8B</color>
     <color name="color_select_53">#546E7A</color>
-    <color name="color_select_54">#455A64</color>
 
     <color name="color_delete">@color/color_F4511E</color>
 </resources>
