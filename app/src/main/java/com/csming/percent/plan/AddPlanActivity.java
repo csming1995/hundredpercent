@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
@@ -15,18 +14,15 @@ import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
-import com.csming.percent.common.widget.AutofitRecyclerView;
-import com.csming.percent.plan.adapter.ColorSelectAdapter;
 import com.csming.percent.plan.viewmodel.AddPlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -55,6 +51,8 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     private EditText mEtTitle;
     private EditText mEtDescription;
 
+    private Toolbar toolbar;
+
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
@@ -67,7 +65,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
     private boolean isEdit;
 
-    private ColorSelectAdapter mColorSelectAdapter;
+//    private ColorSelectAdapter mColorSelectAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +74,8 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
         initViewModel();
         initView();
-        initColorPanel();
+//        initColorPanel();
+        initToolBar();
     }
 
     @Override
@@ -98,6 +97,12 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
     }
@@ -108,6 +113,25 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             mSlideTouchEventListener.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * 初始化ToolBar
+     */
+    private void initToolBar() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setTitle(R.string.title_setting);
+        }
+
+        toolbar.setTitle(isEdit ? R.string.title_edit_plan : R.string.title_add_plan);
+
     }
 
 
@@ -139,7 +163,11 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
             if (isEdit) {
                 mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
             } else {
-                mAddPlanViewModel.postPlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                int ran = (int) (Math.random() * ColorEntity.COLOR_VALUES.length);
+                mAddPlanViewModel.postPlan(
+                        mEtTitle.getText().toString(),
+                        mEtDescription.getText().toString(),
+                        getResources().getColor(ColorEntity.COLOR_VALUES[ran]));
             }
         });
 
@@ -164,30 +192,30 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
     }
 
-    /**
-     * 初始化颜料盘
-     */
-    private void initColorPanel() {
-        AutofitRecyclerView rvColorSelectList;
-        List<ColorEntity> mColorEntities;
-
-        rvColorSelectList = findViewById(R.id.rv_color_select_list);
-        rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
-
-        // 颜色数据
-        mColorEntities = new ArrayList<>();
-        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
-            ColorEntity colorEntity = new ColorEntity();
-            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
-            mColorEntities.add(colorEntity);
-        }
-        mColorSelectAdapter = new ColorSelectAdapter(mColorEntities);
-        rvColorSelectList.setAdapter(mColorSelectAdapter);
-        mColorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
-            int color = getResources().getColor(colorEntity.getColorValue());
-            mAddPlanViewModel.setColor(color);
-        });
-    }
+//    /**
+//     * 初始化颜料盘
+//     */
+//    private void initColorPanel() {
+//        AutofitRecyclerView rvColorSelectList;
+//        List<ColorEntity> mColorEntities;
+//
+//        rvColorSelectList = findViewById(R.id.rv_color_select_list);
+//        rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
+//
+//        // 颜色数据
+//        mColorEntities = new ArrayList<>();
+//        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+//            ColorEntity colorEntity = new ColorEntity();
+//            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
+//            mColorEntities.add(colorEntity);
+//        }
+//        mColorSelectAdapter = new ColorSelectAdapter(mColorEntities);
+//        rvColorSelectList.setAdapter(mColorSelectAdapter);
+//        mColorSelectAdapter.setOnItemClickListener((view, position, colorEntity) -> {
+//            int color = getResources().getColor(colorEntity.getColorValue());
+//            mAddPlanViewModel.setColor(color);
+//        });
+//    }
 
     private void initViewModel() {
         mAddPlanViewModel = ViewModelProviders.of(this, factory).get(AddPlanViewModel.class);
@@ -200,12 +228,12 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
                 mEtTitle.setText(plan.getTitle());
                 mEtDescription.setText(plan.getDescription());
                 mAddPlanViewModel.setColor(plan.getColor());
-                for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
-                    if (getResources().getColor(ColorEntity.COLOR_VALUES[index]) == plan.getColor()) {
-                        mColorSelectAdapter.setSelectIndex(index);
-                        break;
-                    }
-                }
+//                for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
+//                    if (getResources().getColor(ColorEntity.COLOR_VALUES[index]) == plan.getColor()) {
+//                        mColorSelectAdapter.setSelectIndex(index);
+//                        break;
+//                    }
+//                }
             });
 
             mAddPlanViewModel.getStateLiveData().observe(this, state -> {
@@ -249,7 +277,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
             });
         }
-        ((TextView)findViewById(R.id.tv_title)).setText(isEdit ? R.string.title_edit_plan: R.string.title_add_plan);
+//        ((TextView)findViewById(R.id.tv_title)).setText(isEdit ? R.string.title_edit_plan: R.string.title_add_plan);
 
     }
 }

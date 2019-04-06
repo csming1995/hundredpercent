@@ -11,10 +11,11 @@ import android.widget.LinearLayout;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * @author Created by csming on 2019/3/29.
@@ -26,14 +27,16 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private LinearLayout mLlRoot;
-    private FloatingActionButton mFabClose;
+//    private FloatingActionButton mFabClose;
 
-    private LinearLayout mLlGotoWeibo;
+    //    private LinearLayout mLlGotoWeibo;
     private LinearLayout mLlGotoEmail;
     private LinearLayout mLlUpdate;
 
+    private Toolbar toolbar;
+
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
-    private ObjectAnimator mObjectAnimatorFabEnter;
+//    private ObjectAnimator mObjectAnimatorFabEnter;
 
     private SlideTouchEventListener mSlideTouchEventListener;
 
@@ -43,6 +46,7 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
 
         initView();
+        initToolBar();
     }
 
     @Override
@@ -64,6 +68,12 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
     }
@@ -76,21 +86,38 @@ public class SettingActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    /**
+     * 初始化ToolBar
+     */
+    private void initToolBar() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setTitle(R.string.title_setting);
+        }
+
+    }
+
 
     private void initAnimator() {
         int heightCardPanel = mLlRoot.getMeasuredHeight();
         mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
         mObjectAnimatorCardPanelEnter.setDuration(300);
 
-        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabClose, "translationY", 500, -50, 0);
-        mObjectAnimatorFabEnter.setDuration(400);
+//        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabClose, "translationY", 500, -50, 0);
+//        mObjectAnimatorFabEnter.setDuration(400);
     }
 
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
-        mFabClose = findViewById(R.id.fab_close);
+//        mFabClose = findViewById(R.id.fab_close);
 
-        mLlGotoWeibo = findViewById(R.id.ll_goto_weibo);
+//        mLlGotoWeibo = findViewById(R.id.ll_goto_weibo);
         mLlGotoEmail = findViewById(R.id.ll_goto_email);
         mLlUpdate = findViewById(R.id.ll_update);
 
@@ -98,12 +125,12 @@ public class SettingActivity extends AppCompatActivity {
             initAnimator();
 
             mObjectAnimatorCardPanelEnter.start();
-            mObjectAnimatorFabEnter.start();
+//            mObjectAnimatorFabEnter.start();
         });
 
-        mFabClose.setOnClickListener(v -> {
-            onBackPressed();
-        });
+//        mFabClose.setOnClickListener(v -> {
+//            onBackPressed();
+//        });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
@@ -125,11 +152,11 @@ public class SettingActivity extends AppCompatActivity {
         };
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
 
-        mLlGotoWeibo.setOnClickListener(view -> {
-            Uri uri = Uri.parse("https://m.weibo.cn/u/1956533563?uid=1956533563");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        });
+//        mLlGotoWeibo.setOnClickListener(view -> {
+//            Uri uri = Uri.parse("https://m.weibo.cn/u/1956533563?uid=1956533563");
+//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//            startActivity(intent);
+//        });
         mLlGotoEmail.setOnClickListener(view -> {
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setAction(Intent.ACTION_SEND);

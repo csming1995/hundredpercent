@@ -9,55 +9,77 @@
     android:orientation="vertical"
     tools:context=".plan.AddPlanActivity">
 
+    <!--App Bar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        app:elevation="4dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:elevation="4dp"
+            app:elevation="4dp">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <LinearLayout
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center"
-            android:layout_marginTop="36dp"
-            android:layout_marginBottom="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/color_111111"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
+        <!--<androidx.cardview.widget.CardView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="top|center"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:layout_marginBottom="12dp"-->
+        <!--android:clickable="true"-->
+        <!--android:focusable="true"-->
+        <!--android:foreground="?android:attr/selectableItemBackground"-->
+        <!--app:cardBackgroundColor="@color/color_111111"-->
+        <!--app:cardCornerRadius="8dp"-->
+        <!--app:cardElevation="4dp">-->
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/title_setting"
-                android:textColor="@color/color_ffffff"
-                android:textSize="16dp" />
-        </androidx.cardview.widget.CardView>
+        <!--<TextView-->
+        <!--android:id="@+id/tv_title"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="12dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginEnd="12dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:text="@string/title_setting"-->
+        <!--android:textColor="@color/color_ffffff"-->
+        <!--android:textSize="16dp" />-->
+        <!--</androidx.cardview.widget.CardView>-->
 
         <TextView
-            android:id="@+id/tv_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/setting_slogon"
             android:textColor="@color/color_BDBDBD"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="50dp"
             android:textSize="16dp" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="48dp"
+            android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:clickable="true"
@@ -90,44 +112,44 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="20dp"
                             android:layout_marginBottom="4dp"
-                            android:text="@string/setting_about"
+                            android:text="@string/setting_feedback"
                             android:textColor="@color/color_111111"
                             android:textSize="15dp" />
 
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:src="@drawable/avatar" />
+                        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                        <!--android:layout_width="32dp"-->
+                        <!--android:layout_height="32dp"-->
+                        <!--android:layout_marginStart="20dp"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:src="@drawable/avatar" />-->
 
-                        <LinearLayout
-                            android:id="@+id/ll_goto_weibo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:gravity="center">
+                        <!--<LinearLayout-->
+                        <!--android:id="@+id/ll_goto_weibo"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="5dp"-->
+                        <!--android:layout_marginBottom="5dp"-->
+                        <!--android:clickable="true"-->
+                        <!--android:foreground="?android:attr/selectableItemBackground"-->
+                        <!--android:gravity="center">-->
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="20dp"
-                                app:srcCompat="@drawable/ic_weibo" />
+                        <!--<androidx.appcompat.widget.AppCompatImageView-->
+                        <!--android:layout_width="24dp"-->
+                        <!--android:layout_height="24dp"-->
+                        <!--android:layout_marginStart="20dp"-->
+                        <!--app:srcCompat="@drawable/ic_weibo" />-->
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginEnd="20dp"
-                                android:text="@string/setting_about_author"
-                                android:textColor="@color/color_424242"
-                                android:textSize="13dp" />
-                        </LinearLayout>
+                        <!--<TextView-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:layout_marginStart="8dp"-->
+                        <!--android:layout_marginEnd="20dp"-->
+                        <!--android:text="@string/setting_about_author"-->
+                        <!--android:textColor="@color/color_424242"-->
+                        <!--android:textSize="13dp" />-->
+                        <!--</LinearLayout>-->
 
                         <LinearLayout
                             android:id="@+id/ll_goto_email"
@@ -257,16 +279,16 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        app:backgroundTint="@color/color_000000"
-        app:elevation="8dp"
-        app:rippleColor="@color/color_000000"
-        app:srcCompat="@drawable/ic_close" />
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--android:id="@+id/fab_close"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|center"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginBottom="24dp"-->
+    <!--app:backgroundTint="@color/color_000000"-->
+    <!--app:elevation="8dp"-->
+    <!--app:rippleColor="@color/color_000000"-->
+    <!--app:srcCompat="@drawable/ic_close" />-->
 
 </LinearLayout>

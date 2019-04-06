@@ -21,6 +21,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import dagger.android.support.DaggerAppCompatActivity;
@@ -60,6 +62,8 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     private EditText mEtTitle;
     private EditText mEtDescription;
 
+    private Toolbar toolbar;
+
     private ObjectAnimator mObjectAnimatorCardPanelEnter;
     private ObjectAnimator mObjectAnimatorFabEnter;
 
@@ -79,6 +83,7 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
         initView();
         initData();
+        initToolBar();
     }
 
     @Override
@@ -100,6 +105,12 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         finish();
     }
@@ -110,6 +121,25 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
             mSlideTouchEventListener.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * 初始化ToolBar
+     */
+    private void initToolBar() {
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setTitle(R.string.title_setting);
+        }
+
+        toolbar.setTitle(isEdit ? R.string.title_edit_record : R.string.title_add_record);
+
     }
 
     private void initAnimator() {
@@ -215,7 +245,5 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
                 }
             });
         }
-
-        mTvTitle.setText(isEdit ? R.string.title_edit_record : R.string.title_add_record);
     }
 }

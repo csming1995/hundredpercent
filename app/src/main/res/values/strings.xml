@@ -41,10 +41,13 @@
     <string name="setting_about_content">发份邮件反馈问题, 和作者一起完善这个作品吧~</string>
     <string name="setting_email_subject">"百分百"的意见反馈</string>
 
+    <string name="setting_feedback">意见反馈</string>
+
     <string name="setting_update">检测更新</string>
     <string name="setting_update_content">今天天气很好</string>
 
-    <string name="setting_slogon">I keep my Ideals.</string>
+    <string name="setting_slogon">世上只有一种英雄主义，就是在认清生活真相之后依然热爱生活。——罗曼·罗兰</string>
+    <!--<string name="setting_slogon">I keep my Ideals.</string>-->
 
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>
