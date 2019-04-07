@@ -2,7 +2,6 @@ package com.csming.percent.record;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -139,6 +138,8 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(false);
         }
 
+        initToolbarColor();
+
     }
 
     private void initView() {
@@ -220,7 +221,6 @@ public class RecordsActivity extends DaggerAppCompatActivity {
             if (plan != null) {
                 mTvProgress.setText(plan.getFinished() + "/" + plan.getCount());
                 mToolbar.setTitle(plan.getTitle());
-                initToolbarColor(plan.getColor());
                 mAdapterRecord.setDescription(plan.getDescription());
             }
         });
@@ -239,14 +239,15 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         });
     }
 
-    private void initToolbarColor(int color) {
+    private void initToolbarColor() {
 
-        float[] hsv = new float[3];
-        Color.colorToHSV(color, hsv);
-        float val = 0.8F;
+//        float[] hsv = new float[3];
+//        Color.colorToHSV(color, hsv);
+//        float val = 0.8F;
+//        Color.HSVToColor(new float[]{hsv[0], hsv[1], val})
 
-        setTransparentStatusBar(color/*Color.HSVToColor(new float[]{hsv[0], hsv[1], val})*/);
-        mAppBarLayout.setBackgroundColor(color);
+        setTransparentStatusBar(getResources().getColor(R.color.color_select_18_dark));
+        mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.color_select_18));
         mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
     }
 

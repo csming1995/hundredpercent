@@ -92,14 +92,12 @@ public class MainActivity extends DaggerAppCompatActivity {
      */
     private void initToolBar() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setTitle(R.string.title_plan);
         }
 
     }

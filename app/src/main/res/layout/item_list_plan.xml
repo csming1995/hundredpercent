@@ -4,14 +4,14 @@
     android:id="@+id/cv_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="24dp"
-    android:layout_marginEnd="24dp"
+    android:layout_marginStart="@dimen/margin_side"
+    android:layout_marginEnd="@dimen/margin_side"
     android:layout_marginBottom="10dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/color_F4511E"
+    app:cardBackgroundColor="@color/color_select_18"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 

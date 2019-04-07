@@ -128,7 +128,7 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
      */
     private void initToolBar() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

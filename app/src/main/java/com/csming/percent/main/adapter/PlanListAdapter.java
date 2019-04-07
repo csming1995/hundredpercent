@@ -69,7 +69,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
             Plan plan = plans.get(position - 1);
             if (plan != null) {
-                ((PlanNormalViewHolder) holder).setBackground(plan.getColor());
+//                ((PlanNormalViewHolder) holder).setBackground(plan.getColor());
                 ((PlanNormalViewHolder) holder).setTitle(plan.getTitle());
                 ((PlanNormalViewHolder) holder).setProgress(plan.getCount(), plan.getFinished());
                 ((PlanNormalViewHolder) holder).setDeleteVisibity(position == deleteIndex);

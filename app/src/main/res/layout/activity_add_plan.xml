@@ -29,8 +29,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
+                android:background="@color/color_212121"
                 android:elevation="4dp"
-                app:elevation="4dp">
+                app:elevation="4dp"
+                app:title="@string/title_add_plan"
+                app:titleTextColor="@color/color_ffffff">
 
             </androidx.appcompat.widget.Toolbar>
 
@@ -65,9 +68,9 @@
             android:id="@+id/cv_panel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/margin_side"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="@dimen/margin_side"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
             android:clickable="true"
@@ -89,6 +92,7 @@
                     android:gravity="start|top"
                     android:hint="@string/add_plan_title"
                     android:maxLength="15"
+                    android:backgroundTint="@color/color_212121"
                     android:textSize="16dp" />
 
                 <EditText
@@ -101,6 +105,7 @@
                     android:hint="@string/add_plan_description"
                     android:maxLength="100"
                     android:minLines="2"
+                    android:backgroundTint="@color/color_212121"
                     android:textSize="16dp" />
 
                 <!--<com.csming.percent.common.widget.AutofitRecyclerView-->
@@ -122,13 +127,15 @@
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:fitsSystemWindows="true"
-        app:backgroundTint="@color/color_000000"
+        app:backgroundTint="@color/color_select_18"
         app:elevation="8dp"
-        app:rippleColor="@color/color_000000"
+        app:rippleColor="@color/color_select_18"
         app:srcCompat="@drawable/ic_ok" />
 
 </FrameLayout>

@@ -3,4 +3,6 @@
     <dimen name="width_per_color_item">36dp</dimen>
 
     <dimen name="min_distance_slide">64dp</dimen>
+
+    <dimen name="margin_side">16dp</dimen>
 </resources>
