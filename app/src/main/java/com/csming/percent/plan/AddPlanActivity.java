@@ -187,11 +187,11 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 //            if (isEdit) {
 //                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
 //            } else {
-//                int ran = (int) (Math.random() * ColorEntity.COLOR_VALUES.length);
+//                int ran = (int) (Math.random() * SlogonEntity.COLOR_VALUES.length);
 //                mAddPlanViewModel.postPlan(
 //                        mEtTitle.getText().toString(),
 //                        mEtDescription.getText().toString(),
-//                        getResources().getColor(ColorEntity.COLOR_VALUES[ran]));
+//                        getResources().getColor(SlogonEntity.COLOR_VALUES[ran]));
 //            }
 //        });
 
@@ -221,16 +221,16 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 //     */
 //    private void initColorPanel() {
 //        AutofitRecyclerView rvColorSelectList;
-//        List<ColorEntity> mColorEntities;
+//        List<SlogonEntity> mColorEntities;
 //
 //        rvColorSelectList = findViewById(R.id.rv_color_select_list);
 //        rvColorSelectList.setColumnWidth(getResources().getDimensionPixelSize(R.dimen.width_per_color_item));
 //
 //        // 颜色数据
 //        mColorEntities = new ArrayList<>();
-//        for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
-//            ColorEntity colorEntity = new ColorEntity();
-//            colorEntity.setColorValue(ColorEntity.COLOR_VALUES[index]);
+//        for (int index = 0; index < SlogonEntity.COLOR_VALUES.length; index++) {
+//            SlogonEntity colorEntity = new SlogonEntity();
+//            colorEntity.setColorValue(SlogonEntity.COLOR_VALUES[index]);
 //            mColorEntities.add(colorEntity);
 //        }
 //        mColorSelectAdapter = new ColorSelectAdapter(mColorEntities);
@@ -252,8 +252,8 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
                 mEtTitle.setText(plan.getTitle());
                 mEtDescription.setText(plan.getDescription());
                 mAddPlanViewModel.setColor(plan.getColor());
-//                for (int index = 0; index < ColorEntity.COLOR_VALUES.length; index++) {
-//                    if (getResources().getColor(ColorEntity.COLOR_VALUES[index]) == plan.getColor()) {
+//                for (int index = 0; index < SlogonEntity.COLOR_VALUES.length; index++) {
+//                    if (getResources().getColor(SlogonEntity.COLOR_VALUES[index]) == plan.getColor()) {
 //                        mColorSelectAdapter.setSelectIndex(index);
 //                        break;
 //                    }
