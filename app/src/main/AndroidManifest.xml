@@ -29,16 +29,16 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".record.RecordsActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/toolBar">
         </activity>
         <activity android:name=".record.AddRecordActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan|adjustResize">
         </activity>
 
         <activity android:name=".setting.SettingActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan|adjustResize">
         </activity>
 
         <meta-data

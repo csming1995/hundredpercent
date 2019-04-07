@@ -46,7 +46,7 @@ class AddPlanViewModel @Inject constructor(
         return mPostState
     }
 
-    fun postPlan(title: String, description: String) {
+    fun postPlan(title: String, description: String, color: Int) {
         if (TextUtils.isEmpty(title)) {
             mPostState.postValue(Contacts.STATE_POST_TITLE_NULL)
             return
@@ -58,7 +58,9 @@ class AddPlanViewModel @Inject constructor(
         val plan = Plan()
         plan.title = title
         plan.description = description
-        plan.color = mColor!!
+//        mColor!!
+        plan.color = color //
+
         planRepository.addPlan(plan, mPostState)
     }
 
