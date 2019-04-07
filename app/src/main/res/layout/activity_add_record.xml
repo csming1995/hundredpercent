@@ -76,8 +76,8 @@
             android:background="@color/color_ffffff"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="6dp"
             app:title="@string/title_add_record"
             app:titleTextColor="@color/color_616161">
 

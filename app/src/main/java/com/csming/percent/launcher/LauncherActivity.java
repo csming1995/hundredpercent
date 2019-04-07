@@ -36,7 +36,7 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void gotoNextActivityDelay() {
         handler = new Handler(getMainLooper());
-        handler.postDelayed(this::gotoNextActivity, 800);
+        handler.postDelayed(this::gotoNextActivity, 1000);
     }
 
     private void gotoNextActivity() {
