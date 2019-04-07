@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorControlNormal">@color/color_ffffff</item>
+        <item name="colorControlNormal">@color/color_424242</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -15,8 +15,8 @@
     <!--<item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>-->
     <!--</style>-->
 
-    <style name="toolBar" parent="AppTheme">
-        <item name="colorControlNormal">#FFFFFF</item>
-    </style>
+    <!--<style name="toolBar" parent="AppTheme">-->
+    <!--<item name="colorControlNormal">#FFFFFF</item>-->
+    <!--</style>-->
 
 </resources>

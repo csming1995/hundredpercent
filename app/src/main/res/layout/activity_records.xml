@@ -27,8 +27,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
+                android:background="@color/color_ffffff"
                 android:elevation="4dp"
-                app:elevation="4dp">
+                app:elevation="4dp"
+                app:titleTextColor="@color/color_424242">
 
                 <TextView
                     android:id="@+id/tv_progress"
@@ -68,10 +70,10 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/color_select_18"
+        app:backgroundTint="@color/color_212121"
         app:elevation="8dp"
-        app:rippleColor="@color/color_select_18"
         app:layout_behavior="com.csming.percent.common.FabScrollBehavior"
+        app:rippleColor="@color/color_212121"
         app:srcCompat="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

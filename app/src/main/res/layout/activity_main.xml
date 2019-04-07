@@ -27,9 +27,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
                 android:elevation="4dp"
-                android:background="@color/color_212121"
+                android:background="@color/color_ffffff"
                 app:title="@string/title_plan"
-                app:titleTextColor="@color/color_ffffff"
+                app:titleTextColor="@color/color_424242"
                 app:elevation="4dp">
 
             </androidx.appcompat.widget.Toolbar>
@@ -58,9 +58,9 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="@color/color_select_18"
+        app:backgroundTint="@color/color_212121"
         app:layout_behavior="com.csming.percent.common.FabScrollBehavior"
-        app:rippleColor="@color/color_select_18"
+        app:rippleColor="@color/color_212121"
         app:srcCompat="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

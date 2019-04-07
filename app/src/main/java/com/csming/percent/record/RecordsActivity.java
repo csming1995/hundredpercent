@@ -246,9 +246,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 //        float val = 0.8F;
 //        Color.HSVToColor(new float[]{hsv[0], hsv[1], val})
 
-        setTransparentStatusBar(getResources().getColor(R.color.color_select_18_dark));
-        mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.color_select_18));
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
+//        setTransparentStatusBar(getResources().getColor(R.color.color_select_18_dark));
+//        mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+//        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
     }
 
     private void setTransparentStatusBar(int color) {

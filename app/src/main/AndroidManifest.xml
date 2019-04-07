@@ -36,7 +36,7 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".record.RecordsActivity"
-            android:theme="@style/toolBar">
+            android:theme="@style/AppTheme">
         </activity>
         <activity android:name=".record.AddRecordActivity"
             android:theme="@style/AppTheme"
