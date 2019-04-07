@@ -15,7 +15,7 @@ public interface PlanDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Plan plan);
 
-    @Query("SELECT * FROM plans")
+    @Query("SELECT * FROM plans order by last_update desc, id asc")
     LiveData<List<Plan>> loadPlans();
 
     @Query("SELECT * FROM plans WHERE `title` = :title")
@@ -32,6 +32,9 @@ public interface PlanDao {
 
     @Query("UPDATE plans SET count = :count WHERE id = :planId")
     void updatePlanCount(int planId, int count);
+
+    @Query("UPDATE plans SET last_update = :time WHERE id = :planId")
+    void updatePlanUpdateTime(int planId, long time);
 
     @Query("UPDATE plans SET finished = :finish WHERE id = :planId")
     void updatePlanFinished(int planId, int finish);

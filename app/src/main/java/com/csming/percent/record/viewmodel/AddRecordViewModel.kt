@@ -55,6 +55,6 @@ class AddRecordViewModel @Inject constructor(
             mPostState.postValue(Contacts.STATE_UPDATE_TITLE_NULL)
             return
         }
-        recordRepository.updateRecord(mRecordId, title, description, mPostState)
+        recordRepository.updateRecord(mPlanId, mRecordId, title, description, mPostState)
     }
 }

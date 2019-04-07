@@ -1,6 +1,8 @@
 package com.csming.percent.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,10 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     private MainViewModel mMainViewModel;
 
+    public static Intent getIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // 全屏显示
@@ -63,6 +69,13 @@ public class MainActivity extends DaggerAppCompatActivity {
         super.onResume();
         AnalyticsUtil.onResume(this);
         initData();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mAdapterPlans == null || !mAdapterPlans.clearDeleteState()) {
+            super.onBackPressed();
+        }
     }
 
     @Override

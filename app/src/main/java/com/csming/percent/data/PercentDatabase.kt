@@ -10,7 +10,7 @@ import com.csming.percent.data.vo.Record
 /**
  * @author Created by csming on 2019/3/30.
  */
-@Database(entities = [Plan::class, Record::class], version = 1)
+@Database(entities = [Plan::class, Record::class], version = 2)
 abstract class PercentDatabase : RoomDatabase() {
 
     abstract val planDao: PlanDao
