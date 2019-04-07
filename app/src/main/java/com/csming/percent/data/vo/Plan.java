@@ -1,12 +1,9 @@
 package com.csming.percent.data.vo;
 
-import java.util.List;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 
 /**
  * @author Created by csming on 2019/3/27.
@@ -36,6 +33,9 @@ public class Plan {
 
     @ColumnInfo(name = "finished")
     private int finished = 0; // 已完成的条目数量
+
+    @ColumnInfo(name = "last_update")
+    private long lastUpdate = 0;// 更新时间
 
     public Plan() {
         super();
@@ -95,5 +95,13 @@ public class Plan {
 
     public void setFinished(int finished) {
         this.finished = finished;
+    }
+
+    public long getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(long lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }

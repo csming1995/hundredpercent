@@ -46,9 +46,6 @@
     <string name="setting_update">检测更新</string>
     <string name="setting_update_content">今天天气很好</string>
 
-    <string name="setting_slogon">世上只有一种英雄主义，就是在认清生活真相之后依然热爱生活。——罗曼·罗兰</string>
-    <!--<string name="setting_slogon">I keep my Ideals.</string>-->
-
     <!--StatusLayout-->
     <string name="str_empty">数据为空</string>
     <string name="str_net_error">你已进入没有网络的异次元</string>
@@ -60,6 +57,23 @@
     <string name="delete_dialog_message">确定删除该计划吗</string>
     <string name="delete_sure">确定</string>
     <string name="delete_cancel">取消</string>
+
+    <string name="setting_slogon">世上只有一种英雄主义，就是在认清生活真相之后依然热爱生活。        ——罗曼·罗兰</string>
+    <string name="setting_slogon2">手持圣旗，满面红光走向罪恶。        ——伏尔泰</string>
+    <string name="setting_slogon3">我们见到的太阳是8分钟之前的太阳，见到的月亮是1.3秒之前的月亮，见到1500米以外的建筑是5微妙之前的存在。        ——未知</string>
+    <string name="setting_slogon4">所谓完美的文章并不存在，就像完美的绝望不存在一样。        ——村上春树</string>
+    <string name="setting_slogon5">一个男人要走过多少路，才能被称作男人。        ——鲍勃·迪伦</string>
+    <string name="setting_slogon6">时间一天天过去，好像什么都没有改变。但当你某天回首，却发现什么都不同了。        ——《生活大爆炸》</string>
+    <string name="setting_slogon7">日光之下有酒醉之人，回忆挽留爱情，片段里瞥见一生。        ——未知</string>
+    <string name="setting_slogon8">你要做一个不动声色的大人了。不准情绪化，不准偷偷想念，不准回头看。去过自己另外的生活。你要听话，不是所有的鱼都会生活在同一片海里。        ——村上春树</string>
+    <string name="setting_slogon9">我一直以为人是慢慢变老的，其实不是，人是一瞬间变老的。        ——村上春树</string>
+    <string name="setting_slogon10">有时候，一个人只要好好活着，就足以拯救某个人。        ——东野圭吾</string>
+    <string name="setting_slogon11">有些人一辈子都活在太阳的照耀下，也有些人不得不一直活在漆黑的深夜里。        ——东野圭吾</string>
+    <string name="setting_slogon12">要是什么都按照计划顺利实现，谁还用辛苦打拼。        ——东野圭吾</string>
+    <string name="setting_slogon13">当美丽、纯粹、真实的事物被破坏，我们所留恋的回忆和梦想被摧毁时，恨意便开始萌发，恣意蔓延开来。        ——东野圭吾</string>
+    <string name="setting_slogon14">看清这个世界，然后爱它。        ——罗曼·罗兰</string>
+    <string name="setting_slogon15">我不能抛弃心，我想。无论它多么沉重，有时候是多么黑暗，但他还是可以时而像鸟一样在风中曼舞。        ——村上春树</string>
+    <!--<string name="setting_slogon">I keep my Ideals.</string>-->
 
     <string name="button_sure">确定</string>
 </resources>
