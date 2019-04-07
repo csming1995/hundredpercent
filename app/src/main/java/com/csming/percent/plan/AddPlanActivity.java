@@ -283,8 +283,8 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
                 switch (state) {
                     case Contacts.STATE_SUCCESS: {
                         LoadingFragment.hidden();
-                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        setResult(RESULT_OK);
+                        finish();
                         break;
                     }
                     case Contacts.STATE_POST_TITLE_NULL: {

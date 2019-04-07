@@ -20,11 +20,14 @@ import com.csming.percent.plan.vo.ColorEntity;
 import com.csming.percent.record.RecordsActivity;
 import com.csming.percent.setting.SettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +36,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
+
+    private CoordinatorLayout mClRoot;
 
     private StatusLayout mStatusLayout;
     private RecyclerView mRvPlans;
@@ -100,6 +105,21 @@ public class MainActivity extends DaggerAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Contacts.RESULT_TAG_ADDED_PLAN) {
+            if (resultCode == RESULT_OK) {
+                if (ApplicationConfig.getIsFirstAddPlan(this)) {
+                    Snackbar.make(mClRoot, R.string.toast_first_add_plan, Snackbar.LENGTH_SHORT).show();
+                    ApplicationConfig.setIsFirstAddPlan(this);
+                } else {
+                    Snackbar.make(mClRoot, R.string.post_plan_result_success, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
     /**
      * 初始化ToolBar
      */
@@ -116,6 +136,8 @@ public class MainActivity extends DaggerAppCompatActivity {
     }
 
     private void initView() {
+        mClRoot = findViewById(R.id.cl_root);
+
         mStatusLayout = findViewById(R.id.status_layout);
         mRvPlans = findViewById(R.id.rv_plans);
         mFabAddPlan = findViewById(R.id.fab_add_plan);
@@ -145,7 +167,7 @@ public class MainActivity extends DaggerAppCompatActivity {
         });
 
         mFabAddPlan.setOnClickListener(v -> {
-            startActivity(AddPlanActivity.getIntent(this));
+            startActivityForResult(AddPlanActivity.getIntent(this), Contacts.RESULT_TAG_ADDED_PLAN);
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 

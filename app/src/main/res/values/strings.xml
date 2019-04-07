@@ -76,4 +76,8 @@
     <!--<string name="setting_slogon">I keep my Ideals.</string>-->
 
     <string name="button_sure">确定</string>
+
+    <!--Toast-->
+    <string name="toast_first_add_plan">计划发布成功, 长按可删除计划</string>
+    <string name="toast_first_add_record">事项发布成功, 长按可删除事项</string>
 </resources>

@@ -251,8 +251,8 @@ private FloatingActionButton mFabAdd;
                 switch (result) {
                     case Contacts.STATE_SUCCESS: {
                         LoadingFragment.hidden();
-                        Toast.makeText(this, R.string.post_record_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        setResult(RESULT_OK);
+                        finish();
                         break;
                     }
                     case Contacts.STATE_POST_TITLE_NULL: {
