@@ -20,5 +20,5 @@ interface RecordRepository {
 
     fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>)
 
-    fun updateRecord(recordId: Int, title: String, description: String, result: MutableLiveData<Int>)
+    fun updateRecord(planId: Int, recordId: Int, title: String, description: String, result: MutableLiveData<Int>)
 }

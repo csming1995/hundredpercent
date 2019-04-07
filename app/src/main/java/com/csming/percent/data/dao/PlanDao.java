@@ -33,6 +33,9 @@ public interface PlanDao {
     @Query("UPDATE plans SET count = :count WHERE id = :planId")
     void updatePlanCount(int planId, int count);
 
+    @Query("UPDATE plans SET last_update = :time WHERE id = :planId")
+    void updatePlanUpdateTime(int planId, long time);
+
     @Query("UPDATE plans SET finished = :finish WHERE id = :planId")
     void updatePlanFinished(int planId, int finish);
 

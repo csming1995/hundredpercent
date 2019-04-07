@@ -9,6 +9,7 @@ import com.csming.percent.common.AppExecutors
 import com.csming.percent.data.PercentDatabase
 import com.csming.percent.data.dao.PlanDao
 import com.csming.percent.data.dao.RecordDao
+import com.csming.percent.data.migration.MIGRATION
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -40,6 +41,7 @@ class AppModule {
     fun providerAppDatabase(context: Context): PercentDatabase {
         return Room.databaseBuilder(context, PercentDatabase::class.java, "hundredpercent.db")
                 .allowMainThreadQueries()
+                .addMigrations(MIGRATION.MIGRATION_1_2)
                 .build()
 //        return AppDatabase.getDefault(context.applicationContext)
     }

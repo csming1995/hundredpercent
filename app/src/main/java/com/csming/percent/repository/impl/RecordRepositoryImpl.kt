@@ -9,6 +9,7 @@ import com.csming.percent.data.dao.RecordDao
 import com.csming.percent.data.vo.Plan
 import com.csming.percent.data.vo.Record
 import com.csming.percent.repository.RecordRepository
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -26,6 +27,7 @@ class RecordRepositoryImpl @Inject constructor(
             record.order = order
             recordDao.insert(record)
             planDao.updatePlanCount(record.planId, record.order + 1)
+            planDao.updatePlanUpdateTime(record.planId, Date().time)
             result.postValue(Contacts.STATE_SUCCESS)
         }
     }
@@ -65,9 +67,10 @@ class RecordRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateRecord(recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
+    override fun updateRecord(planId: Int, recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
         executors.diskIO().execute {
             recordDao.updateRecord(recordId, title, description)
+            planDao.updatePlanUpdateTime(planId, Date().time)
             result.postValue(Contacts.STATE_SUCCESS)
         }
     }
