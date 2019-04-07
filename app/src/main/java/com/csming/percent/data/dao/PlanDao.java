@@ -15,7 +15,7 @@ public interface PlanDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Plan plan);
 
-    @Query("SELECT * FROM plans")
+    @Query("SELECT * FROM plans order by last_update desc, id asc")
     LiveData<List<Plan>> loadPlans();
 
     @Query("SELECT * FROM plans WHERE `title` = :title")
