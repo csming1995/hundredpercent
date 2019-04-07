@@ -15,6 +15,10 @@ public class Contacts {
 
     public static final int STATE_POST_PLAN_EXIST = 5;
 
+    //    Result
+    public static final int RESULT_TAG_ADDED_PLAN = 1;
+    public static final int RESULT_TAG_ADDED_RECORD = 2;
+
 
 }
 

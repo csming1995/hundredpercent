@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.common.ApplicationConfig;
 import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.common.widget.statuslayout.StatusLayout;
@@ -21,12 +22,14 @@ import com.csming.percent.record.adapter.RecordListAdapter;
 import com.csming.percent.record.viewmodel.RecordsViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +49,8 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         intent.putExtra(EXTRA_TAG_PLAN_ID, planId);
         return intent;
     }
+
+    private CoordinatorLayout mClRoot;
 
     private StatusLayout mStatusLayout;
     private TextView mTvProgress;
@@ -124,6 +129,21 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Contacts.RESULT_TAG_ADDED_RECORD) {
+            if (resultCode == RESULT_OK) {
+                if (ApplicationConfig.getIsFirstAddRecord(this)) {
+                    Snackbar.make(mClRoot, R.string.toast_first_add_record, Snackbar.LENGTH_SHORT).show();
+                    ApplicationConfig.setIsFirstAddRecord(this);
+                } else {
+                    Snackbar.make(mClRoot, R.string.post_record_result_success, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
     /**
      * 初始化ToolBar
      */
@@ -144,6 +164,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 
     private void initView() {
 //        mIvEdit = findViewById(R.id.iv_setting);
+        mClRoot = findViewById(R.id.cl_root);
         mStatusLayout = findViewById(R.id.status_layout);
         mTvProgress = findViewById(R.id.tv_progress);
         mFabAdd = findViewById(R.id.fab_add_record);
@@ -156,7 +177,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mStatusLayout.setEmptyMessageView(R.string.records_empty, null, null);
 
         mFabAdd.setOnClickListener(v -> {
-            startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()));
+            startActivityForResult(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId()), Contacts.RESULT_TAG_ADDED_RECORD);
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
@@ -246,9 +267,9 @@ public class RecordsActivity extends DaggerAppCompatActivity {
 //        float val = 0.8F;
 //        Color.HSVToColor(new float[]{hsv[0], hsv[1], val})
 
-        setTransparentStatusBar(getResources().getColor(R.color.color_select_18_dark));
-        mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.color_select_18));
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
+//        setTransparentStatusBar(getResources().getColor(R.color.color_select_18_dark));
+//        mAppBarLayout.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+//        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_ffffff));
     }
 
     private void setTransparentStatusBar(int color) {

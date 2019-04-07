@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
+import com.csming.percent.launcher.vo.SlogonEntity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -120,6 +122,10 @@ public class SettingActivity extends AppCompatActivity {
 //        mLlGotoWeibo = findViewById(R.id.ll_goto_weibo);
         mLlGotoEmail = findViewById(R.id.ll_goto_email);
         mLlUpdate = findViewById(R.id.ll_update);
+
+        int ran = (int) (Math.random() * SlogonEntity.SLOGON_VALUES.length);
+        TextView tvSlogon = findViewById(R.id.tv_slogon);
+        tvSlogon.setText(SlogonEntity.SLOGON_VALUES[ran]);
 
         mLlRoot.post(() -> {
             initAnimator();

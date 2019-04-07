@@ -3,8 +3,6 @@ package com.csming.percent.plan;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +15,7 @@ import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.plan.viewmodel.AddPlanViewModel;
 import com.csming.percent.plan.vo.ColorEntity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
@@ -47,7 +46,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
     }
 
     private LinearLayout mLlRoot;
-    //    private FloatingActionButton mFabAdd;
+    private FloatingActionButton mFabAdd;
     private EditText mEtTitle;
     private EditText mEtDescription;
 
@@ -115,29 +114,29 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
         return super.onTouchEvent(event);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_plan, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_post) {
-            LoadingFragment.show(getSupportFragmentManager());
-            if (isEdit) {
-                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            } else {
-                int ran = (int) (Math.random() * ColorEntity.COLOR_VALUES.length);
-                mAddPlanViewModel.postPlan(
-                        mEtTitle.getText().toString(),
-                        mEtDescription.getText().toString(),
-                        getResources().getColor(ColorEntity.COLOR_VALUES[ran]));
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_add_plan, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_post) {
+//            LoadingFragment.show(getSupportFragmentManager());
+//            if (isEdit) {
+//                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+//            } else {
+//                int ran = (int) (Math.random() * ColorEntity.COLOR_VALUES.length);
+//                mAddPlanViewModel.postPlan(
+//                        mEtTitle.getText().toString(),
+//                        mEtDescription.getText().toString(),
+//                        getResources().getColor(ColorEntity.COLOR_VALUES[ran]));
+//            }
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     /**
      * 初始化ToolBar
@@ -170,7 +169,7 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
-//        mFabAdd = findViewById(R.id.fab_add);
+        mFabAdd = findViewById(R.id.fab_add);
 
         mEtTitle = findViewById(R.id.et_title);
         mEtDescription = findViewById(R.id.et_description);
@@ -181,19 +180,19 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
 //            mObjectAnimatorCardPanelEnter.start();
 //            mObjectAnimatorFabEnter.start();
 //        });
-//
-//        mFabAdd.setOnClickListener(v -> {
-//            LoadingFragment.show(getSupportFragmentManager());
-//            if (isEdit) {
-//                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-//            } else {
-//                int ran = (int) (Math.random() * SlogonEntity.COLOR_VALUES.length);
-//                mAddPlanViewModel.postPlan(
-//                        mEtTitle.getText().toString(),
-//                        mEtDescription.getText().toString(),
-//                        getResources().getColor(SlogonEntity.COLOR_VALUES[ran]));
-//            }
-//        });
+
+        mFabAdd.setOnClickListener(v -> {
+            LoadingFragment.show(getSupportFragmentManager());
+            if (isEdit) {
+                mAddPlanViewModel.updatePlan(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            } else {
+                int ran = (int) (Math.random() * ColorEntity.COLOR_VALUES.length);
+                mAddPlanViewModel.postPlan(
+                        mEtTitle.getText().toString(),
+                        mEtDescription.getText().toString(),
+                        getResources().getColor(ColorEntity.COLOR_VALUES[ran]));
+            }
+        });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
@@ -284,8 +283,8 @@ public class AddPlanActivity extends DaggerAppCompatActivity {
                 switch (state) {
                     case Contacts.STATE_SUCCESS: {
                         LoadingFragment.hidden();
-                        Toast.makeText(this, R.string.post_plan_result_success, Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        setResult(RESULT_OK);
+                        finish();
                         break;
                     }
                     case Contacts.STATE_POST_TITLE_NULL: {

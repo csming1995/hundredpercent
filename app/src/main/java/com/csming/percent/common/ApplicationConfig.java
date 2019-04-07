@@ -19,4 +19,20 @@ public class ApplicationConfig {
         return context.getSharedPreferences(PREFERENCE_NAME, 0).getBoolean("isFirstIn", true);
     }
 
+    public static void setIsFirstAddPlan(Context context) {
+        context.getSharedPreferences(PREFERENCE_NAME, 0).edit().putBoolean("isFirstAddPlan", false).apply();
+    }
+
+    public static boolean getIsFirstAddPlan(Context context) {
+        return context.getSharedPreferences(PREFERENCE_NAME, 0).getBoolean("isFirstAddPlan", true);
+    }
+
+    public static void setIsFirstAddRecord(Context context) {
+        context.getSharedPreferences(PREFERENCE_NAME, 0).edit().putBoolean("isFirstAddRecord", false).apply();
+    }
+
+    public static boolean getIsFirstAddRecord(Context context) {
+        return context.getSharedPreferences(PREFERENCE_NAME, 0).getBoolean("isFirstAddRecord", true);
+    }
+
 }
