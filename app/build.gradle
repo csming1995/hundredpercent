@@ -39,25 +39,22 @@ android {
 
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    buildToolsVersion '28.0.3'
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
     implementation "androidx.appcompat:appcompat:$rootProject.appcompatVersion"
+    implementation "androidx.palette:palette:$rootProject.paletteVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     implementation "com.google.android.material:material:$rootProject.materialVersion"
 
     // Architecture Components
-
     implementation "androidx.lifecycle:lifecycle-runtime:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
@@ -74,16 +71,13 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$rootProject.timberVersion"
 
     // Third Library
-
     implementation "de.hdodenhof:circleimageview:$rootProject.circleVersion"
 
     // UMeng
-    implementation  'com.umeng.umsdk:analytics:8.0.0'
-    implementation  'com.umeng.umsdk:common:2.0.0'
-
+    implementation 'com.umeng.umsdk:analytics:8.0.0'
+    implementation 'com.umeng.umsdk:common:2.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycleVersion"
-
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

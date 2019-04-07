@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.csming.percent.R;
@@ -27,36 +28,23 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private List<Plan> plans;
 
+    private OnItemClickListener mOnItemClickListener = null;
+    private OnItemDeleteClickListener mOnItemDeleteClickListener;
+//    private OnItemLongClickListener mOnItemLongClickListener = null;
+
+    private int deleteIndex = -1;
+
     public PlanListAdapter() {
         super();
     }
 
-    private OnItemClickListener mOnItemClickListener = null;
-    private OnItemLongClickListener mOnItemLongClickListener = null;
-    private OnInfoClickListener mOnInfoClickListener = null;
-
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position, Plan plan);
-    }
-
-    public interface OnInfoClickListener {
-        void onInfoClick(View view);
-    }
-
-    public interface OnItemLongClickListener {
-        void onItemLongClick(View view, int position, Plan plan);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        mOnItemClickListener = onItemClickListener;
-    }
-
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
-        mOnItemLongClickListener = onItemLongClickListener;
-    }
-
-    public void setOnInfoClickListener(OnInfoClickListener onInfoClickListener) {
-        mOnInfoClickListener = onInfoClickListener;
+    public boolean clearDeleteState() {
+        if (deleteIndex == -1) return false;
+        int pre = deleteIndex;
+        deleteIndex = -1;
+        notifyItemChanged(pre);
+        deleteIndex = -1;
+        return true;
     }
 
     public void setData(List<Plan> plans) {
@@ -66,6 +54,54 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.plans.clear();
         this.plans.addAll(plans);
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemDeleteClickListener(OnItemDeleteClickListener onLongClickListener) {
+        this.mOnItemDeleteClickListener = onLongClickListener;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
+            Plan plan = plans.get(position - 1);
+            if (plan != null) {
+//                ((PlanNormalViewHolder) holder).setBackground(plan.getColor());
+                ((PlanNormalViewHolder) holder).setTitle(plan.getTitle());
+                ((PlanNormalViewHolder) holder).setProgress(plan.getCount(), plan.getFinished());
+                ((PlanNormalViewHolder) holder).setDeleteVisibity(position == deleteIndex);
+                ((PlanNormalViewHolder) holder).setOnClickListener(view -> {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(view, position - 1, plan);
+                    }
+                });
+                ((PlanNormalViewHolder) holder).setOnDeleteClickListener(view -> {
+                    deleteIndex = -1;
+                    if (mOnItemDeleteClickListener != null) {
+                        mOnItemDeleteClickListener.onItemDeleteClick(view, position - 1, plan);
+                    }
+                });
+                ((PlanNormalViewHolder) holder).setOnLongClickListener(view -> {
+                    if (deleteIndex == position) {
+                        deleteIndex = -1;
+                        notifyItemChanged(position);
+                    } else {
+                        int pre = deleteIndex;
+                        notifyItemChanged(pre);
+                        deleteIndex = position;
+                        notifyItemChanged(deleteIndex);
+                    }
+                    return true;
+                });
+            }
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position, Plan plan);
     }
 
     @NonNull
@@ -84,33 +120,8 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
-            Plan plan = plans.get(position - 1);
-            if (plan != null) {
-                ((PlanNormalViewHolder) holder).setBackground(plan.getColor());
-                ((PlanNormalViewHolder) holder).setTitle(plan.getTitle());
-                ((PlanNormalViewHolder) holder).setProgress(plan.getCount(), plan.getFinished());
-                ((PlanNormalViewHolder) holder).setOnClickListener(view -> {
-                    if (mOnItemClickListener != null) {
-                        mOnItemClickListener.onItemClick(view, position - 1, plan);
-                    }
-                });
-                ((PlanNormalViewHolder) holder).setOnLongClickListener(view -> {
-                    if (mOnItemLongClickListener != null) {
-                        mOnItemLongClickListener.onItemLongClick(view, position - 1, plan);
-                    }
-                    return true;
-                });
-            }
-        } else if (getItemViewType(position) == ITEM_TYPE_HEADER) {
-            ((HeaderViewHolder) holder).setInfoClickListener(view -> {
-                if (mOnInfoClickListener != null) {
-                    mOnInfoClickListener.onInfoClick(view);
-                }
-            });
-        }
+    public interface OnItemDeleteClickListener {
+        void onItemDeleteClick(View view, int position, Plan plan);
     }
 
     @Override
@@ -122,7 +133,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         if (position == 0) {
             return ITEM_TYPE_HEADER;
-        } else if (position == this.plans.size() + 1) {
+        } else if (position == getItemCount() - 1) {
             return ITEM_TYPE_FOOTER;
         } else {
             return ITEM_TYPE_NORMAL;
@@ -134,6 +145,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private CardView mCvItem;
         private TextView mTvTitle;
         private TextView mTvProgress;
+        private ImageView mIvDelete;
 
         PlanNormalViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -141,6 +153,7 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mCvItem = itemView.findViewById(R.id.cv_item);
             mTvTitle = itemView.findViewById(R.id.tv_title);
             mTvProgress = itemView.findViewById(R.id.tv_progress);
+            mIvDelete = itemView.findViewById(R.id.iv_delete);
         }
 
         private void setBackground(int color) {
@@ -163,21 +176,21 @@ public class PlanListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnLongClickListener(onLongClickListener);
         }
 
+        private void setOnDeleteClickListener(View.OnClickListener onDeleteClickListener) {
+            mIvDelete.setOnClickListener(onDeleteClickListener);
+        }
+
+        private void setDeleteVisibity(boolean isShow) {
+            mIvDelete.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
+
     }
 
     private static class HeaderViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView mCvTitle;
-
         HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCvTitle = itemView.findViewById(R.id.cv_title);
         }
-
-        private void setInfoClickListener(View.OnClickListener onClickListener) {
-            mCvTitle.setOnClickListener(onClickListener);
-        }
-
     }
 
     private static class FooterViewHolder extends RecyclerView.ViewHolder {
