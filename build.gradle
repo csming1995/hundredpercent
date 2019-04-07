@@ -27,8 +27,8 @@ allprojects {
 
 ext {
     // App version
-    versionName = '1.1.0' // X.Y.Z; X = Major, Y = minor, Z = Patch level
-    versionCode = 11000 // XYZZM; M = Module (tv, mobile)
+    versionName = '1.1.1' // X.Y.Z; X = Major, Y = minor, Z = Patch level
+    versionCode = 11010 // XYZZM; M = Module (tv, mobile)
 
     // SDK and tools
     compileSdkVersion = 28
