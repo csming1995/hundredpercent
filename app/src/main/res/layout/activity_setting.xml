@@ -22,11 +22,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"
-            android:background="@color/color_ffffff"
+            android:background="@color/color_212121"
             android:elevation="4dp"
             app:elevation="4dp"
             app:title="@string/title_setting"
-            app:titleTextColor="@color/color_616161">
+            app:titleTextColor="@color/color_ffffff">
 
         </androidx.appcompat.widget.Toolbar>
 
