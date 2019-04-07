@@ -1,13 +1,13 @@
 package com.csming.percent.record;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
@@ -16,7 +16,6 @@ import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.Contacts;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import javax.inject.Inject;
 
@@ -56,16 +55,16 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     }
 
     private LinearLayout mLlRoot;
-    private TextView mTvTitle;
-    private FloatingActionButton mFabAdd;
+//    private TextView mTvTitle;
+//    private FloatingActionButton mFabAdd;
 
     private EditText mEtTitle;
     private EditText mEtDescription;
 
     private Toolbar toolbar;
 
-    private ObjectAnimator mObjectAnimatorCardPanelEnter;
-    private ObjectAnimator mObjectAnimatorFabEnter;
+//    private ObjectAnimator mObjectAnimatorCardPanelEnter;
+//    private ObjectAnimator mObjectAnimatorFabEnter;
 
     private SlideTouchEventListener mSlideTouchEventListener;
 
@@ -116,6 +115,26 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_record, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_post) {
+            LoadingFragment.show(getSupportFragmentManager());
+            if (isEdit) {
+                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            } else {
+                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mSlideTouchEventListener != null) {
             mSlideTouchEventListener.onTouchEvent(event);
@@ -145,38 +164,38 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     private void initAnimator() {
 
         // 获取 主面板高度
-        int heightCardPanel = mLlRoot.getMeasuredHeight();
+//        int heightCardPanel = mLlRoot.getMeasuredHeight();
         // 获取屏幕信息
-        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
-        mObjectAnimatorCardPanelEnter.setDuration(500);
-
-        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
-        mObjectAnimatorFabEnter.setDuration(600);
+//        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
+//        mObjectAnimatorCardPanelEnter.setDuration(500);
+//
+//        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
+//        mObjectAnimatorFabEnter.setDuration(600);
     }
 
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
-        mTvTitle = findViewById(R.id.tv_title);
-        mFabAdd = findViewById(R.id.fab_add);
+//        mTvTitle = findViewById(R.id.tv_title);
+//        mFabAdd = findViewById(R.id.fab_add);
 
         mEtTitle = findViewById(R.id.et_title);
         mEtDescription = findViewById(R.id.et_description);
 
-        mLlRoot.post(() -> {
-            initAnimator();
+//        mLlRoot.post(() -> {
+//            initAnimator();
 
-            mObjectAnimatorCardPanelEnter.start();
-            mObjectAnimatorFabEnter.start();
-        });
+//            mObjectAnimatorCardPanelEnter.start();
+//            mObjectAnimatorFabEnter.start();
+//        });
 
-        mFabAdd.setOnClickListener(v -> {
-            LoadingFragment.show(getSupportFragmentManager());
-            if (isEdit) {
-                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            } else {
-                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
-            }
-        });
+//        mFabAdd.setOnClickListener(v -> {
+//            LoadingFragment.show(getSupportFragmentManager());
+//            if (isEdit) {
+//                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+//            } else {
+//                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+//            }
+//        });
 
         mSlideTouchEventListener = new SlideTouchEventListener() {
             @Override
