@@ -15,7 +15,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/color_111111" />
+            android:indeterminateTint="@color/color_616161" />
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

@@ -16,53 +16,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--App Bar-->
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            app:elevation="4dp">
+        <!--&lt;!&ndash;App Bar&ndash;&gt;-->
+        <!--<com.google.android.material.appbar.AppBarLayout-->
+        <!--android:id="@+id/app_bar_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:elevation="4dp"-->
+        <!--app:elevation="4dp">-->
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:elevation="4dp"
-                android:background="@color/color_ffffff"
-                app:elevation="4dp"
-                app:title="@string/title_add_record"
-                app:titleTextColor="@color/color_424242">
+        <!--<androidx.appcompat.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="top"-->
+        <!--android:elevation="4dp"-->
+        <!--android:background="@color/color_ffffff"-->
+        <!--app:elevation="4dp"-->
+        <!--app:title="@string/title_add_record"-->
+        <!--app:titleTextColor="@color/color_424242">-->
 
-            </androidx.appcompat.widget.Toolbar>
+        <!--</androidx.appcompat.widget.Toolbar>-->
 
-        </com.google.android.material.appbar.AppBarLayout>
+        <!--</com.google.android.material.appbar.AppBarLayout>-->
 
-        <!--<androidx.cardview.widget.CardView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="top|center"-->
-        <!--android:layout_marginTop="36dp"-->
-        <!--android:clickable="true"-->
-        <!--android:focusable="true"-->
-        <!--android:foreground="?android:attr/selectableItemBackground"-->
-        <!--app:cardBackgroundColor="@color/color_111111"-->
-        <!--app:cardCornerRadius="8dp"-->
-        <!--app:cardElevation="4dp">-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="36dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/color_111111"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_title"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="12dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginEnd="12dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:text="@string/title_add_record"-->
-        <!--android:textColor="@color/color_ffffff"-->
-        <!--android:textSize="16dp" />-->
-        <!--</androidx.cardview.widget.CardView>-->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/title_add_record"
+                android:textColor="@color/color_ffffff"
+                android:textSize="16dp" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_panel"

@@ -30,7 +30,7 @@
                 android:elevation="4dp"
                 android:background="@color/color_ffffff"
                 app:title="@string/title_plan"
-                app:titleTextColor="@color/color_424242"
+                app:titleTextColor="@color/color_616161"
                 app:elevation="4dp">
 
             </androidx.appcompat.widget.Toolbar>

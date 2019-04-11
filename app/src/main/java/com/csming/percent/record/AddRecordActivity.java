@@ -1,11 +1,13 @@
 package com.csming.percent.record;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.csming.percent.R;
@@ -19,7 +21,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -54,7 +55,7 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     }
 
     private LinearLayout mLlRoot;
-//    private TextView mTvTitle;
+    private TextView mTvTitle;
 private FloatingActionButton mFabAdd;
 
     private EditText mEtTitle;
@@ -62,8 +63,8 @@ private FloatingActionButton mFabAdd;
 
     private Toolbar toolbar;
 
-//    private ObjectAnimator mObjectAnimatorCardPanelEnter;
-//    private ObjectAnimator mObjectAnimatorFabEnter;
+    private ObjectAnimator mObjectAnimatorCardPanelEnter;
+    private ObjectAnimator mObjectAnimatorFabEnter;
 
     private SlideTouchEventListener mSlideTouchEventListener;
 
@@ -145,47 +146,47 @@ private FloatingActionButton mFabAdd;
      * 初始化ToolBar
      */
     private void initToolBar() {
-        toolbar = findViewById(R.id.toolbar);
-//        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
-
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(false);
-            actionBar.setTitle(R.string.title_setting);
-        }
-
-        toolbar.setTitle(isEdit ? R.string.title_edit_record : R.string.title_add_record);
+//        toolbar = findViewById(R.id.toolbar);
+////        toolbar.setBackgroundColor(getResources().getColor(R.color.color_ffffff));
+//
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//            actionBar.setDisplayShowHomeEnabled(false);
+//            actionBar.setTitle(R.string.title_setting);
+//        }
+//
+//        toolbar.setTitle(isEdit ? R.string.title_edit_record : R.string.title_add_record);
 
     }
 
     private void initAnimator() {
 
         // 获取 主面板高度
-//        int heightCardPanel = mLlRoot.getMeasuredHeight();
-        // 获取屏幕信息
-//        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
-//        mObjectAnimatorCardPanelEnter.setDuration(500);
-//
-//        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
-//        mObjectAnimatorFabEnter.setDuration(600);
+        int heightCardPanel = mLlRoot.getMeasuredHeight();
+//         获取屏幕信息
+        mObjectAnimatorCardPanelEnter = ObjectAnimator.ofFloat(mLlRoot, "translationY", heightCardPanel, -50, 0);
+        mObjectAnimatorCardPanelEnter.setDuration(500);
+
+        mObjectAnimatorFabEnter = ObjectAnimator.ofFloat(mFabAdd, "translationY", 500, -50, 0);
+        mObjectAnimatorFabEnter.setDuration(600);
     }
 
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
-//        mTvTitle = findViewById(R.id.tv_title);
+        mTvTitle = findViewById(R.id.tv_title);
         mFabAdd = findViewById(R.id.fab_add);
 
         mEtTitle = findViewById(R.id.et_title);
         mEtDescription = findViewById(R.id.et_description);
 
-//        mLlRoot.post(() -> {
-//            initAnimator();
+        mLlRoot.post(() -> {
+            initAnimator();
 
-//            mObjectAnimatorCardPanelEnter.start();
-//            mObjectAnimatorFabEnter.start();
-//        });
+            mObjectAnimatorCardPanelEnter.start();
+            mObjectAnimatorFabEnter.start();
+        });
 
         mFabAdd.setOnClickListener(v -> {
             LoadingFragment.show(getSupportFragmentManager());
@@ -263,5 +264,7 @@ private FloatingActionButton mFabAdd;
                 }
             });
         }
+
+        mTvTitle.setText(isEdit ? R.string.title_edit_record : R.string.title_add_record);
     }
 }

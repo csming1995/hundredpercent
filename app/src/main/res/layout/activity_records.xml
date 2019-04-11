@@ -30,7 +30,7 @@
                 android:background="@color/color_ffffff"
                 android:elevation="4dp"
                 app:elevation="4dp"
-                app:titleTextColor="@color/color_424242">
+                app:titleTextColor="@color/color_616161">
 
                 <TextView
                     android:id="@+id/tv_progress"
