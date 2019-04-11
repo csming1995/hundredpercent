@@ -19,4 +19,12 @@
     <!--<item name="colorControlNormal">#FFFFFF</item>-->
     <!--</style>-->
 
+    <!--透明的主题-->
+    <style name="translucent" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
 </resources>

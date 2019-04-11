@@ -18,6 +18,7 @@ public class Contacts {
     //    Result
     public static final int RESULT_TAG_ADDED_PLAN = 1;
     public static final int RESULT_TAG_ADDED_RECORD = 2;
+    public static final int RESULT_TAG_DATEPICKER = 3;
 
 
 }

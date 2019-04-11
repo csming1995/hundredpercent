@@ -27,6 +27,8 @@
     <string name="post_record_result_success">事项添加成功</string>
     <string name="post_record_result_title_null">简述不可为空</string>
 
+    <string name="title_date_picker">选择时间</string>
+
     <string name="title_records">事项</string>
     <string name="records_empty">暂无事项, 快添加一个新事项吧~</string>
 

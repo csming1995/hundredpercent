@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import com.csming.percent.R;
 import com.csming.percent.SlideTouchEventListener;
 import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.Contacts;
+import com.csming.percent.common.DatePickerActivity;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -56,7 +58,9 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     private LinearLayout mLlRoot;
     private TextView mTvTitle;
-private FloatingActionButton mFabAdd;
+    private FloatingActionButton mFabAdd;
+
+    private ImageView mIvClock;
 
     private EditText mEtTitle;
     private EditText mEtDescription;
@@ -177,6 +181,7 @@ private FloatingActionButton mFabAdd;
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
         mFabAdd = findViewById(R.id.fab_add);
+        mIvClock = findViewById(R.id.iv_clock);
 
         mEtTitle = findViewById(R.id.et_title);
         mEtDescription = findViewById(R.id.et_description);
@@ -216,6 +221,11 @@ private FloatingActionButton mFabAdd;
             }
         };
         mSlideTouchEventListener.setDistance(getResources().getDimension(R.dimen.min_distance_slide));
+
+        mIvClock.setOnClickListener(view -> {
+            startActivityForResult(DatePickerActivity.getIntent(this), Contacts.RESULT_TAG_DATEPICKER);
+            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
     }
 
     /**

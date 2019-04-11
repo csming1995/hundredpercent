@@ -108,6 +108,16 @@
                     android:minLines="1"
                     android:textSize="16dp" />
 
+                <ImageView
+                    android:id="@+id/iv_clock"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    app:srcCompat='@drawable/ic_clock' />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
