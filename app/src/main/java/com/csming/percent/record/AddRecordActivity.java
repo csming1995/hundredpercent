@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +20,8 @@ import com.csming.percent.common.DatePickerActivity;
 import com.csming.percent.common.LoadingFragment;
 import com.csming.percent.record.viewmodel.AddRecordViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -64,6 +67,8 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
     private EditText mEtTitle;
     private EditText mEtDescription;
+    private TextView mTvDate;
+    private Date mDate = null;
 
     private Toolbar toolbar;
 
@@ -99,6 +104,20 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     protected void onPause() {
         super.onPause();
         AnalyticsUtil.onPause(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Contacts.RESULT_TAG_DATEPICKER) {
+            if (resultCode == RESULT_OK && data != null) {
+                long date = data.getLongExtra(DatePickerActivity.TAG_RESULT_DATE, 0);
+                if (date != 0) {
+                    this.mDate = new Date(date);
+                    this.mTvDate.setText(DateFormat.format("yyyy-MM-dd", mDate));
+                }
+            }
+        }
     }
 
     @Override
@@ -180,6 +199,8 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
     private void initView() {
         mLlRoot = findViewById(R.id.ll_root);
         mTvTitle = findViewById(R.id.tv_title);
+        mTvDate = findViewById(R.id.tv_date);
+
         mFabAdd = findViewById(R.id.fab_add);
         mIvClock = findViewById(R.id.iv_clock);
 
@@ -195,10 +216,16 @@ public class AddRecordActivity extends DaggerAppCompatActivity {
 
         mFabAdd.setOnClickListener(v -> {
             LoadingFragment.show(getSupportFragmentManager());
+
+            long date = 0;
+            if (mDate != null) {
+                date = mDate.getTime();
+            }
+
             if (isEdit) {
-                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                mAddRecordViewModel.updateRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString(), date);
             } else {
-                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString());
+                mAddRecordViewModel.postRecord(mEtTitle.getText().toString(), mEtDescription.getText().toString(), date);
             }
         });
 

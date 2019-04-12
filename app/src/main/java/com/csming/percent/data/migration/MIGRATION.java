@@ -14,4 +14,11 @@ public class MIGRATION {
             database.execSQL("ALTER TABLE plans ADD COLUMN last_update INTEGER not null default 0");
         }
     };
+
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE records ADD COLUMN date INTEGER not null default 0");
+        }
+    };
 }

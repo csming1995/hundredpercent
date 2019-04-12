@@ -67,9 +67,9 @@ class RecordRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateRecord(planId: Int, recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
+    override fun updateRecord(planId: Int, recordId: Int, title: String, description: String, date: Long, result: MutableLiveData<Int>) {
         executors.diskIO().execute {
-            recordDao.updateRecord(recordId, title, description)
+            recordDao.updateRecord(recordId, title, description, date)
             planDao.updatePlanUpdateTime(planId, Date().time)
             result.postValue(Contacts.STATE_SUCCESS)
         }
