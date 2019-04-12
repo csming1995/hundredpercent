@@ -23,6 +23,7 @@
     <string name="title_edit_record">编辑事项</string>
     <string name="add_record_title">简述</string>
     <string name="add_record_description">详情(Nice To Have)</string>
+    <string name="record_date_empty">未设定</string>
     <string name="update_record_result_success">事项更新成功</string>
     <string name="post_record_result_success">事项添加成功</string>
     <string name="post_record_result_title_null">简述不可为空</string>

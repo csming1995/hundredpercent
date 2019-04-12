@@ -28,6 +28,9 @@ import timber.log.Timber;
 public class DatePickerActivity extends AppCompatActivity {
 
     public static final String TAG_RESULT_DATE = "TAG_RESULT_DATE";
+
+    private static final String EXTRA_TAG_DATE = "EXTRA_TAG_DATE";
+
     // 提示时间
     private static final int HOUR_OF_DAY = 9;
     private static final int MINUTE = 0;
@@ -44,12 +47,19 @@ public class DatePickerActivity extends AppCompatActivity {
         return new Intent(context, DatePickerActivity.class);
     }
 
+    public static Intent getIntent(Context context, long date) {
+        Intent intent = new Intent(context, DatePickerActivity.class);
+        intent.putExtra(EXTRA_TAG_DATE, date);
+        return intent;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datepicker);
 
         initView();
+        initData();
     }
 
     @Override
@@ -128,6 +138,16 @@ public class DatePickerActivity extends AppCompatActivity {
             public void onTouchRight() {
             }
         };
+    }
+
+    private void initData() {
+        long date = getIntent().getLongExtra(EXTRA_TAG_DATE, 0);
+        Date date1 = new Date(date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        if (date != 0) {
+            mDatePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE), null);
+        }
     }
 
     private Date getDateFromDatePicker(DatePicker datePicker) {

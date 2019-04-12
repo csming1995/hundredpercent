@@ -132,7 +132,8 @@
                         android:layout_marginStart="8dp"
                         android:gravity="center"
                         android:textColor="@color/color_212121"
-                        android:textSize="14dp" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:textSize="16dp" />
                 </LinearLayout>
 
             </LinearLayout>

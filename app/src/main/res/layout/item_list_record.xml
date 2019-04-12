@@ -43,7 +43,18 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
                 android:text="今天你学习了吗"
+                android:textColor="@color/color_616161"
                 android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:text="2019-04-13"
+                android:textColor="@color/color_616161"
+                android:textSize="13dp" />
 
         </LinearLayout>
 
