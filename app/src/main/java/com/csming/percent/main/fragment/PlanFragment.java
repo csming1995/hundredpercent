@@ -99,6 +99,7 @@ public class PlanFragment extends DaggerFragment {
             showDeleteDialog(plan.getId());
         });
 
+
     }
 
     /**

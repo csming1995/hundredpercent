@@ -63,6 +63,20 @@ class RecordRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            recordDao.updateRecordFinish(record.id, finish)
+            val plan = planDao.getPlan(record.planId)
+            if (finish) {
+                plan.finished = plan.finished + 1
+            } else {
+                plan.finished = plan.finished - 1
+            }
+            planDao.updatePlanFinished(record.planId, plan.finished)
+            recordStateLiveData.postValue(Contacts.STATE_SUCCESS)
+        }
+    }
+
     override fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>) {
         executors.diskIO().execute {
             recordDao.updateRecordFinish(record.id, finish)

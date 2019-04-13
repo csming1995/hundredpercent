@@ -79,6 +79,10 @@ public class RecordFragment extends DaggerFragment {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvPlans.setLayoutManager(mLinearLayoutManager);
         mRvPlans.setAdapter(mAdapterRecords);
+
+        mAdapterRecords.setOnFinishChangeListener((v, position, record, finish) -> {
+            mMainViewModel.updateRecordFinish(record, finish);
+        });
     }
 
     /**

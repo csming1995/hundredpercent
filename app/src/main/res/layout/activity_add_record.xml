@@ -118,9 +118,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_gravity="center|start"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="4dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         app:srcCompat='@drawable/ic_clock' />
 
@@ -133,6 +131,7 @@
                         android:gravity="center"
                         android:textColor="@color/color_212121"
                         android:background="?android:attr/selectableItemBackground"
+                        android:text="@string/record_date_empty"
                         android:textSize="16dp" />
                 </LinearLayout>
 

@@ -20,6 +20,8 @@ interface RecordRepository {
 
     fun delete(record: Record, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>) //planLiveData: ,
 
+    fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>)
+
     fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>)
 
     fun updateRecord(planId: Int, recordId: Int, title: String, description: String, date: Long, result: MutableLiveData<Int>)

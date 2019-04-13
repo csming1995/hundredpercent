@@ -24,6 +24,9 @@ public interface PlanDao {
     @Query("SELECT * FROM plans WHERE `id` = :planId")
     LiveData<Plan> findPlan(int planId);
 
+    @Query("SELECT * FROM plans WHERE `id` = :planId")
+    Plan getPlan(int planId);
+
     @Query("SELECT plans.count FROM plans WHERE `id` = :planId")
     int findRecordCount(int planId);
 

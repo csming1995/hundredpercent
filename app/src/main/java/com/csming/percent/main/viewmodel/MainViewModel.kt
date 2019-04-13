@@ -21,14 +21,18 @@ class MainViewModel @Inject constructor(
 
     private val plans: LiveData<List<Plan>>
     private val recordsToday: LiveData<List<Record>>
+
     private var deletePlanStateLiveData = MutableLiveData<Int>()
+    private var recordStateLiveData = MutableLiveData<Int>()
 
     private var planToDelete = -1
 
     init {
         plans = planRepository.getPlans()
         recordsToday = recordRepository.getRecordsToday()
+
         deletePlanStateLiveData.value = Contacts.STATE_NORMAL
+        recordStateLiveData.value = Contacts.STATE_NORMAL
     }
 
     fun findPlans(): LiveData<List<Plan>> {
@@ -64,6 +68,13 @@ class MainViewModel @Inject constructor(
             deletePlanStateLiveData.postValue(Contacts.STATE_LOADING)
             planRepository.deletePlan(planToDelete, deletePlanStateLiveData)
         }
+    }
+
+    fun updateRecordFinish(record: Record, finish: Boolean) {
+        if (record.isFinish == finish) return
+        recordStateLiveData.postValue(Contacts.STATE_LOADING)
+
+        recordRepository.updateRecordFinish(record, finish, recordStateLiveData)
     }
 
 }
