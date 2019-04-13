@@ -73,6 +73,10 @@ public class PlanFragment extends DaggerFragment {
 //        }
 //    }
 
+    public boolean onBackPressed() {
+        return mAdapterPlans != null && mAdapterPlans.clearDeleteState();
+    }
+
     private void initView(View view) {
         mStatusLayout = view.findViewById(R.id.status_layout);
         mRvPlans = view.findViewById(R.id.rv_plans);

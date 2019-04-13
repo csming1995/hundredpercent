@@ -26,8 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private int ITEM_TYPE_NORMAL = 1;
-    private int ITEM_TYPE_FOOTER = 2;
+    private int ITEM_TYPE_HEADER = 1;
+    private int ITEM_TYPE_NORMAL = 2;
+    private int ITEM_TYPE_FOOTER = 3;
 
     private List<Record> records;
 
@@ -50,10 +51,26 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (viewType == ITEM_TYPE_HEADER) {
+            View view = layoutInflater.inflate(R.layout.item_list_record_header_empty, parent, false);
+            return new HeaderViewHolder(view);
+        } else if (viewType == ITEM_TYPE_FOOTER) {
+            View view = layoutInflater.inflate(R.layout.item_list_record_footer, parent, false);
+            return new FooterViewHolder(view);
+        } else {
+            View view = layoutInflater.inflate(R.layout.item_list_record, parent, false);
+            return new RecordNormalViewHolder(view);
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == ITEM_TYPE_NORMAL) {
-            Record record = records.get(position);
+            Record record = records.get(position - 1);
             if (record != null) {
                 ((RecordNormalViewHolder) holder).setTitle(record.getTitle());
                 ((RecordNormalViewHolder) holder).setDescription(record.getDescription());
@@ -69,27 +86,16 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (viewType == ITEM_TYPE_FOOTER) {
-            View view = layoutInflater.inflate(R.layout.item_list_record_footer, parent, false);
-            return new FooterViewHolder(view);
-        } else {
-            View view = layoutInflater.inflate(R.layout.item_list_record, parent, false);
-            return new RecordNormalViewHolder(view);
-        }
-    }
-
     @Override
     public int getItemCount() {
-        return this.records == null ? 1 : this.records.size() + 1;
+        return this.records == null ? 2 : this.records.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == getItemCount() - 1) {
+        if (position == 0) {
+            return ITEM_TYPE_HEADER;
+        } else if (position == getItemCount() - 1) {
             return ITEM_TYPE_FOOTER;
         } else {
             return ITEM_TYPE_NORMAL;

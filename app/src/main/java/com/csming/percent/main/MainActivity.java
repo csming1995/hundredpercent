@@ -54,6 +54,8 @@ public class MainActivity extends DaggerAppCompatActivity {
     private ViewPager mViewPager;
     private ViewPagerAdapter mViewPagerAdapter;
 
+    private PlanFragment mPlanFragment;
+
     @Inject
     ViewModelProvider.Factory factory;
 
@@ -80,12 +82,12 @@ public class MainActivity extends DaggerAppCompatActivity {
         initData();
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (mAdapterPlans == null || !mAdapterPlans.clearDeleteState()) {
-//            super.onBackPressed();
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        if (mPlanFragment == null || !mPlanFragment.onBackPressed()) {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -155,7 +157,8 @@ public class MainActivity extends DaggerAppCompatActivity {
 
         // 初始化viewpager
         mFragments = new ArrayList<>(2);
-        mFragments.add(PlanFragment.getInstance());
+        mPlanFragment = PlanFragment.getInstance();
+        mFragments.add(mPlanFragment);
         mFragments.add(RecordFragment.getInstance());
         mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments);
         mViewPager.setAdapter(mViewPagerAdapter);

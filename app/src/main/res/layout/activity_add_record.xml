@@ -129,7 +129,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
                         android:gravity="center"
-                        android:textColor="@color/color_212121"
+                        android:textColor="@color/color_757575"
                         android:background="?android:attr/selectableItemBackground"
                         android:text="@string/record_date_empty"
                         android:textSize="16dp" />
