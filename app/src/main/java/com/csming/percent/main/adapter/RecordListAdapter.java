@@ -147,11 +147,15 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 mTvTitle.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_9E9E9E));
                 mTvDescription.setPaintFlags(mTvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 mTvDescription.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_9E9E9E));
+                mTvDate.setPaintFlags(mTvTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                mTvDate.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_9E9E9E));
             } else {
                 mTvTitle.setPaintFlags(mTvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 mTvTitle.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_424242));
                 mTvDescription.setPaintFlags(mTvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 mTvDescription.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_757575));
+                mTvDate.setPaintFlags(mTvTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                mTvDate.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.color_757575));
             }
             mTbFinish.setChecked(finish);
         }

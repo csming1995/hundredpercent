@@ -55,20 +55,21 @@
                 android:layout_margin="12dp" />
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom|center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/color_212121"
-            app:elevation="8dp"
-            app:rippleColor="@color/color_select_18"
-            app:srcCompat="@drawable/ic_ok" />
-
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="@color/color_212121"
+        app:elevation="8dp"
+        app:rippleColor="@color/color_select_18"
+        app:srcCompat="@drawable/ic_ok" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

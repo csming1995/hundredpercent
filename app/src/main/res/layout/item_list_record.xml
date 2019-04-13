@@ -8,6 +8,7 @@
     android:layout_marginTop="4dp"
     android:layout_marginBottom="12dp"
     android:orientation="horizontal"
+    android:clickable="true"
     app:cardCornerRadius="4dp"
     app:cardElevation="2dp">
 
@@ -54,7 +55,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
                 android:text="2019-04-13"
-                android:textColor="@color/color_616161"
+                android:textColor="@color/color_757575"
                 android:textSize="13dp" />
 
         </LinearLayout>
