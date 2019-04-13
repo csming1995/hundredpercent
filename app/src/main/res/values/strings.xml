@@ -8,6 +8,9 @@
     <string name="first_plan_description">First TodoList</string>
 
     <string name="title_plan">计划清单</string>
+    <string name="title_daily_records">今日事项</string>
+
+    <string name="today_records_empty">今天没有待办事项哦</string>
     <string name="plans_empty">暂无计划, 快添加一个新计划吧</string>
 
     <string name="title_add_plan">添加计划</string>

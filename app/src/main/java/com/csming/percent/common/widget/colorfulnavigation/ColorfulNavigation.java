@@ -210,7 +210,7 @@ public class ColorfulNavigation extends CardView {
                 mValueAnimator.addUpdateListener(mValueAnimatorListener);
             }
             mValueAnimator.setFloatValues(mRectF.left, targetLeft/*, targetLeft + (isRight? 20: - 20), targetLeft*/);
-            mValueAnimator.setDuration(300);
+            mValueAnimator.setDuration(200);
             mValueAnimator.cancel();
             mValueAnimator.start();
         }

@@ -5,7 +5,7 @@
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@color/color_ffffff"
     android:fitsSystemWindows="true"
     tools:context=".main.MainActivity">
 
@@ -19,6 +19,7 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
             android:elevation="4dp"
             app:elevation="4dp">
 
@@ -27,29 +28,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
+                android:background="@android:color/transparent"
                 android:elevation="4dp"
-                android:background="@color/color_ffffff"
-                app:title="@string/title_plan"
-                app:titleTextColor="@color/color_616161"
-                app:elevation="4dp">
+                app:elevation="4dp"
+                app:title=" ">
 
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.csming.percent.common.widget.statuslayout.StatusLayout
-            android:id="@+id/status_layout"
+        <com.csming.percent.common.widget.colorfulnavigation.ColorfulNavigation
+            android:id="@+id/color_navigation"
+            android:layout_width="200dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            app:color_navigation_background="@color/color_212121"
+            app:color_navigation_border_width="3dp"
+            app:color_navigation_elevation="4dp"
+            app:color_navigation_radius="8dp"
+            app:color_navigation_text_color="@color/color_ffffff" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager_main"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:overScrollMode="never">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_plans"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
-
-        </com.csming.percent.common.widget.statuslayout.StatusLayout>
+        </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

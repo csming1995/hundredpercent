@@ -14,6 +14,8 @@ interface RecordRepository {
 
     fun getRecords(planId: Int): LiveData<List<Record>>
 
+    fun getRecordsToday(): LiveData<List<Record>>
+
     fun getOrder(planId: Int): Int
 
     fun delete(record: Record, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>) //planLiveData: ,

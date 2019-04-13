@@ -18,6 +18,9 @@ public interface RecordDao {
     @Query("SELECT * FROM records WHERE plan_id = :planId ORDER BY id DESC, finish DESC")
     LiveData<List<Record>> loadRecords(int planId);
 
+    @Query("SELECT * FROM records WHERE date >= :today AND date <= :tomorrow ORDER BY id DESC, finish DESC")
+    LiveData<List<Record>> loadRecordsToday(long today, long tomorrow);
+
     @Query("SELECT count(id) FROM records")
     int getCount();
 

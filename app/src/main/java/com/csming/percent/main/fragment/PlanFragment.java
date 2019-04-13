@@ -1,17 +1,18 @@
 package com.csming.percent.main.fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.csming.percent.R;
-import com.csming.percent.main.adapter.RecordGroupListAdapter;
+import com.csming.percent.common.Contacts;
+import com.csming.percent.common.LoadingFragment;
+import com.csming.percent.common.widget.statuslayout.StatusLayout;
+import com.csming.percent.main.adapter.PlanListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.csming.percent.record.RecordsActivity;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import dagger.android.support.DaggerFragment;
 
 /**
@@ -32,11 +34,10 @@ public class PlanFragment extends DaggerFragment {
     ViewModelProvider.Factory factory;
     private RecyclerView mRvPlans;
     private LinearLayoutManager mLinearLayoutManager;
-    private RecordGroupListAdapter mAdapterRecordGroup;
-    private FloatingActionButton mFabAddRecord;
-    private MainViewModel mainViewModel;
-
-    private List<String> plans;
+    private StatusLayout mStatusLayout;
+    private PlanListAdapter mAdapterPlans;
+    private AlertDialog.Builder mDeleteDialogBuilder;
+    private MainViewModel mMainViewModel;
 
     public static PlanFragment getInstance() {
         return new PlanFragment();
@@ -50,7 +51,7 @@ public class PlanFragment extends DaggerFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_records, container, false);
+        return inflater.inflate(R.layout.fragment_plans, container, false);
     }
 
     @Override
@@ -65,28 +66,37 @@ public class PlanFragment extends DaggerFragment {
         initData();
     }
 
-    private void initView(View view) {
-        mRvPlans = view.findViewById(R.id.rv_records);
-        mFabAddRecord = view.findViewById(R.id.fab_add_record);
+//    @Override
+//    public void onBackPressed() {
+//        if (mAdapterPlans == null || !mAdapterPlans.clearDeleteState()) {
+//            super.onBackPressed();
+//        }
+//    }
 
-        mAdapterRecordGroup = new RecordGroupListAdapter();
+    private void initView(View view) {
+        mStatusLayout = view.findViewById(R.id.status_layout);
+        mRvPlans = view.findViewById(R.id.rv_plans);
+
+        SimpleItemAnimator animator = (SimpleItemAnimator) mRvPlans.getItemAnimator();
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
+
+        mAdapterPlans = new PlanListAdapter();
+
+        mStatusLayout.setEmptyMessageView(R.string.plans_empty, null, null);
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvPlans.setLayoutManager(mLinearLayoutManager);
-        mRvPlans.setAdapter(mAdapterRecordGroup);
+        mRvPlans.setAdapter(mAdapterPlans);
 
-        plans = new ArrayList<>(3);
-        plans.add("TODO");
-        plans.add("Test");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
+        mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
+            startActivity(RecordsActivity.getIntent(getActivity(), plan.getId()));
+            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        });
 
-        mAdapterRecordGroup.setData(plans);
-
-        mFabAddRecord.setOnClickListener(view1 -> {
-//            startActivity(AddRecordActivity.getIntent(getActivity()));
-//            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        mAdapterPlans.setOnItemDeleteClickListener((v, position, plan) -> {
+            showDeleteDialog(plan.getId());
         });
 
     }
@@ -95,6 +105,47 @@ public class PlanFragment extends DaggerFragment {
      * 初始化数据
      */
     private void initData() {
-        mainViewModel = ViewModelProviders.of(getActivity(), factory).get(MainViewModel.class);
+        mMainViewModel = ViewModelProviders.of(getActivity(), factory).get(MainViewModel.class);
+
+        mMainViewModel.findPlans().observe(getActivity(), plans -> {
+            if (plans.size() > 0) {
+                mAdapterPlans.setData(plans);
+                mStatusLayout.showNormalView();
+            } else {
+                mStatusLayout.showEmptyMessageView();
+            }
+        });
+
+        mMainViewModel.getDeletePlanState().observe(getActivity(), state -> {
+            switch (state) {
+                case Contacts.STATE_NORMAL: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+                case Contacts.STATE_SUCCESS: {
+                    LoadingFragment.hidden();
+                    break;
+                }
+            }
+        });
+    }
+
+    private void showDeleteDialog(final int planId) {
+        mMainViewModel.setDeletePlan(planId);
+        if (mDeleteDialogBuilder == null) {
+            mDeleteDialogBuilder = new AlertDialog.Builder(getActivity());
+            mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
+                if (mMainViewModel != null) {
+                    LoadingFragment.show(getActivity().getSupportFragmentManager());
+                    mMainViewModel.deletePlan();
+                }
+            });
+            mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {
+                dialogInterface.dismiss();
+            });
+            mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
+        }
+
+        mDeleteDialogBuilder.show();
     }
 }

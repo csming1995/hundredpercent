@@ -108,8 +108,7 @@ public class DatePickerActivity extends AppCompatActivity {
 
         mFabAdd.setOnClickListener(view -> {
             Date date = getDateFromDatePicker(mDatePicker);
-            Date date1 = getNowDate();
-            if (compareDate(date, date1) < 0) {
+            if (compareDateToNow(date) < 0) {
                 Snackbar.make(mClRoot, R.string.title_error_toast, Snackbar.LENGTH_SHORT).show();
                 return;
             }
@@ -161,11 +160,10 @@ public class DatePickerActivity extends AppCompatActivity {
         return calendar.getTime();
     }
 
-    private Date getNowDate() {
-        return new Date();
-    }
-
-    private long compareDate(Date date, Date date1) {
-        return date.getTime() - date1.getTime();
+    private long compareDateToNow(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        long today = cal.getTime().getTime();
+        return date.getTime() - today;
     }
 }

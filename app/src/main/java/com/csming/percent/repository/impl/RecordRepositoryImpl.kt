@@ -36,6 +36,15 @@ class RecordRepositoryImpl @Inject constructor(
         return recordDao.loadRecords(planId)
     }
 
+    override fun getRecordsToday(): LiveData<List<Record>> {
+        val cal = Calendar.getInstance()
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0)
+        val now = cal.time.time
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1, 0, 0, 0)
+        val tomorrow = cal.time.time
+        return recordDao.loadRecordsToday(now, tomorrow)
+    }
+
     override fun getOrder(planId: Int): Int {
         return planDao.findRecordCount(planId)
     }
