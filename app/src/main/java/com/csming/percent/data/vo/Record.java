@@ -2,7 +2,6 @@ package com.csming.percent.data.vo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 /**
@@ -29,6 +28,9 @@ public class Record {
 
     @ColumnInfo(name = "finish")
     private boolean finish = false;// 是否已完成
+
+    @ColumnInfo(name = "date")
+    private long date;
 
     public int getId() {
         return id;
@@ -76,5 +78,13 @@ public class Record {
 
     public void setFinish(boolean finish) {
         this.finish = finish;
+    }
+
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
     }
 }

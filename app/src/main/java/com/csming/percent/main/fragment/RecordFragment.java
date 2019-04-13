@@ -6,14 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.csming.percent.R;
-import com.csming.percent.main.adapter.RecordGroupListAdapter;
+import com.csming.percent.common.widget.statuslayout.StatusLayout;
+import com.csming.percent.main.adapter.RecordListAdapter;
 import com.csming.percent.main.viewmodel.MainViewModel;
-import com.csming.percent.plan.AddPlanActivity;
-import com.csming.percent.record.AddRecordActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import dagger.android.support.DaggerFragment;
 
 /**
@@ -30,18 +26,15 @@ import dagger.android.support.DaggerFragment;
  */
 public class RecordFragment extends DaggerFragment {
 
+    private StatusLayout mStatusLayout;
     private RecyclerView mRvPlans;
     private LinearLayoutManager mLinearLayoutManager;
-    private RecordGroupListAdapter mAdapterRecordGroup;
-
-    private FloatingActionButton mFabAddRecord;
+    private RecordListAdapter mAdapterRecords;
 
     @Inject
     ViewModelProvider.Factory factory;
 
-    private MainViewModel mainViewModel;
-
-    private List<String> plans;
+    private MainViewModel mMainViewModel;
 
     public static RecordFragment getInstance() {
         return new RecordFragment();
@@ -71,35 +64,40 @@ public class RecordFragment extends DaggerFragment {
     }
 
     private void initView(View view) {
+        mStatusLayout = view.findViewById(R.id.status_layout);
         mRvPlans = view.findViewById(R.id.rv_records);
-        mFabAddRecord = view.findViewById(R.id.fab_add_record);
 
-        mAdapterRecordGroup = new RecordGroupListAdapter();
+        mStatusLayout.setEmptyMessageView(R.string.today_records_empty, null, null);
+
+        SimpleItemAnimator animator = (SimpleItemAnimator) mRvPlans.getItemAnimator();
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
+
+        mAdapterRecords = new RecordListAdapter();
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRvPlans.setLayoutManager(mLinearLayoutManager);
-        mRvPlans.setAdapter(mAdapterRecordGroup);
+        mRvPlans.setAdapter(mAdapterRecords);
 
-        plans = new ArrayList<>(3);
-        plans.add("TODO");
-        plans.add("Test");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-        plans.add("啊啊啊啊");
-
-        mAdapterRecordGroup.setData(plans);
-
-        mFabAddRecord.setOnClickListener(view1 -> {
-//            startActivity(AddRecordActivity.getIntent(getActivity()));
-//            getActivity().overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
+        mAdapterRecords.setOnFinishChangeListener((v, position, record, finish) -> {
+            mMainViewModel.updateRecordFinish(record, finish);
         });
-
     }
 
     /**
      * 初始化数据
      */
     private void initData() {
-        mainViewModel = ViewModelProviders.of(getActivity(), factory).get(MainViewModel.class);
+        mMainViewModel = ViewModelProviders.of(getActivity(), factory).get(MainViewModel.class);
+
+        mMainViewModel.findRecordsToday().observe(getActivity(), records -> {
+            if (records.size() > 0) {
+                mAdapterRecords.setData(records);
+                mStatusLayout.showNormalView();
+            } else {
+                mStatusLayout.showEmptyMessageView();
+            }
+        });
     }
 }

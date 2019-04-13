@@ -36,6 +36,15 @@ class RecordRepositoryImpl @Inject constructor(
         return recordDao.loadRecords(planId)
     }
 
+    override fun getRecordsToday(): LiveData<List<Record>> {
+        val cal = Calendar.getInstance()
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0)
+        val now = cal.time.time
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH) + 1, 0, 0, 0)
+        val tomorrow = cal.time.time
+        return recordDao.loadRecordsToday(now, tomorrow)
+    }
+
     override fun getOrder(planId: Int): Int {
         return planDao.findRecordCount(planId)
     }
@@ -54,6 +63,20 @@ class RecordRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>) {
+        executors.diskIO().execute {
+            recordDao.updateRecordFinish(record.id, finish)
+            val plan = planDao.getPlan(record.planId)
+            if (finish) {
+                plan.finished = plan.finished + 1
+            } else {
+                plan.finished = plan.finished - 1
+            }
+            planDao.updatePlanFinished(record.planId, plan.finished)
+            recordStateLiveData.postValue(Contacts.STATE_SUCCESS)
+        }
+    }
+
     override fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>) {
         executors.diskIO().execute {
             recordDao.updateRecordFinish(record.id, finish)
@@ -67,9 +90,9 @@ class RecordRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateRecord(planId: Int, recordId: Int, title: String, description: String, result: MutableLiveData<Int>) {
+    override fun updateRecord(planId: Int, recordId: Int, title: String, description: String, date: Long, result: MutableLiveData<Int>) {
         executors.diskIO().execute {
-            recordDao.updateRecord(recordId, title, description)
+            recordDao.updateRecord(recordId, title, description, date)
             planDao.updatePlanUpdateTime(planId, Date().time)
             result.postValue(Contacts.STATE_SUCCESS)
         }

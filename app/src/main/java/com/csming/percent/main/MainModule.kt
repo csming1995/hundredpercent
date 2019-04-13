@@ -3,6 +3,7 @@ package com.csming.percent.main
 import androidx.lifecycle.ViewModel
 import com.csming.percent.common.di.FragmentScoped
 import com.csming.percent.common.di.ViewModelKey
+import com.csming.percent.main.fragment.PlanFragment
 import com.csming.percent.main.fragment.RecordFragment
 import com.csming.percent.main.viewmodel.MainViewModel
 import dagger.Binds
@@ -17,6 +18,10 @@ internal abstract class MainModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @FragmentScoped
+    @ContributesAndroidInjector(modules = [])
+    internal abstract fun contributePlanFragment(): PlanFragment
 
     @FragmentScoped
     @ContributesAndroidInjector(modules = [])

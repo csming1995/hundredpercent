@@ -18,6 +18,9 @@ public interface RecordDao {
     @Query("SELECT * FROM records WHERE plan_id = :planId ORDER BY id DESC, finish DESC")
     LiveData<List<Record>> loadRecords(int planId);
 
+    @Query("SELECT * FROM records WHERE date >= :today AND date <= :tomorrow ORDER BY id DESC, finish DESC")
+    LiveData<List<Record>> loadRecordsToday(long today, long tomorrow);
+
     @Query("SELECT count(id) FROM records")
     int getCount();
 
@@ -30,7 +33,7 @@ public interface RecordDao {
     @Query("UPDATE records SET finish = :finish WHERE id = :recordId")
     void updateRecordFinish(int recordId, boolean finish);
 
-    @Query("UPDATE records SET title = :title, description = :description WHERE id = :recordId")
-    void updateRecord(int recordId, String title, String description);
+    @Query("UPDATE records SET title = :title, description = :description, date = :date WHERE id = :recordId")
+    void updateRecord(int recordId, String title, String description, long date);
 
 }

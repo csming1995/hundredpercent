@@ -14,11 +14,15 @@ interface RecordRepository {
 
     fun getRecords(planId: Int): LiveData<List<Record>>
 
+    fun getRecordsToday(): LiveData<List<Record>>
+
     fun getOrder(planId: Int): Int
 
     fun delete(record: Record, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>) //planLiveData: ,
 
+    fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>)
+
     fun updateRecordFinish(record: Record, finish: Boolean, recordStateLiveData: MutableLiveData<Int>, planLiveData: LiveData<Plan?>)
 
-    fun updateRecord(planId: Int, recordId: Int, title: String, description: String, result: MutableLiveData<Int>)
+    fun updateRecord(planId: Int, recordId: Int, title: String, description: String, date: Long, result: MutableLiveData<Int>)
 }

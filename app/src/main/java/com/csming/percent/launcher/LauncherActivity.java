@@ -3,10 +3,8 @@ package com.csming.percent.launcher;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.csming.percent.R;
-import com.csming.percent.launcher.vo.SlogonEntity;
 import com.csming.percent.main.MainActivity;
 
 import androidx.annotation.Nullable;
@@ -29,9 +27,9 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        int ran = (int) (Math.random() * SlogonEntity.SLOGON_VALUES.length);
-        TextView tvSlogon = findViewById(R.id.tv_slogon);
-        tvSlogon.setText(SlogonEntity.SLOGON_VALUES[ran]);
+//        int ran = (int) (Math.random() * SlogonEntity.SLOGON_VALUES.length);
+//        TextView tvSlogon = findViewById(R.id.tv_slogon);
+//        tvSlogon.setText(SlogonEntity.SLOGON_VALUES[ran]);
     }
 
     private void gotoNextActivityDelay() {

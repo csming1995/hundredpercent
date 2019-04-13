@@ -38,7 +38,7 @@ class AddRecordViewModel @Inject constructor(
         return mPostState
     }
 
-    fun postRecord(title: String, description: String) {
+    fun postRecord(title: String, description: String, date: Long) {
         if (TextUtils.isEmpty(title)) {
             mPostState.postValue(Contacts.STATE_POST_TITLE_NULL)
             return
@@ -47,14 +47,15 @@ class AddRecordViewModel @Inject constructor(
         record.title = title
         record.description = description
         record.planId = mPlanId
+        record.date = date
         recordRepository.addRecord(record, mPostState)
     }
 
-    fun updateRecord(title: String, description: String) {
+    fun updateRecord(title: String, description: String, date: Long) {
         if (TextUtils.isEmpty(title)) {
             mPostState.postValue(Contacts.STATE_UPDATE_TITLE_NULL)
             return
         }
-        recordRepository.updateRecord(mPlanId, mRecordId, title, description, mPostState)
+        recordRepository.updateRecord(mPlanId, mRecordId, title, description, date, mPostState)
     }
 }

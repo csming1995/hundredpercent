@@ -26,7 +26,7 @@
             android:elevation="4dp"
             app:elevation="4dp"
             app:title="@string/title_setting"
-            app:titleTextColor="@color/color_424242">
+            app:titleTextColor="@color/color_616161">
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -251,7 +251,7 @@
                             android:layout_marginStart="50dp"
                             android:layout_marginEnd="50dp"
                             android:gravity="center"
-                            android:text="@string/setting_slogon"
+                            android:text="@string/setting_slogon4"
                             android:textColor="@color/color_BDBDBD"
                             android:textSize="16dp" />
                     </LinearLayout>

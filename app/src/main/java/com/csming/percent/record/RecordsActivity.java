@@ -208,7 +208,7 @@ public class RecordsActivity extends DaggerAppCompatActivity {
         mRvRecords.setAdapter(mAdapterRecord);
 
         mAdapterRecord.setOnItemClickListener((view, position, record) -> {
-            startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId(), true, record.id, record.getTitle(), record.getDescription()));
+            startActivity(AddRecordActivity.getIntent(this, mRecordsViewModel.getPlanId(), true, record.id, record.getTitle(), record.getDescription(), record.getDate()));
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 

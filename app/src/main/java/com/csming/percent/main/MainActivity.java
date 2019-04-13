@@ -1,6 +1,5 @@
 package com.csming.percent.main;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,16 +10,19 @@ import com.csming.percent.R;
 import com.csming.percent.common.AnalyticsUtil;
 import com.csming.percent.common.ApplicationConfig;
 import com.csming.percent.common.Contacts;
-import com.csming.percent.common.LoadingFragment;
-import com.csming.percent.common.widget.statuslayout.StatusLayout;
-import com.csming.percent.main.adapter.PlanListAdapter;
+import com.csming.percent.common.adapter.ViewPagerAdapter;
+import com.csming.percent.common.widget.colorfulnavigation.ColorfulNavigation;
+import com.csming.percent.main.fragment.PlanFragment;
+import com.csming.percent.main.fragment.RecordFragment;
 import com.csming.percent.main.viewmodel.MainViewModel;
 import com.csming.percent.plan.AddPlanActivity;
 import com.csming.percent.plan.vo.ColorEntity;
-import com.csming.percent.record.RecordsActivity;
 import com.csming.percent.setting.SettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,27 +30,31 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.viewpager.widget.ViewPager;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity {
 
+    private static final int FRAGMENT_ID_1 = 0;
+    private static final int FRAGMENT_ID_2 = 1;
+    private static final int[] FRAGMENT_IDS = new int[]{FRAGMENT_ID_1, FRAGMENT_ID_2};
+
     private CoordinatorLayout mClRoot;
 
-    private StatusLayout mStatusLayout;
-    private RecyclerView mRvPlans;
-    private LinearLayoutManager mLinearLayoutManager;
-    private PlanListAdapter mAdapterPlans;
+    private ColorfulNavigation mColorfulNavigation;
 
     private FloatingActionButton mFabAddPlan;
 
     private Toolbar toolbar;
 
-    private AlertDialog.Builder mDeleteDialogBuilder;
+    private List<Fragment> mFragments;
+    private ViewPager mViewPager;
+    private ViewPagerAdapter mViewPagerAdapter;
+
+    private PlanFragment mPlanFragment;
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -78,7 +84,7 @@ public class MainActivity extends DaggerAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mAdapterPlans == null || !mAdapterPlans.clearDeleteState()) {
+        if (mPlanFragment == null || !mPlanFragment.onBackPressed()) {
             super.onBackPressed();
         }
     }
@@ -138,59 +144,49 @@ public class MainActivity extends DaggerAppCompatActivity {
     private void initView() {
         mClRoot = findViewById(R.id.cl_root);
 
-        mStatusLayout = findViewById(R.id.status_layout);
-        mRvPlans = findViewById(R.id.rv_plans);
+        mColorfulNavigation = findViewById(R.id.color_navigation);
+
+        mViewPager = findViewById(R.id.viewpager_main);
+
         mFabAddPlan = findViewById(R.id.fab_add_plan);
-
-        SimpleItemAnimator animator = (SimpleItemAnimator) mRvPlans.getItemAnimator();
-        if (animator != null) {
-            animator.setSupportsChangeAnimations(false);
-        }
-
-        mAdapterPlans = new PlanListAdapter();
-
-        mStatusLayout.setEmptyMessageView(R.string.plans_empty, null, null);
-
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mRvPlans.setLayoutManager(mLinearLayoutManager);
-        mRvPlans.setAdapter(mAdapterPlans);
-
-        mAdapterPlans.setOnItemClickListener((view1, position, plan) -> {
-            startActivity(RecordsActivity.getIntent(this, plan.getId()));
-            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-        });
-
-        mAdapterPlans.setOnItemDeleteClickListener((view, position, plan) -> {
-            showDeleteDialog(plan.getId());
-//            startActivity(AddPlanActivity.getIntent(this, true, plan.getId()));
-//            overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
-        });
 
         mFabAddPlan.setOnClickListener(v -> {
             startActivityForResult(AddPlanActivity.getIntent(this), Contacts.RESULT_TAG_ADDED_PLAN);
             overridePendingTransition(R.anim.activity_alpha_enter, R.anim.activity_alpha_exit);
         });
 
-//        PopupWindow
-//        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_delete, null);
-//        mFlPopupDelete = contentView.findViewById(R.id.fl_delete);
-//        mPopupWindowDelete = new PopupWindow(contentView);
-//        mPopupWindowDelete.setContentView(contentView);
-//        mPopupWindowDelete.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-//        mPopupWindowDelete.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-//        mPopupWindowDelete.setOutsideTouchable(true);
-//        mAdapterPlans.setOnItemLongClickListener((view, position, record) -> {
-//            int offsetX = Math.abs(view.getWidth()) / 2;
-//            int offsetY = -view.getHeight();
-//            PopupWindowCompat.showAsDropDown(mPopupWindowDelete, view, offsetX, offsetY, Gravity.START);
-//            mFlPopupDelete.setOnClickListener(v -> {
-////                mRecordsViewModel.delete(record);
-//                mPopupWindowDelete.dismiss();
-//            });
-//        });
-//        mFlPopupDelete.setOnClickListener(view -> {
-//            Timber.d("Deleteaaaa");
-//        });
+        // 初始化viewpager
+        mFragments = new ArrayList<>(2);
+        mPlanFragment = PlanFragment.getInstance();
+        mFragments.add(mPlanFragment);
+        mFragments.add(RecordFragment.getInstance());
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragments);
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.setCurrentItem(0);
+
+        // 顶部的tab
+        mColorfulNavigation.add(new ColorfulNavigation.Item(FRAGMENT_ID_1, R.color.color_select_18, getString(R.string.title_plan)));
+        mColorfulNavigation.add(new ColorfulNavigation.Item(FRAGMENT_ID_2, R.color.color_select_18, getString(R.string.title_daily_records)));
+
+        mColorfulNavigation.setSelectedItem(0);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mColorfulNavigation.setSelectedItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        mColorfulNavigation.setOnItemSelectedListener(item -> {
+            mViewPager.setCurrentItem(item.getId());
+        });
 
     }
 
@@ -200,28 +196,6 @@ public class MainActivity extends DaggerAppCompatActivity {
     private void initData() {
         mMainViewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
 
-        mMainViewModel.findPlans().observe(this, plans -> {
-            if (plans.size() > 0) {
-                mAdapterPlans.setData(plans);
-                mStatusLayout.showNormalView();
-            } else {
-                mStatusLayout.showEmptyMessageView();
-            }
-        });
-
-        mMainViewModel.getDeletePlanState().observe(this, state -> {
-            switch (state) {
-                case Contacts.STATE_NORMAL: {
-                    LoadingFragment.hidden();
-                    break;
-                }
-                case Contacts.STATE_SUCCESS: {
-                    LoadingFragment.hidden();
-                    break;
-                }
-            }
-        });
-
         if (ApplicationConfig.getIsFirstIn(this)) {
             mMainViewModel.initPlan(
                     getResources().getString(R.string.first_plan_title),
@@ -230,24 +204,5 @@ public class MainActivity extends DaggerAppCompatActivity {
             );
             ApplicationConfig.setIsFirstIn(this);
         }
-    }
-
-    private void showDeleteDialog(final int planId) {
-        mMainViewModel.setDeletePlan(planId);
-        if (mDeleteDialogBuilder == null) {
-            mDeleteDialogBuilder = new AlertDialog.Builder(this);
-            mDeleteDialogBuilder.setPositiveButton(R.string.delete_sure, (dialogInterface, i) -> {
-                if (mMainViewModel != null) {
-                    LoadingFragment.show(getSupportFragmentManager());
-                    mMainViewModel.deletePlan();
-                }
-            });
-            mDeleteDialogBuilder.setNegativeButton(R.string.delete_cancel, (dialogInterface, i) -> {
-                dialogInterface.dismiss();
-            });
-            mDeleteDialogBuilder.setMessage(R.string.delete_dialog_message);
-        }
-
-        mDeleteDialogBuilder.show();
     }
 }

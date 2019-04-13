@@ -48,6 +48,10 @@
             android:windowSoftInputMode="adjustPan|adjustResize">
         </activity>
 
+        <activity
+            android:name=".common.DatePickerActivity"
+            android:theme="@style/AppTheme"></activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="868808f6bc934bbee3139132634331f7a295f258" />

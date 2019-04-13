@@ -41,7 +41,7 @@ class AppModule {
     fun providerAppDatabase(context: Context): PercentDatabase {
         return Room.databaseBuilder(context, PercentDatabase::class.java, "hundredpercent.db")
                 .allowMainThreadQueries()
-                .addMigrations(MIGRATION.MIGRATION_1_2)
+                .addMigrations(MIGRATION.MIGRATION_1_2, MIGRATION.MIGRATION_2_3)
                 .build()
 //        return AppDatabase.getDefault(context.applicationContext)
     }
